@@ -18,6 +18,14 @@
 #define MOTOR_CCW_OFF()          HAL_GPIO_WritePin(MOTOR_CCW_GPIO,MOTOR_CCW_GPIO_PIN,GPIO_PIN_RESET)//(PORTAbits.RA5 = 0)
 
 
+typedef enum{
+
+    motor_foreward =0x01,
+	motor_revesal,
+	motor_null
+
+
+}motor_run_state;
 
 
 
@@ -28,6 +36,7 @@ void Motor_Stop(void);
 
 
 
+void RunMotor_Definite_Handler(void); 
 
 
 

@@ -121,7 +121,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
 				run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06
 				//eeprom ref	
-		        run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
+		 
 		        run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
 		      
 		     
@@ -191,16 +191,10 @@ void SavePassword_To_EEPROM(void)
 				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
                  
-         
-	      
-
-				//clear has been set up reference
-				
-				run_t.motor_return_homePosition=0;
-				run_t.buzzer_flag =0;
+         		run_t.buzzer_flag =0;
 				run_t.fail_sound_flag=1; 
 				run_t.buzzer_longsound_flag =0;
-				run_t.saveEEPROM_fail_flag =1; 
+			
 				run_t.inputDeepSleep_times =0;
 				run_t.buzzer_two_short = 0;
 				run_t.clear_inputNumbers_newpassword=0;
@@ -277,7 +271,7 @@ void RunCommand_Unlock(void)
         
 		run_t.error_times ++ ; //input times 5 ,
 		if(run_t.error_times > 4){
-			run_t.gTimer_10s_start=0;
+			
 			run_t.gTimer_input_error_times_60s =0;
             run_t.panel_lock=1;
 			run_t.gTimer_8s=0;//WT.EDIT 2022.09.28
@@ -316,7 +310,6 @@ void RunCommand_Unlock(void)
 			run_t.inputNewPassword_Enable =1; //Input Administrator password is OK
 			
 			
-			run_t.motor_return_homePosition= 0;
 			run_t.eepromAddress=0;
 			run_t.confirm_button_flag = 0;
 			

@@ -55,32 +55,32 @@ typedef struct __RUN_T{
 	uint8_t   getSpecial_1_key;
 	uint8_t   getSpecial_2_key;
 	uint8_t   getNumbers_key;
-	uint8_t   RunSequence;
+	
 	uint8_t   keyPressed_flag;
-	uint8_t  saveEEPROM_fail_flag ; //WT.EDIT 2022.10.06	
-	uint8_t  eeprom_Reset_flag;
+
+	
 	uint8_t  clearEeeprom_count;
 	uint8_t  backlight_label;
 	
 	
 	
-	unsigned char Confirm_newPassword;
-	unsigned char inputNewPasswordTimes;
+	uint8_t Confirm_newPassword;
+	uint8_t inputNewPasswordTimes;
 
-	unsigned char motor_return_homePosition;
-    unsigned char error_times;
-	unsigned char panel_lock;
-	unsigned char lock_fail;
-	unsigned char inputDeepSleep_times;
-	unsigned char clearEeprom;
+	uint8_t motor_return_homePosition;
+    uint8_t error_times;
+	uint8_t panel_lock;
+	uint8_t lock_fail;
+	uint8_t inputDeepSleep_times;
+	uint8_t clearEeprom;
     
-    unsigned char eepromAddress;
+    uint8_t eepromAddress;
     uint8_t ADC_times;
 	
 	uint8_t fail_sound_flag;
-	uint8_t touchkey_first_turn_on_led;
-	uint8_t touchkey_first;
-	uint8_t readI2C_data;
+
+
+
     uint8_t inputNewPassword_Enable;
 	
     uint8_t clear_inputNumbers_newpassword;
@@ -89,11 +89,11 @@ typedef struct __RUN_T{
 	uint8_t motor_returnRun_flag;
     
     
-	unsigned char BackLight;
+	uint8_t BackLight;
 
 	
 	//buzzer sound
-	unsigned char buzzer_flag;
+	uint8_t  buzzer_flag;
 	uint8_t buzzer_two_short;
     uint8_t buzzer_longsound_flag;
 	uint8_t buzzer_highsound_flag;
@@ -110,7 +110,7 @@ typedef struct __RUN_T{
 	
     
 
-	unsigned char factory_test;
+	uint8_t factory_test;
 	uint8_t lowPower_flag;
 	uint8_t oneself_copy_behavior;
   
@@ -119,21 +119,12 @@ typedef struct __RUN_T{
 
 	uint8_t clearEeeprom_done;
 	
-	
-	uint8_t stop_gTimer_8s;
-
-	
-
-	uint8_t gTimer_200ms;
-	unsigned char gTimer_10s;
-
-	unsigned char gTimer_8s;
-	unsigned char gTimer_60s;
-	unsigned char gTimer_ADC;
+	uint8_t gTimer_8s;
+	uint8_t  gTimer_ADC;
 	
 	uint8_t  gTimer_input_error_times_60s;
-	uint8_t gTimes_s;
-	uint8_t gTimer_10s_start;
+	
+
      uint8_t readEepromData;
 
 	uint16_t motorRunCount;

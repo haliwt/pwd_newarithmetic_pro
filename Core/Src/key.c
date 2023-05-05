@@ -6,6 +6,7 @@
 #include "buzzer.h"
 #include "touchkey.h"
 #include "single_mode.h"
+#include "motor.h"
 
 
 key_types key;
@@ -103,7 +104,7 @@ uint8_t Scan_Key(void)
                         Buzzer_ShortSound();
                         BUZZER_OFF(); 
                         run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
-                        run_t.eeprom_Reset_flag =1; //WT.EDIT 2022.10.26
+                   
                         run_t.inputDeepSleep_times =0; //WT.EDIT 2022.10.26
 						run_t.backlight_label =BACKLIGHT_ON; //WT.EDIT 2022.10.26
                         while(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0);
@@ -184,12 +185,9 @@ void  SideKey_Fun(uint8_t keyvalue)
 		run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
 		run_t.lock_fail =0;
 		
-		run_t.motor_return_homePosition=0;
-        //WT.EDIT 2023.02.18
-      
-		run_t.touchkey_first_turn_on_led=0 ;
+
 		run_t.panel_lock =0;
-		run_t.gTimer_200ms=20;
+	
         /********************************************/     
 		
 		
@@ -328,7 +326,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputNewPasswordTimes =0;
 
 						run_t.buzzer_flag =1;
-						run_t.stop_gTimer_8s =9;
+					
 
 						run_t.keyPressed_flag =0;
 					
@@ -423,7 +421,7 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.inputNewPassword_Enable=0;
 				
                 if(run_t.error_times > 4 ){ //OVER 5 error  times auto lock touchkey 60 s
-	                run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
+	            
 	                run_t.gTimer_input_error_times_60s =0;
 	                run_t.panel_lock=1;
 					run_t.gTimer_8s=0;
@@ -476,7 +474,7 @@ void RunCheck_Mode(uint16_t dat)
 					
 						
 			    }
-				else if(run_t.motor_return_homePosition==0){ // return home position
+				else if(run_t.motor_doing_flag==motor_null){ // return home position
 						run_t.buzzer_flag =1; 
 						
 						run_t.inputNewPasswordTimes=0; 
@@ -485,7 +483,7 @@ void RunCheck_Mode(uint16_t dat)
 
 						run_t.confirm_button_flag = confirm_button_pressed;
 				}
-				else if(run_t.motor_return_homePosition==1){ //motor runing ->repeat itself motor doing run
+				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
 						run_t.input_digital_key_number_counter=0;
 				        run_t.buzzer_flag =1; 
 					  // run_t.confirm_button_flag=1;

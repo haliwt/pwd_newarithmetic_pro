@@ -27,7 +27,7 @@ void Start_PowerOn_Handler(void)
 	if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0){
 	              run_t.powerOn++;
 				  run_t.factory_test = 1;
-			      run_t.gTimer_10s_start=0;
+			
 				  run_t.gTimer_input_error_times_60s =0;
 				  run_t.buzzer_flag =1;
 				  POWER_ON();
@@ -40,8 +40,7 @@ void Start_PowerOn_Handler(void)
 			run_t.powerOn++;
 			run_t.confirm_button_flag =0;
 			//run_t.password_unlock =UNLOCK_MOTOR_RUN_90_ANGLE; // 4: power on is motor 1/4 angle
-			run_t.new_pwd_save_data_tag=UNLOCK_MOTOR_RUN_90_ANGLE;
-			run_t.motor_return_homePosition=0; //
+			run_t.motor_doing_flag = motor_null;
 			run_t.gTimer_8s=0;
 		
 			run_t.lowPower_flag=0; //low power flag
@@ -127,7 +126,7 @@ static void UnLock_Aand_SaveData_Handler(void)
 		run_t.buzzer_flag =0;
 
 		run_t.fail_sound_flag=1; 
-		run_t.saveEEPROM_fail_flag =1; 
+	
 		run_t.clear_inputNumbers_newpassword=0;
 
 	
@@ -167,7 +166,6 @@ static void Save_To_EeepromNewPwd(void)
 			
 	 }
 	run_t.gTimer_8s =0;
-	run_t.motor_return_homePosition=0;
 	run_t.inputDeepSleep_times =0;
 	
 	

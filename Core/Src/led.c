@@ -83,7 +83,7 @@ static void ClearEEPROM_Data_Fun(void)
 		run_t.backlight_label =BACKLIGHT_ON;
 		ERR_LED_ON(); //WT.EDIT 202209.28
 
-        if(run_t.gTimer_input_error_times_60s > 5){
+        if(run_t.gTimer_input_error_times_60s > 59){
 			   run_t.panel_lock =0;
 			   run_t.error_times = 0;
 		       ERR_LED_OFF(); //WT.EDIT 2022.09.20
@@ -218,7 +218,7 @@ void BackLight_Control_Handler(void)
         case BACKLIGHT_OK_BLINK:
          cnt0 ++ ;
 		 run_t.lock_fail=0;
-	     run_t.readI2C_data =1;
+	 
 	     run_t.gTimer_8s=10; //WT.EDIT 2022.10.14
 	   
 		  if(cnt0 < 501 ){
@@ -247,7 +247,7 @@ void BackLight_Control_Handler(void)
 					 run_t.inputNewPassword_Enable =0;
 				   
 				     OK_LED_OFF();
-					 run_t.stop_gTimer_8s =1;
+				
 					 run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
 					 
 				 }
@@ -295,7 +295,7 @@ void BackLight_Control_Handler(void)
 		  if(cntrecoder > 2){
 		  	cntrecoder =0;
 		 
-		      run_t.saveEEPROM_fail_flag =0;
+		    
 			  run_t.lock_fail=0;
 			
 
@@ -319,7 +319,7 @@ void BackLight_Control_Handler(void)
 		  ERR_LED_ON();
 		  BAT_LED_ON();
 	
-		if(run_t.gTimer_input_error_times_60s > 5){
+		if(run_t.gTimer_input_error_times_60s > 59){
 			run_t.factory_test =0;
 			run_t.gTimer_8s=10;
 			  BACKLIGHT_OFF();
@@ -338,7 +338,7 @@ void BackLight_Control_Handler(void)
 
 			run_t.keyPressed_flag=0;
 			run_t.password_unlock=0;
-			run_t.motor_return_homePosition=0;
+		    
 
 			//clear new password flag
 			run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
@@ -346,9 +346,9 @@ void BackLight_Control_Handler(void)
 			run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
 			
 			//wake up touch key
-			run_t.touchkey_first ++; //WT.EDIT 2022.10.19 ->touch key delay times 
-			run_t.touchkey_first_turn_on_led=0;//WT.EDIT.2022.10.28
-			run_t.readI2C_data =0; ////WT.EDIT.2022.10.28
+		
+
+	
 			
 			for(i=0;i<6;i++){ //WT.EDIT .2022.08.13
 					*(pwd2 + i)=0;//pwd2[i]=0;
@@ -361,12 +361,12 @@ void BackLight_Control_Handler(void)
 			  HAL_ADC_Stop(&hadc);
 		      POWER_OFF();
 
-              if(run_t.inputDeepSleep_times > 2){  //wait 20s  
+              if(run_t.inputDeepSleep_times > 29){  //wait 30s  
 			   run_t.inputDeepSleep_times =0;
 		
-		       run_t.touchkey_first =0; //WT.EDIT 2022.09.26
+		
           		/*close tick timer low power Mode */
-			    run_t.gTimer_10s=0;
+		
 			    run_t.lowPower_flag=0;
               
 				HAL_SuspendTick();
