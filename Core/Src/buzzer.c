@@ -18,7 +18,7 @@ static void Fail_Buzzer_Sound(void);
 void BUZZER_KeySound(void)
 {
   //unsigned int m=300;//80
-  unsigned int m=100;//80
+  unsigned int m=70;//100//80
 	while(m--){
 
     HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
@@ -58,7 +58,7 @@ void Buzzer_LongSound(void)
 *****************************************************************/
 void Buzzer_ShortSound(void)
 {
-    unsigned int m=200;
+    unsigned int m=50;//200
 	
 
 	 while(m--){
@@ -81,7 +81,7 @@ void Buzzer_ShortSound(void)
 *****************************************************************/
 void Buzzer_ErrorSound(void)
 {
-	unsigned int m=200;//80
+	unsigned int m=200;//70//80//200
   
 	while(m--){
 
@@ -105,7 +105,7 @@ void Buzzer_ErrorSound(void)
 *****************************************************************/
 void Buzzer_High_Sound(void)
 {
-     unsigned int m=80;//250
+     unsigned int m=50;//250
 	
   
       while(m--){
@@ -117,7 +117,7 @@ void Buzzer_High_Sound(void)
 
 void Buzzer_High_Sound_2(void)
 {
-     unsigned int m=100;//
+     unsigned int m=50;//100
 
       while(m--){
           HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
@@ -174,10 +174,10 @@ static void Fail_Buzzer_Sound(void)
 
 	Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound //WT.EDIT 2022.09.13
     BUZZER_OFF();
-	HAL_Delay(50);
+	HAL_Delay(100);
 	Buzzer_ErrorSound();//Buzzer_ShortSound();//Buzzer_ReSound();//fail sound has two sound 
 	BUZZER_OFF();
-    HAL_Delay(50);
+    HAL_Delay(100);
 	Buzzer_ErrorSound();
 	BUZZER_OFF();
 	//HAL_Delay(50);
