@@ -115,7 +115,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.inputNewPasswordTimes =0;
 				
 				//key ref
-				run_t.input_digital_key_number_counter =0;
+				
 				//buzzer ref
 				run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
 				run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06
@@ -160,7 +160,6 @@ void SavePassword_To_EEPROM(void)
 
 				
 				run_t.lock_fail =0;
-				run_t.input_digital_key_number_counter =0;
 				 run_t.motor_return_homePosition=0;
 		
 			    //clear data reference 
@@ -203,7 +202,6 @@ void SavePassword_To_EEPROM(void)
 				//clear has been set up reference
 				
 				run_t.motor_return_homePosition=0;
-				run_t.input_digital_key_number_counter =0;
 				run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
 				run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
 				run_t.buzzer_longsound_flag =0;//WT.EDIT 2022.10.19	
@@ -281,7 +279,6 @@ void RunCommand_Unlock(void)
 		run_t.eepromAddress=0;
 		//key
 		run_t.keyPressed_flag=0;
-        run_t.input_digital_key_number_counter = 0;
         
 		run_t.error_times ++ ; //input times 5 ,
 		if(run_t.error_times > 4){
@@ -325,7 +322,6 @@ void RunCommand_Unlock(void)
 			
 			
 			run_t.motor_return_homePosition= 0;
-			run_t.input_digital_key_number_counter =0 ;
 			run_t.eepromAddress=0;
 			run_t.confirm_button_flag = 0;
 			
@@ -359,7 +355,6 @@ void RunCommand_Unlock(void)
 				run_t.oneself_copy_behavior=0;
 				run_t.password_unlock = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
-				run_t.input_digital_key_number_counter =0 ;
 				run_t.confirm_button_flag = 0;
 				run_t.inputDeepSleep_times =0;
 				  for(i=0;i<6;i++){
@@ -374,7 +369,6 @@ void RunCommand_Unlock(void)
                run_t.motor_doing_flag=1;
 			   run_t.password_unlock=UNLOCK_NULL;
 		       run_t.confirm_button_flag = confirm_button_donot_pressed;
-		       run_t.input_digital_key_number_counter =0 ; //WT.EDIT 2022.10.28
 			 
 			   run_t.inputDeepSleep_times =0;
 			   run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -475,7 +469,6 @@ static void Read_Administrator_Password(void)
 					else{ // pass word compare is error 
 						  
                      	//run_t.inputNewPassword_Enable =1; //Input Administrator password is OK
-						run_t.input_digital_key_number_counter =0 ;
 						run_t.confirm_button_flag = confirm_button_donot_pressed;
                       if(run_t.eepromAddress==2){
                         // Fail = 1;

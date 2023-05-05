@@ -25,7 +25,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 		if(run_t.motor_doing_flag==1){//open lock doing
 
 		        run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
-                
+                run_t.confirm_button_flag = confirm_button_donot_pressed;
 			    run_t.motorRunCount++;
 		
 				if(run_t.motor_return_homePosition==0 ){
@@ -39,9 +39,9 @@ void RunMotor_Definite_Handler(void) //definite motor
 					 ERR_LED_OFF();
 				     OK_LED_ON();
 					
-					   run_t.input_digital_key_number_counter =0 ;
+			
 						 run_t.eepromAddress=0;
-						 run_t.confirm_button_flag = 0;
+						 
 						
 						 run_t.error_times=0;
 						

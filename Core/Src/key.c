@@ -183,7 +183,7 @@ void  SideKey_Fun(uint8_t keyvalue)
        	run_t.inputNewPasswordTimes =0;
 		run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
 		run_t.lock_fail =0;
-		run_t.input_digital_key_number_counter =0;
+		
 		run_t.motor_return_homePosition=0;
         //WT.EDIT 2023.02.18
       
@@ -411,14 +411,14 @@ void RunCheck_Mode(uint16_t dat)
 
 		    if(run_t.input_digital_key_number_counter ==0){
 			
-				run_t.confirm_button_flag = 0;
+				 run_t.confirm_button_flag = confirm_button_donot_pressed;
 				run_t.gTimer_8s=0;
 			}
 		    else if(run_t.input_digital_key_number_counter < 4  && run_t.inputNewPassword_Enable ==0){//error input key times be msut greater than or equal to  4  
                 OK_LED_OFF();
                 ERR_LED_ON();
                 run_t.input_digital_key_number_counter=0;
-                run_t.confirm_button_flag = 0;
+                run_t.confirm_button_flag = confirm_button_donot_pressed;
                 run_t.error_times ++ ;
                 run_t.lock_fail=1;
                 run_t.fail_sound_flag=1;
@@ -445,8 +445,8 @@ void RunCheck_Mode(uint16_t dat)
 						}
 					
 						
-						run_t.confirm_button_flag = 1; //run next step process
-						run_t.input_digital_key_number_counter=0;
+						run_t.confirm_button_flag = confirm_button_pressed; //run next step process
+					
 						run_t.inputDeepSleep_times =0;
 						run_t.gTimer_8s=0;
 						run_t.inputNewPwd_OK_led_blank_times=0;
@@ -456,18 +456,21 @@ void RunCheck_Mode(uint16_t dat)
 			    }
 				else if(run_t.motor_return_homePosition==0){ // return home position
 						run_t.buzzer_flag =1; 
-						run_t.confirm_button_flag = 1;
+						
 						run_t.inputNewPasswordTimes=0; 
-					
+					    run_t.input_digital_key_number_counter=0;
 						run_t.inputDeepSleep_times =0;
+
+						run_t.confirm_button_flag = confirm_button_pressed;
 				}
 				else if(run_t.motor_return_homePosition==1){ //motor runing ->repeat itself motor doing run
-
+						run_t.input_digital_key_number_counter=0;
 				        run_t.buzzer_flag =1; 
-					   run_t.confirm_button_flag=1;
+					  // run_t.confirm_button_flag=1;
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
 					   run_t.eepromAddress=0;
+					   run_t.confirm_button_flag = confirm_button_pressed; //run next step process
 
 				 }
 				 run_t.gTimer_8s=0;
