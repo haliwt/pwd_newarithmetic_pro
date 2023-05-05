@@ -110,7 +110,7 @@ void SavePassword_To_EEPROM(void)
 		   	  	run_t.gTimer_8s=0;
 				run_t.Confirm_newPassword =0; //to save new password of flag 
 				
-				run_t.new_pwd_save_data_tag = 
+				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
 				run_t.inputNewPasswordTimes =0;
 				
@@ -156,6 +156,9 @@ void SavePassword_To_EEPROM(void)
 	   			run_t.inputNewPasswordTimes =0;
 				run_t.password_unlock=UNLOCK_NULL;//accomplish by save task//WT.EIDT 2022.09.12
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
+				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
+
+				
 				run_t.lock_fail =0;
 				run_t.input_digital_key_number_counter =0;
 				 run_t.motor_return_homePosition=0;
@@ -194,6 +197,8 @@ void SavePassword_To_EEPROM(void)
 				run_t.Confirm_newPassword =0; 
 
 				run_t.password_unlock=UNLOCK_NULL;
+				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
+				run_t.confirm_button_flag=confirm_button_donot_pressed;
 
 				//clear has been set up reference
 				
