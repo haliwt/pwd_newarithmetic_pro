@@ -333,7 +333,7 @@ void RunCommand_Unlock(void)
 		 
 	       if(run_t.oneself_copy_behavior ==1){//WT.EDIT 2022.10.28
 	       	    run_t.gTimer_8s=0;
-                Buzzer_LongSound(); //WT.EDIT 2022.10.06
+                
 		        ERR_LED_OFF();
 		        OK_LED_ON();
 				run_t.led_ok_flag =1;
@@ -351,6 +351,9 @@ void RunCommand_Unlock(void)
 				
 				  	}
                run_t.keyPressed_flag=0; //WT.EDIT 2023.
+              // Buzzer_LongSound(); //
+			  run_t.buzzer_longsound_flag =1 ;
+			  run_t.fail_sound_flag ==0;
 		   }
            else{
                run_t.motor_doing_flag=1;
@@ -620,7 +623,7 @@ void ReadPassword_EEPROM_SaveData(void)
 				 case 10:
 				   //Fail = 1;
 				   run_t.password_unlock = UNLOCK_FAIL;
-				   run_t.confirm_button_flag = confirm_button_unlock;
+				 //  run_t.confirm_button_flag = confirm_button_unlock;
 				   run_t.led_ok_flag =0;
 				   run_t.led_error_flag=1;
 				   return ;
@@ -655,7 +658,7 @@ void ReadPassword_EEPROM_SaveData(void)
 						readFlag[0]=0;
 						
 						 run_t.password_unlock=UNLOCK_SUCCESS;
-						 run_t.confirm_button_flag = confirm_button_unlock;
+						// run_t.confirm_button_flag = confirm_button_unlock;
 						run_t.led_ok_flag =1;
 						run_t.led_error_flag=0;
 						run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -667,7 +670,7 @@ void ReadPassword_EEPROM_SaveData(void)
                      		readFlag[0]=0;
 						  // Fail = 1;
 						   run_t.password_unlock = UNLOCK_FAIL;
-						   run_t.confirm_button_flag = confirm_button_unlock;
+						 //  run_t.confirm_button_flag = confirm_button_unlock;
 						   run_t.led_ok_flag =0;
 						   run_t.led_error_flag=1;
 						   run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -694,7 +697,7 @@ void ReadPassword_EEPROM_SaveData(void)
 				   if(value==1){
 									   
 						 run_t.password_unlock=UNLOCK_SUCCESS;
-						  run_t.confirm_button_flag = confirm_button_unlock;
+						//  run_t.confirm_button_flag = confirm_button_unlock;
 						 run_t.led_ok_flag =1;
 						 run_t.led_error_flag=0;
 						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -706,7 +709,7 @@ void ReadPassword_EEPROM_SaveData(void)
 
 					   //  Fail = 1;
 						 run_t.password_unlock = UNLOCK_FAIL;
-					     run_t.confirm_button_flag = confirm_button_unlock;
+					  //   run_t.confirm_button_flag = confirm_button_unlock;
 						  run_t.led_ok_flag =0;
 						  run_t.led_error_flag=1;
 						  run_t.keyPressed_flag=0; //WT.EDIT 2023.

@@ -108,7 +108,6 @@ void RunMotor_Definite_Handler(void) //definite motor
 
 		case motor_foreward:
 			run_t.gTimer_8s =0;//WT.EDIT.2022.10.06
-			run_t.confirm_button_flag = confirm_button_donot_pressed;
 			run_t.motorRunCount++;
 
 			if(run_t.motor_return_homePosition==0 ){
