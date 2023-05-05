@@ -300,6 +300,29 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.gTimer_8s=0;
 			    switch(run_t.clear_inputNumbers_newpassword){
 
+				   case 1:
+					    //the first clear input digital key of data by input new password enable
+						run_t.gTimer_8s=0;
+
+						for(i=0;i<6;i++){
+							pwd2[i]=0;
+							pwd1[i]=0;
+						}
+						run_t.inputNewPasswordTimes =0; 
+                    
+					
+						//other ref
+						run_t.gTimer_8s=0;
+						run_t.confirm_button_flag=confirm_button_donot_pressed;//confirm_button_unlock;
+						//run_t.password_unlock=UNLOCK_SAVE_DATA_TO_EEPROM; //clear input numbers new passwords 
+						//run_t.new_pwd_save_data_tag= NEW_PWD_SAVE_DATA_TO_EEPROM;
+
+						//run_t.Confirm_newPassword=1;
+						run_t.inputNewPwd_OK_led_blank_times=0;
+
+				
+				break;
+
 				   case 2: 
 					    //the second times cancel input new password action.
 
@@ -336,28 +359,7 @@ void RunCheck_Mode(uint16_t dat)
 
 					break;
 
-					case 1:
-					    //the first clear input digital key of data by input new password enable
-						run_t.gTimer_8s=0;
-
-						for(i=0;i<6;i++){
-							pwd2[i]=0;
-							pwd1[i]=0;
-						}
-						run_t.inputNewPasswordTimes =0; 
-                    
 					
-						//other ref
-						run_t.gTimer_8s=0;
-						run_t.confirm_button_flag=confirm_button_unlock;
-						//run_t.password_unlock=UNLOCK_SAVE_DATA_TO_EEPROM; //clear input numbers new passwords 
-						run_t.new_pwd_save_data_tag= NEW_PWD_SAVE_DATA_TO_EEPROM;
-
-						run_t.Confirm_newPassword=1;
-						run_t.inputNewPwd_OK_led_blank_times=0;
-
-				
-				break;
 			   }
        
 		break;
@@ -486,7 +488,6 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		spec=0;
 		run_t.getNumbers_key++;
-		run_t.inputDeepSleep_times =0;
 		run_t.gTimer_8s=0;
 		run_t.inputNewPwd_OK_led_blank_times=0;
 		run_t.keyPressed_flag =1;
@@ -498,7 +499,7 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		spec=0;
 		run_t.getNumbers_key++;
-		run_t.inputDeepSleep_times =0;
+		
 		run_t.gTimer_8s=0;
 	    run_t.inputNewPwd_OK_led_blank_times=0;
    	    run_t.keyPressed_flag =1;
@@ -508,7 +509,7 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		spec=0;
 		run_t.getNumbers_key++;
-		run_t.inputDeepSleep_times =0;
+	
 		run_t.gTimer_8s=0;
 		run_t.inputNewPwd_OK_led_blank_times=0;
   		run_t.keyPressed_flag =1;
@@ -519,7 +520,7 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		spec=0;
 		run_t.getNumbers_key++;
-		run_t.inputDeepSleep_times =0;
+	
 		run_t.gTimer_8s=0;
 		run_t.inputNewPwd_OK_led_blank_times=0;
 		run_t.keyPressed_flag =1;
@@ -531,7 +532,7 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		spec=0;
 		run_t.getNumbers_key++;
-		run_t.inputDeepSleep_times =0;
+	
 		run_t.gTimer_8s=0;
 		run_t.inputNewPwd_OK_led_blank_times=0;
 		run_t.keyPressed_flag =1;
@@ -542,7 +543,7 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		spec=0;
 		run_t.getNumbers_key++;
-		run_t.inputDeepSleep_times =0;
+	
 		run_t.gTimer_8s=0;
 
 		run_t.inputNewPwd_OK_led_blank_times=0;
@@ -555,8 +556,7 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		spec=0;
 		run_t.getNumbers_key++;
-		run_t.inputDeepSleep_times =0;
-		run_t.gTimer_8s=0;
+	    run_t.gTimer_8s=0;
 		run_t.inputNewPwd_OK_led_blank_times=0;
 		run_t.keyPressed_flag =1;
        
@@ -568,7 +568,6 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		spec=0;
 		run_t.getNumbers_key++;
-		run_t.inputDeepSleep_times =0;
 		run_t.gTimer_8s=0;
 		run_t.inputNewPwd_OK_led_blank_times=0;
 		run_t.keyPressed_flag =1;
@@ -580,7 +579,6 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		spec=0;
 		run_t.getNumbers_key++;
-		run_t.inputDeepSleep_times =0;
 		run_t.gTimer_8s=0;
 		run_t.inputNewPwd_OK_led_blank_times=0;
 		run_t.keyPressed_flag =1;
@@ -590,7 +588,6 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		spec=0;
 		run_t.getNumbers_key++;
-		run_t.inputDeepSleep_times =0;
 		run_t.gTimer_8s=0;
 		run_t.inputNewPwd_OK_led_blank_times=0;
 		run_t.keyPressed_flag =1;
