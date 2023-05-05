@@ -15,38 +15,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
    static  uint8_t touchkey=0xff;
     
-    if(GPIO_Pin == KEY_Pin){
-
-
-	    __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
-	    if(run_t.lowPower_flag == 0){
-		 		 HAL_Init();
-				 SystemClock_Config();
-			     HAL_ResumeTick();
-			    run_t.inputDeepSleep_times =0;
-			 	POWER_ON();
-			
-			run_t.lowPower_flag++;
-		
-
-		    run_t.gTimer_8s=0;//WT.EDIT 2022.09.26
-		   
-	    }
-	    else{
-	    	POWER_ON();
-	    
-	
-		    run_t.gTimer_8s=0;//WT.EDIT 2022.09.26
-
-	    }
-
-	}
-
-   if(GPIO_Pin == SC12B_KEY_Pin){
    
-      __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin);//WT.EDIT 2022.09.09
+   if(GPIO_Pin == SC12B_KEY_Pin){
+       POWER_ON();
+   
       if(run_t.lowPower_flag ==0){
-	  	     HAL_Init();
+	  	   
 	 	     SystemClock_Config();
 			  HAL_ResumeTick();
 			  run_t.inputDeepSleep_times =0;
@@ -63,10 +37,38 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
       	}
    }
+   else if(GPIO_Pin == KEY_Pin){
+  
+	   POWER_ON();
+		// __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
+		 if(run_t.lowPower_flag == 0){
+				 
+				  SystemClock_Config();
+				  HAL_ResumeTick();
+				 run_t.inputDeepSleep_times =0;
+				 POWER_ON();
+			 
+			 run_t.lowPower_flag++;
+		 
+  
+			 run_t.gTimer_8s=0;//WT.EDIT 2022.09.26
+			
+		 }
+		 else{
+			 POWER_ON();
+		 
+	 
+			 run_t.gTimer_8s=0;//WT.EDIT 2022.09.26
+  
+		 }
+  
+	 }
+   
 
 	 
   }
-    
+
+
 /****************************************************************************
 *
 *Function Name:void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim)

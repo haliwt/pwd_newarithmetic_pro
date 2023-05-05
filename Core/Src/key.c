@@ -225,7 +225,7 @@ void TouchKey(void)
 
 	        read_key_value=Read_SC12B_KEY();
 	       KeyValue =(uint16_t)(SC_Data[0]<<8) + SC_Data[1];
-		 
+		   HAL_Delay(10);
 	       while(key_up==1 &&  KeyValue !=0){
 		   	    key_up=0;
 		   		RunCheck_Mode(KeyValue); 
@@ -268,7 +268,7 @@ void RunCheck_Mode(uint16_t dat)
    unsigned char temp, i,read_numbers;
   
    static unsigned char k0=0xff,k1=0xff,k2=0xff,key;
- 
+   static uint16_t key_input_number;
 
     switch(dat){
 
@@ -507,6 +507,7 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
+		key_input_number=KEY_0;
              
 	break;
 
@@ -515,12 +516,14 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
+		key_input_number=KEY_1;
 	break;
 			
     case KEY_2:
 		key=1;
 	    run_t.getNumbers_key++;
 	    run_t.keyPressed_flag =1;
+		key_input_number=KEY_2;
 	 
 	break;
 			
@@ -528,6 +531,7 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
+		key_input_number=KEY_3;
 	
     break;
 			
@@ -535,12 +539,14 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
+		key_input_number=KEY_4;
 	break;
 			
 	case KEY_5:
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
+		key_input_number=KEY_5;
 			
     break;
 			
@@ -549,24 +555,28 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
+		key_input_number=KEY_6;
     break;
 	
 	case KEY_7:
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
+		key_input_number=KEY_7;
 	break;
 			
 	case KEY_8:
 		key=1;
 		run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
+		key_input_number=KEY_8;
 	break;
 
 	case KEY_9:
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
+		key_input_number=KEY_9;
 	break;
 		  
 
@@ -604,7 +614,7 @@ void RunCheck_Mode(uint16_t dat)
 
 		}
 		else{
-			temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
+			temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) key_input_number); //input Numbers
 			//virtual password is 20bit
 			if(run_t.input_digital_key_number_counter > 20)run_t.input_digital_key_number_counter =20;
 			
