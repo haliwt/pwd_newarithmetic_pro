@@ -182,7 +182,7 @@ void  SideKey_Fun(uint8_t keyvalue)
 		run_t.backlight_label =BACKLIGHT_ON; //WT.EDIT .2022.10.06
 
        	run_t.inputNewPasswordTimes =0;
-		run_t.password_unlock=0;//accomplish by save task//WT.EIDT 2022.09.12
+		run_t.password_unlock=0;
 		run_t.lock_fail =0;
 		
 
@@ -218,7 +218,7 @@ void  SideKey_Fun(uint8_t keyvalue)
 ********************************************************/
 void TouchKey(void)
 {
-     static uint8_t key_init=0xff;
+  
 	 
 	 if(I2C_Read_From_Device(SC12B_ADDR,0x08,SC_Data,2)==DONE){
 

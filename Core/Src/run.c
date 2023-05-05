@@ -5,7 +5,6 @@
 #include "motor.h"
 #include "kmp.h"
 #include "single_mode.h"
-#include "funpointer.h"
 #include "key.h"
 
 RUN_T run_t;

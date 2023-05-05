@@ -20,9 +20,10 @@
 
 typedef enum{
 
-    motor_foreward =0x01,
+	motor_null,
+	motor_foreward,
 	motor_revesal,
-	motor_null
+	
 
 
 }motor_run_state;
