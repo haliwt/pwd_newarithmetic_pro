@@ -297,7 +297,7 @@ void BackLight_Control_Handler(void)
 		 
 		      run_t.saveEEPROM_fail_flag =0;
 			  run_t.lock_fail=0;
-			  run_t.input_newPassword_over_number=0;
+			
 
 			  ERR_LED_OFF();
             

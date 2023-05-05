@@ -137,18 +137,18 @@ static void UnLock_Aand_SaveData_Handler(void)
 		run_t.gTimer_8s=0;
 		run_t.Confirm_newPassword =0; //to save new password of flag 
 		run_t.inputNewPasswordTimes =0;
-
+	    run_t.inputNewPassword_Enable =0; 
 		
-		run_t.input_digital_key_number_counter =0;
-		run_t.confirm_button_flag =0 ;
-		run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
+		
+		run_t.confirm_button_flag =confirm_button_donot_pressed ;
+		run_t.buzzer_flag =0;
 
-		run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06	
-		run_t.saveEEPROM_fail_flag =1; //WT.EDIT 2022.10.06	
-		run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
+		run_t.fail_sound_flag=1; 
+		run_t.saveEEPROM_fail_flag =1; 
+		run_t.clear_inputNumbers_newpassword=0;
 
-		run_t.Confirm_newPassword =0; //WT.EDIT 2022.09.28
-		run_t.inputNewPassword_Enable =0; //W
+	
+	
 
 		//led control led
 		run_t.lock_fail =1;   //input new password is error
@@ -178,7 +178,7 @@ static void UnLock_Aand_SaveData_Handler(void)
 static void Save_To_EeepromNewPwd(void)
 {
 
-	if(run_t.inputNewPassword_Enable ==1 && run_t.inputNewPasswordTimes !=1 ){//WT.EDIT .2022.09.28.if(run_t.adminiId==1){
+	if(run_t.inputNewPassword_Enable ==1 && run_t.inputNewPasswordTimes ==2 ){//WT.EDIT .2022.09.28.if(run_t.adminiId==1){
 		
 		   SavePassword_To_EEPROM();
 			

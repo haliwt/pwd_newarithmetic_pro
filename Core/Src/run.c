@@ -10,6 +10,8 @@
 
 RUN_T run_t;
 
+uint8_t compare_value;
+
 uint8_t readFlag[1]={0};
 uint8_t pwd1[6];
 uint8_t pwd2[6];
@@ -51,10 +53,9 @@ uint8_t CompareValue(uint8_t *pt1,uint8_t *pt2)
 ****************************************************************************/
 void SavePassword_To_EEPROM(void)
 {
-   static unsigned char value,eeNumbers;
+   static uint8_t eeNumbers;
    static uint8_t initvalue =0x01;
-   if(run_t.inputNewPasswordTimes ==2){//3 WT.EDIT 2022.10.14 
-	for(eeNumbers =0; eeNumbers< 11;eeNumbers++){// password is ten numbers
+  for(eeNumbers =0; eeNumbers< 11;eeNumbers++){// password is ten numbers
         run_t.gTimer_8s=0;
 	  switch(eeNumbers){	  
 		   case 0:
@@ -141,9 +142,9 @@ void SavePassword_To_EEPROM(void)
 		HAL_Delay(5);
 		if(run_t.readEepromData !=1){
 	 
-             value =CompareValue(pwd1, pwd2);
+             compare_value =CompareValue(pwd1, pwd2);
 			
-			 if(value ==1){ //be save data to eeprom flag 
+			 if(compare_value ==1){ //be save data to eeprom flag 
 		 	     
 		         EEPROM_Write_Byte(run_t.userId ,&initvalue,1);
 				 HAL_Delay(5);
@@ -161,14 +162,10 @@ void SavePassword_To_EEPROM(void)
 				run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
 				run_t.buzzer_longsound_flag =1;//WT.EDIT 2022.10.28
 			
-				run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
+				run_t.clear_inputNumbers_newpassword=0;
 		        run_t.inputNewPassword_Enable =0; 
-		       
-	            //complish task flag 
-
-		
-	
-	            //sound control 
+		        run_t.inputNewPasswordTimes = 0;
+	      
 
 				//led control
 				run_t.gTimer_8s=10;
@@ -193,11 +190,14 @@ void SavePassword_To_EEPROM(void)
 				run_t.password_unlock=UNLOCK_NULL;
 				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
+                 
+         
+	      
 
 				//clear has been set up reference
 				
 				run_t.motor_return_homePosition=0;
-				run_t.buzzer_flag =0
+				run_t.buzzer_flag =0;
 				run_t.fail_sound_flag=1; 
 				run_t.buzzer_longsound_flag =0;
 				run_t.saveEEPROM_fail_flag =1; 
@@ -222,7 +222,7 @@ void SavePassword_To_EEPROM(void)
     	}
 		
 		
-	}
+	
 
 
 }

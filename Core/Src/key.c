@@ -335,7 +335,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.stop_gTimer_8s =9;
 
 						run_t.keyPressed_flag =0;
-						run_t.input_newPassword_over_number = 0;
+					
 						//input key flag
 						run_t.confirm_button_flag =0;
 						run_t.input_digital_key_number_counter =0;
@@ -413,10 +413,10 @@ void RunCheck_Mode(uint16_t dat)
 
 		    if(run_t.input_digital_key_number_counter ==0){
 			
-				 run_t.confirm_button_flag = confirm_button_donot_pressed;
+				run_t.confirm_button_flag = confirm_button_donot_pressed;
 				run_t.gTimer_8s=0;
 			}
-		    else if(run_t.input_digital_key_number_counter < 4  && run_t.inputNewPassword_Enable ==0){//error input key times be msut greater than or equal to  4  
+		    else if(run_t.input_digital_key_number_counter < 4 ){//error input key times be msut greater than or equal to  4  
                 OK_LED_OFF();
                 ERR_LED_ON();
                 run_t.input_digital_key_number_counter=0;
@@ -425,6 +425,8 @@ void RunCheck_Mode(uint16_t dat)
                 run_t.lock_fail=1;
                 run_t.fail_sound_flag=1;
 				run_t.buzzer_flag =0;
+				run_t.inputNewPassword_Enable=0;
+				
                 if(run_t.error_times > 4 ){ //OVER 5 error  times auto lock touchkey 60 s
 	                run_t.gTimer_10s_start=0;//WT.EDIT 2022.09.20
 	                run_t.gTimer_input_error_times_60s =0;
@@ -439,20 +441,43 @@ void RunCheck_Mode(uint16_t dat)
 
 			            run_t.inputNewPasswordTimes ++ ;  //recoder times
 			             run_t.gTimer_8s=0;
-						if(run_t.inputNewPasswordTimes ==1){
+				        switch(run_t.inputNewPasswordTimes){
+
+						case 1:
+						
 						 //Confirm Key "#"
 						    run_t.buzzer_flag =0; 
 							run_t.buzzer_two_short = 2;
-                            
-						}
-					
+                            run_t.input_digital_key_number_counter=0;
 						
-						run_t.confirm_button_flag = confirm_button_pressed; //run next step process
 					
+						//run_t.confirm_button_flag = confirm_button_pressed; //run next step process
+						
+					    run_t.confirm_button_flag=confirm_button_donot_pressed;
 						run_t.inputDeepSleep_times =0;
 						run_t.gTimer_8s=0;
 						run_t.inputNewPwd_OK_led_blank_times=0;
-						run_t.backlight_label =BACKLIGHT_OK_BLINK; //WT.EDIT .2023.03.27
+						run_t.backlight_label =BACKLIGHT_OK_BLINK;
+						
+						break;
+
+						case 2:
+						//Confirm Key "#"
+						   run_t.buzzer_flag =0; 
+						    run_t.buzzer_two_short = 2;
+                            run_t.input_digital_key_number_counter=0;
+						
+		
+						run_t.confirm_button_flag=confirm_button_unlock;
+					    run_t.new_pwd_save_data_tag = NEW_PWD_SAVE_DATA_TO_EEPROM;
+						run_t.inputDeepSleep_times =0;
+						run_t.gTimer_8s=0;
+						run_t.inputNewPwd_OK_led_blank_times=0;
+						run_t.backlight_label =BACKLIGHT_OK_BLINK;
+
+
+						break;
+				        }
 					
 						
 			    }
@@ -613,7 +638,7 @@ void RunCheck_Mode(uint16_t dat)
 
 		run_t.gTimer_8s=0;
 
-		run_t.confirm_button_flag =0;
+		run_t.confirm_button_flag =confirm_button_donot_pressed;
 		POWER_ON();
 
 		if(run_t.Confirm_newPassword ==1 && run_t.input_digital_key_number_counter >6){//WT.EDIT 2022.10.08
@@ -621,16 +646,21 @@ void RunCheck_Mode(uint16_t dat)
 			
 			run_t.gTimer_8s=0;
 			run_t.fail_sound_flag =1;
-			//led control 
-			run_t.input_newPassword_over_number = 1;//run_t.lock_fail=1;
+	
+		
 			run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
+			run_t.confirm_button_flag=confirm_button_unlock;
+			run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; 
 
 		}
 		else{
 			temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) dat); //input Numbers
 			//virtual password is 20bit
-			if(run_t.input_digital_key_number_counter > 20) run_t.input_digital_key_number_counter =20;
+			if(run_t.input_digital_key_number_counter > 20)run_t.input_digital_key_number_counter =20;
+			
 			virtualPwd[run_t.input_digital_key_number_counter-1]=temp;
+
+			
 				
 			if(run_t.input_digital_key_number_counter < 7){//run_t.inputNewPasswordTimes
 
@@ -638,8 +668,8 @@ void RunCheck_Mode(uint16_t dat)
 					read_numbers = OverNumbers_Password_Handler();
 					if(read_numbers==1){
 						run_t.confirm_button_flag=confirm_button_unlock;
-						//run_t.password_unlock=UNLOCK_OVER_MAX_PWD_NUMBERS; //over times ten group numbers password
-                        run_t.new_pwd_save_data_tag= UNLOCK_OVER_MAX_PWD_NUMBERS;
+						run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; //over times ten group numbers password
+                        run_t.input_digital_key_number_counter =0;
 					}
 					else
 					    pwd2[run_t.input_digital_key_number_counter-1]=temp; //the first input new password .
