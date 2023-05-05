@@ -318,7 +318,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.input_digital_key_number_counter =0;
 
 						run_t.password_unlock=UNLOCK_NULL;
-						run_t.confirm_button_flag=confirm_button_unlock;
+						run_t.confirm_button_flag=confirm_button_donot_pressed;
 
 						run_t.lock_fail=0;
 						run_t.led_ok_flag = ok_led_on;

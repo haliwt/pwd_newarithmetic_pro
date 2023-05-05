@@ -183,6 +183,7 @@ void BackLight_Control_Handler(void)
 				run_t.inputDeepSleep_times=0;
 			    run_t.keyPressed_flag =0;
 				run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
+				run_t.Confirm_newPassword=0;
 			}
           break;
 
