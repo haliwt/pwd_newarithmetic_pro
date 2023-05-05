@@ -86,7 +86,7 @@ typedef struct __RUN_T{
     uint8_t clear_inputNumbers_newpassword;
 	uint8_t inputNewPwd_OK_led_blank_times;
 	uint8_t motor_doing_flag;
-	uint8_t motor_returnRun_flag;
+
     
     
 	uint8_t BackLight;

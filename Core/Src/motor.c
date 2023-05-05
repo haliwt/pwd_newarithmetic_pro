@@ -149,8 +149,9 @@ void RunMotor_Definite_Handler(void) //definite motor
 
 			if(run_t.motorRunCount >199){
                 run_t.motorRunCount=0;
+				run_t.returnHomePosition_Count=0;
 				run_t.motor_doing_flag=motor_revesal;
-				run_t.motor_returnRun_flag =1;
+				
 				led=0;
 			}
           
@@ -158,18 +159,20 @@ void RunMotor_Definite_Handler(void) //definite motor
 
 		  case motor_revesal:
              run_t.returnHomePosition_Count++;
+			 run_t.motorRunCount++;
 			run_t.gTimer_8s =0;
 		     run_t.inputDeepSleep_times =0;
-			if(run_t.motorRunCount <200){
+			if(run_t.motorRunCount >50){
 			    Motor_CW_Run();// Close
 			    
 			}
+           
 			
-			if(run_t.returnHomePosition_Count > 199){
+			if(run_t.returnHomePosition_Count > 230){
 			    Motor_Stop();
-				
+				run_t.motorRunCount=0;
 				run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18
-				run_t.motor_returnRun_flag =0;
+			
 				 run_t.motor_doing_flag=motor_null;
 				run_t.oneself_copy_behavior=0;
                 
@@ -180,11 +183,12 @@ void RunMotor_Definite_Handler(void) //definite motor
 				run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
 			}
 
-		
+		   
 		  break;
 
 		  case motor_null:
-
+		     run_t.motorRunCount=0;
+			run_t.returnHomePosition_Count=0;
 
 		  break;
 		  
