@@ -268,7 +268,7 @@ void RunCheck_Mode(uint16_t dat)
 {
    unsigned char temp, i,read_numbers;
   
-   static unsigned char k0=0xff,k1=0xff,k2=0xff,key,spec;
+   static unsigned char k0=0xff,k1=0xff,k2=0xff,key;
  
 
     switch(dat){
@@ -283,7 +283,7 @@ void RunCheck_Mode(uint16_t dat)
 			run_t.getSpecial_2_key++;//n1++;
 			run_t.getNumbers_key++;//n2++;
 			run_t.keyPressed_flag =1; // has a input key be pressing 
-			spec=1;
+			key=0;
             //backlight
 			run_t.backlight_label =BACKLIGHT_ON;
 			//sound buzzer
@@ -314,10 +314,6 @@ void RunCheck_Mode(uint16_t dat)
 						//other ref
 						run_t.gTimer_8s=0;
 						run_t.confirm_button_flag=confirm_button_donot_pressed;//confirm_button_unlock;
-						//run_t.password_unlock=UNLOCK_SAVE_DATA_TO_EEPROM; //clear input numbers new passwords 
-						//run_t.new_pwd_save_data_tag= NEW_PWD_SAVE_DATA_TO_EEPROM;
-
-						//run_t.Confirm_newPassword=1;
 						run_t.inputNewPwd_OK_led_blank_times=0;
 
 				
@@ -337,7 +333,6 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.keyPressed_flag =0;
 					
 						//input key flag
-						run_t.confirm_button_flag =0;
 						run_t.input_digital_key_number_counter =0;
 
 						run_t.password_unlock=UNLOCK_NULL;
@@ -354,7 +349,7 @@ void RunCheck_Mode(uint16_t dat)
 						for(i=0;i<6;i++){
 							pwd2[i]=0;
 							pwd1[i]=0;
-							return ; //WT.EDIT 2023.03.17
+						
 						}
 
 					break;
@@ -394,7 +389,7 @@ void RunCheck_Mode(uint16_t dat)
              run_t.getSpecial_1_key++;//n1++
 		     run_t.getNumbers_key++;//n2++;
 		     run_t.keyPressed_flag =1;//has a input key be pressing 
-		     spec=1;
+		     key=0;
 			 
 			run_t.backlight_label =BACKLIGHT_ON;
 		   
@@ -511,10 +506,7 @@ void RunCheck_Mode(uint16_t dat)
 	case KEY_0:
 		
 		key=1;
-		spec=0;
-		run_t.getNumbers_key++;
-		run_t.gTimer_8s=0;
-		run_t.inputNewPwd_OK_led_blank_times=0;
+	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
              
 	break;
@@ -522,56 +514,33 @@ void RunCheck_Mode(uint16_t dat)
     case KEY_1 :
 
 		key=1;
-		spec=0;
 		run_t.getNumbers_key++;
-		
-		run_t.gTimer_8s=0;
-	    run_t.inputNewPwd_OK_led_blank_times=0;
-   	    run_t.keyPressed_flag =1;
+		run_t.keyPressed_flag =1;
 	break;
 			
     case KEY_2:
 		key=1;
-		spec=0;
-		run_t.getNumbers_key++;
-	
-		run_t.gTimer_8s=0;
-		run_t.inputNewPwd_OK_led_blank_times=0;
-  		run_t.keyPressed_flag =1;
+	    run_t.getNumbers_key++;
+	    run_t.keyPressed_flag =1;
 	 
 	break;
 			
 	case  KEY_3:
 		key=1;
-		spec=0;
-		run_t.getNumbers_key++;
-	
-		run_t.gTimer_8s=0;
-		run_t.inputNewPwd_OK_led_blank_times=0;
+	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
 	
     break;
 			
 	case KEY_4:
-			
 		key=1;
-		spec=0;
-		run_t.getNumbers_key++;
-	
-		run_t.gTimer_8s=0;
-		run_t.inputNewPwd_OK_led_blank_times=0;
+	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-			
 	break;
 			
 	case KEY_5:
 		key=1;
-		spec=0;
-		run_t.getNumbers_key++;
-	
-		run_t.gTimer_8s=0;
-
-		run_t.inputNewPwd_OK_led_blank_times=0;
+	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
 			
     break;
@@ -579,53 +548,35 @@ void RunCheck_Mode(uint16_t dat)
 	case KEY_6:
 		
 		key=1;
-		spec=0;
-		run_t.getNumbers_key++;
-	    run_t.gTimer_8s=0;
-		run_t.inputNewPwd_OK_led_blank_times=0;
+	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-       
-		
-		
-	break;
+    break;
+	
 	case KEY_7:
-		
 		key=1;
-		spec=0;
-		run_t.getNumbers_key++;
-		run_t.gTimer_8s=0;
-		run_t.inputNewPwd_OK_led_blank_times=0;
+	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-
-		
 	break;
 			
 	case KEY_8:
 		key=1;
-		spec=0;
 		run_t.getNumbers_key++;
-		run_t.gTimer_8s=0;
-		run_t.inputNewPwd_OK_led_blank_times=0;
 		run_t.keyPressed_flag =1;
 	break;
 
 	case KEY_9:
 		key=1;
-		spec=0;
-		run_t.getNumbers_key++;
-		run_t.gTimer_8s=0;
-		run_t.inputNewPwd_OK_led_blank_times=0;
+	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
 	break;
 		  
 
 	}  
 
-	if(k2 != run_t.getNumbers_key && key==1 && spec ==0){
+	if(k2 != run_t.getNumbers_key && key==1 ){
 				
 		k2=run_t.getNumbers_key;
 		key = 0;
-		spec =1;
 		run_t.getSpecial_1_key++;//n1++
 
 		run_t.getSpecial_2_key++;//n1++;

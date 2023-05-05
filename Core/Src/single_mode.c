@@ -114,23 +114,6 @@ static void UnLock_Aand_SaveData_Handler(void)
 	   Save_To_EeepromNewPwd();
     break;
 
-	
-	case UNLOCK_MOTOR_RUN_90_ANGLE://2 //Power On motor run 1/4 angle
-	  	 
-         Motor_CW_Run();// Close 
-		 HAL_Delay(530);//WT.EDIT 2022.09.19
-		 Motor_Stop();
-		 run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18
-	
-	     run_t.gTimer_8s=0;
-		 Panel_LED_Off();
-		 run_t.backlight_label = BACKLIGHT_NULL;
-
-		run_t.new_pwd_save_data_tag=UNLOCK_NULL;
-		run_t.confirm_button_flag=confirm_button_donot_pressed  ;
-	
-
-	break;
 
     case UNLOCK_OVER_MAX_PWD_NUMBERS: // over times ten group numbers posswords 
 		

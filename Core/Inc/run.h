@@ -39,7 +39,6 @@ typedef enum _unlock_state{
 typedef enum _new_password_save_t{
 
     NEW_PWD_SAVE_DATA_TO_EEPROM=0x01,
-	UNLOCK_MOTOR_RUN_90_ANGLE,
 	UNLOCK_OVER_MAX_PWD_NUMBERS
 
 
