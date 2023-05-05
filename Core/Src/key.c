@@ -59,7 +59,7 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == key.buffer) // adjust key be down 
 			{
-				if(++key.on_time> 100 && ++key.on_time < 500) //1000  0.5us -> short time key
+				if(++key.on_time> 20 && ++key.on_time < 50) //1000  0.5us -> short time key
 				{
 					key.value = key.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01, com = 0x0E ^ 0x1f = 0x11
 					key.on_time = 0;
@@ -77,7 +77,7 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == key.buffer) //again adjust key if be pressed down 
 			{
-				if(++key.on_time>1000)// 2000 = 7s long key be down
+				if(++key.on_time>50)// 2000 = 7s long key be down
 				{
 					
 					//key.value = key.value|0x80; //key.value = 0x01 | 0x80  =0x81  
@@ -116,7 +116,7 @@ uint8_t Scan_Key(void)
 			}
 			else if(key.read == _KEY_ALL_OFF)  // loose hand 
 			{
-				if(++key.off_time>5) //30 don't holding key dithering
+				if(++key.off_time>1) //30 don't holding key dithering
 				{
 					key.value = key.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01
 					
@@ -139,7 +139,7 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == _KEY_ALL_OFF)
 			{
-				if(++key.off_time>5)//50 //100
+				if(++key.off_time>1)//50 //100
 				{
 					key.state   = start;
 					run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
