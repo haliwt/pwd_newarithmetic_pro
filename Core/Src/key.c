@@ -184,7 +184,8 @@ void  SideKey_Fun(uint8_t keyvalue)
        	run_t.inputNewPasswordTimes =0;
 		run_t.password_unlock=0;
 		run_t.lock_fail =0;
-		
+         
+		run_t.confirm_button_flag=confirm_button_donot_pressed;
 
 		run_t.panel_lock =0;
 	

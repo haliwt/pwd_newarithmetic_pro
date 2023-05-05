@@ -20,7 +20,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 	    __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
 	    if(run_t.lowPower_flag == 0){
-		 	
+		 		 HAL_Init();
 				 SystemClock_Config();
 			     HAL_ResumeTick();
 			    run_t.inputDeepSleep_times =0;
@@ -45,7 +45,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
    if(GPIO_Pin == SC12B_KEY_Pin){
    
       __HAL_GPIO_EXTI_CLEAR_IT(SC12B_KEY_Pin);//WT.EDIT 2022.09.09
-      if(run_t.lowPower_flag <3){
+      if(run_t.lowPower_flag ==0){
+	  	     HAL_Init();
 	 	     SystemClock_Config();
 			  HAL_ResumeTick();
 			  run_t.inputDeepSleep_times =0;
@@ -82,8 +83,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(htim->Instance==TIM2){
   
     t0++;
-    
-
     if(t0>99){ //10*100 =1000ms "1s"
 		t0=0;
         run_t.gTimer_8s++;
