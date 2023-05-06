@@ -76,11 +76,9 @@ void CheckPassword_Lock_Handler(void)
        break;
 
 	   case confirm_button_pressed:
-	    if(run_t.inputNewPassword_Enable==0 ){
-			  //run_t.confirm_button_flag=confirm_button_donot_pressed;
-		      run_t.gTimer_8s=0;
-	          RunCommand_Unlock();
-	    }
+	       run_t.confirm_button_flag=confirm_button_donot_pressed;
+	       RunCommand_Unlock();
+	    
 	   break;
 
 	   case confirm_button_unlock:

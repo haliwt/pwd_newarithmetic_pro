@@ -249,9 +249,9 @@ void RunCommand_Unlock(void)
 
      uint8_t i;
 
-
+      run_t.gTimer_8s=0;//WT.EDIT 2022.09.28
 	 if(run_t.Confirm_newPassword == 1){
-	 	run_t.gTimer_8s=0;//WT.EDIT 2022.09.28
+	 	
 	 	Read_Administrator_Password();//WT.EDIT 2022.010.07
 	 }
 	 else
@@ -328,6 +328,7 @@ void RunCommand_Unlock(void)
 			
 			run_t.inputNewPassword_Enable =1; //Input Administrator password is OK
 			run_t.Confirm_newPassword=0;
+			run_t.inputNewPasswordTimes=0;
 			
 			run_t.eepromAddress=0;
 	
@@ -342,7 +343,7 @@ void RunCommand_Unlock(void)
 			run_t.inputNewPwd_OK_led_blank_times=0;
 		    run_t.keyPressed_flag=0; //WT.EDIT 2023.
 		    //led control 
-		    run_t.gTimer_8s = 7;
+		    run_t.gTimer_8s = 0;
 		    run_t.led_ok_flag = ok_led_on;
 			run_t.backlight_label = BACKLIGHT_ON;
 			//buzzzer sound
