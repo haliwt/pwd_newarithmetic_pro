@@ -125,10 +125,10 @@ static void ClearEEPROM_Data_Fun(void)
 	  }
 
 
-	   if(run_t.gTimer_8s > 20){
-		  Panel_LED_Off();
-
-	   }
+//	   if(run_t.gTimer_8s > 20){
+//		  Panel_LED_Off();
+//
+//	   }
       
 
 }
@@ -203,16 +203,16 @@ void BackLight_Control_Handler(void)
          ok_cnt ++ ;
 		 BACKLIGHT_ON();
 		 ERR_LED_OFF();
-		 if(ok_cnt  < 501 ){
+		 if(ok_cnt  < 251 ){
 	
 			 OK_LED_OFF();
 			  
 		  }
-		  else if(ok_cnt >499 && ok_cnt  < 1001){//500.WT.EDIT 2022.10.31
+		  else if(ok_cnt >249 && ok_cnt  < 501){//500.WT.EDIT 2022.10.31
 			  OK_LED_ON();
 		  }
 	
-		  if(ok_cnt >999){ //1000.WT.EDIT 2022.10.31
+		  if(ok_cnt >499){ //1000.WT.EDIT 2022.10.31
 		  	ok_cnt  = 0;
 			confirm_ok_counter++;
            
@@ -242,21 +242,21 @@ void BackLight_Control_Handler(void)
 		    OK_LED_OFF();
 	
 	  
-		  if(err_cnt < 501 ){
+		  if(err_cnt < 251 ){
 	
 			  ERR_LED_OFF();
 			  
 		  }
-		  else if(err_cnt > 500 && err_cnt < 1001){
+		  else if(err_cnt > 249 && err_cnt < 501){
 			  ERR_LED_ON();
 		  }
-		  if(err_cnt>1000){
+		  if(err_cnt>499){
 		  	err_cnt = 0;
 			err_counter++;
 			
 		  }
 		  
-		  if(err_counter > 2){
+		  if(err_counter > 3){
 		  	err_cnt = 0;
 			err_counter=0;
 		    run_t.backlight_label =BACKLIGHT_OFF;
@@ -265,20 +265,20 @@ void BackLight_Control_Handler(void)
 	
 		break;
 
-		case BACKLIGHT_NEW_PASSWORD_LED: //new input Pwd
+		case BACKLIGHT_NEW_PASSWORD_LED: //5//new input Pwd
 		   new_counter ++ ;
 		   BACKLIGHT_ON();
 		   ERR_LED_OFF();
-		   if(new_counter < 501 ){
+		   if(new_counter < 126 ){
 	
 			  OK_LED_OFF();
 			  
 		  }
-		  else if(new_counter>499 && new_counter < 1001){//500.WT.EDIT 2022.10.31
+		  else if(new_counter>124 && new_counter < 251){//500.WT.EDIT 2022.10.31
 			  OK_LED_ON();
 		  }
 	
-		  if(new_counter>999){ //1000.WT.EDIT 2022.10.31
+		  if(new_counter>249){ //1000.WT.EDIT 2022.10.31
 		  	new_counter = 0;
             new_pwd_counter++;
 		  }
