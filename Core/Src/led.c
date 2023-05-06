@@ -155,6 +155,15 @@ void BackLight_Control_Handler(void)
    
           case BACKLIGHT_ON:
              BACKLIGHT_ON();
+
+		    	 new_counter = 0;
+                 new_pwd_counter=0;
+			     err_cnt = 0;
+			    err_counter=0;
+				
+				ok_cnt	= 0;
+				confirm_ok_counter=0; 
+	
 			if(run_t.gTimer_8s > 8){
                 run_t.gTimer_8s=6;
 				run_t.inputDeepSleep_times=0;
@@ -165,12 +174,13 @@ void BackLight_Control_Handler(void)
           break;
 
 		  case BACKLIGHT_OFF: //0X00
-	
+		  
+	           BACKLIGHT_OFF();
 
 		    if(run_t.gTimer_8s > 8){
 	             run_t.keyPressed_flag =0;
 				 run_t.inputDeepSleep_times=0;
-				 run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
+				 run_t.backlight_label =BACKLIGHT_INPUT_STOP_MODEL;
 			}
 
 		
@@ -225,6 +235,9 @@ void BackLight_Control_Handler(void)
 			  new_counter = 0;
               new_pwd_counter=0;
 
+			  new_counter = 0;
+              new_pwd_counter=0;
+
 			  run_t.gTimer_8s=10;
 
 			run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
@@ -269,16 +282,16 @@ void BackLight_Control_Handler(void)
 		   new_counter ++ ;
 		   BACKLIGHT_ON();
 		   ERR_LED_OFF();
-		   if(new_counter < 126 ){
+		   if(new_counter < 115 ){
 	
 			  OK_LED_OFF();
 			  
 		  }
-		  else if(new_counter>124 && new_counter < 251){//500.WT.EDIT 2022.10.31
+		  else if(new_counter>113 && new_counter < 231){//500.WT.EDIT 2022.10.31
 			  OK_LED_ON();
 		  }
 	
-		  if(new_counter>249){ //1000.WT.EDIT 2022.10.31
+		  if(new_counter>229){ //1000.WT.EDIT 2022.10.31
 		  	new_counter = 0;
             new_pwd_counter++;
 		  }

@@ -10,7 +10,7 @@
 
 
 static void Save_To_EeepromNewPwd(void);
-static void UnLock_Aand_SaveData_Handler(void);
+static void UnLock_And_SaveData_Handler(void);
 
 
 /*******************************************************
@@ -83,7 +83,7 @@ void CheckPassword_Lock_Handler(void)
 
 	   case confirm_button_unlock:
 	   	
-	     UnLock_Aand_SaveData_Handler();
+	     UnLock_And_SaveData_Handler();
 
 	   break;
 	}
@@ -92,13 +92,13 @@ void CheckPassword_Lock_Handler(void)
 
 /**************************************************************************
 	*
-	*Funtcion Name:static void UnLock_Aand_SaveData_Handler(void)
+	*Funtcion Name:static void UnLock_And_SaveData_Handler(void)
 	*Function : to special action process 
 	*Input Ref: NO
 	*Return Ref:NO
 	*
 **************************************************************************/
-static void UnLock_Aand_SaveData_Handler(void)
+static void UnLock_And_SaveData_Handler(void)
 {
    
 	switch(run_t.new_pwd_save_data_tag){
@@ -126,12 +126,7 @@ static void UnLock_Aand_SaveData_Handler(void)
 	
 		run_t.clear_inputNumbers_newpassword=0;
 
-	
-	
-
-		//led control led
-	
-		run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
+	    run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
 
 		run_t.new_pwd_save_data_tag=UNLOCK_NULL;
 		run_t.confirm_button_flag=confirm_button_donot_pressed  ;

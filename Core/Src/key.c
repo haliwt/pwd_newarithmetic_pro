@@ -418,9 +418,11 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.gTimer_8s=0;
 			}
 		    else if(run_t.input_digital_key_number_counter < 4 ){//error input key times be msut greater than or equal to  4  
-                OK_LED_OFF();
-                ERR_LED_ON();
+
                 run_t.input_digital_key_number_counter=0;
+				run_t.Confirm_newPassword =0;
+				run_t.inputNewPassword_Enable =0;
+			
                 run_t.confirm_button_flag = confirm_button_donot_pressed;
                 run_t.error_times ++ ;
            
@@ -428,7 +430,6 @@ void RunCheck_Mode(uint16_t dat)
 			     run_t.buzzer_sound_tag = fail_sound;
 			     run_t.backlight_label =BACKLIGHT_ERROR_BLINK;
 			
-				run_t.inputNewPassword_Enable=0;
 				
                 if(run_t.error_times > 4 ){ //OVER 5 error  times auto lock touchkey 60 s
 	            
