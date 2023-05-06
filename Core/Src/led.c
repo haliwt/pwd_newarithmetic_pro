@@ -203,16 +203,16 @@ void BackLight_Control_Handler(void)
          ok_cnt ++ ;
 		 BACKLIGHT_ON();
 		 ERR_LED_OFF();
-		 if(ok_cnt  < 251 ){
+		 if(ok_cnt  < 91 ){
 	
 			 OK_LED_OFF();
 			  
 		  }
-		  else if(ok_cnt >249 && ok_cnt  < 501){//500.WT.EDIT 2022.10.31
+		  else if(ok_cnt >89 && ok_cnt  < 182){//500.WT.EDIT 2022.10.31
 			  OK_LED_ON();
 		  }
 	
-		  if(ok_cnt >499){ //1000.WT.EDIT 2022.10.31
+		  if(ok_cnt >180){ //1000.WT.EDIT 2022.10.31
 		  	ok_cnt  = 0;
 			confirm_ok_counter++;
            
@@ -242,15 +242,15 @@ void BackLight_Control_Handler(void)
 		    OK_LED_OFF();
 	
 	  
-		  if(err_cnt < 251 ){
+		  if(err_cnt < 91 ){
 	
 			  ERR_LED_OFF();
 			  
 		  }
-		  else if(err_cnt > 249 && err_cnt < 501){
+		  else if(err_cnt > 89 && err_cnt < 182){
 			  ERR_LED_ON();
 		  }
-		  if(err_cnt>499){
+		  if(err_cnt>180){
 		  	err_cnt = 0;
 			err_counter++;
 			
