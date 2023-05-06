@@ -673,7 +673,7 @@ void ReadPassword_EEPROM_SaveData(void)
                     if(run_t.input_digital_key_number_counter > 4){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
  
                         value = BF_Search(virtualPwd,Readpwd);
-						run_t.clear_virtual_numbers =1;
+						
 					}
 					else
 					    value = CompareValue(Readpwd,pwd1);
@@ -684,6 +684,7 @@ void ReadPassword_EEPROM_SaveData(void)
 						
 						
 						run_t.password_unlock=UNLOCK_SUCCESS;
+						if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
 						run_t.input_digital_key_number_counter=0;
 						run_t.led_ok_flag =1;
 						run_t.led_error_flag=0;
@@ -696,6 +697,7 @@ void ReadPassword_EEPROM_SaveData(void)
                      	
 						  // Fail = 1;
 						   run_t.password_unlock = UNLOCK_FAIL;
+						   if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
 						   run_t.input_digital_key_number_counter=0;
 						   run_t.led_ok_flag =0;
 						   run_t.led_error_flag=1;
@@ -835,15 +837,17 @@ unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
 
 static void ClearVirtual_Aarray_Fun(void)
 {
-     uint8_t i;
+    uint8_t i;
     if(run_t.clear_virtual_numbers==1){
 		 run_t.clear_virtual_numbers=0;
-		 for(i=0;i<20;i++){
+		 for(i=6;i<20;i++){
 		   virtualPwd[i]=0;
 					   
 	   }
 
     }
+	HAL_Delay(5);
+	
 }
 
 void RunCheck_KeyMode_Handler(void(*keymode_handler)(uint16_t keydat))
