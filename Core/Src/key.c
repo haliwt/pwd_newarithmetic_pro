@@ -12,12 +12,34 @@
 key_types key;
 uint8_t buzzertimes;
 void (*TouchKey_Handler)(void);
+void  (*ReadDigital_Key_Numbers_Handler)(void);
+
 __IO uint16_t  KeyValue;
+__IO uint8_t read_digital_key;
+
 
 uint8_t virtualPwd[20];
 
 uint8_t read_key_value;
 uint8_t key_up =1 ;
+
+static void ReadDigital_Inputkey_Fun(void);
+
+/*******************************************************************************
+    *
+    * Function Name: void KeyFiles_Init(void)
+    * Function : 
+    * Input Ref: NO
+    * Return Ref: NO
+    *
+*******************************************************************************/
+void KeyFiles_Init(void)
+{
+    TouchKey_Run_Handler(TouchKey);
+	ReadInput_KeyNumber_Handler(ReadDigital_Inputkey_Fun);
+
+
+}
 
 
 /*******************************************************************************
@@ -266,10 +288,10 @@ void TouchKey_Run_Handler(void (*touchkey_huandler)(void))
 ****************************************************************************/
 void RunCheck_Mode(uint16_t dat)
 {
-   unsigned char temp, i,read_numbers;
+   uint8_t  i;
   
-   static unsigned char k0=0xff,k1=0xff,k2=0xff,key;
-   static uint16_t key_input_number;
+   static uint8_t k0=0xff,k1=0xff,k2=0xff,key;
+ 
 
     switch(dat){
 
@@ -445,7 +467,7 @@ void RunCheck_Mode(uint16_t dat)
 						case 1:
 						
 						 //Confirm Key "#"
-						
+						    run_t.input_digital_key_number_counter =0 ;
 							//run_t.buzzer_two_short = 2;
 							run_t.buzzer_sound_tag = two_short_two_sound;
                             run_t.input_digital_key_number_counter=0;
@@ -467,7 +489,7 @@ void RunCheck_Mode(uint16_t dat)
 						 //   run_t.buzzer_two_short = 2;
 						run_t.buzzer_sound_tag = two_short_two_sound;
                         run_t.input_digital_key_number_counter=0;
-						
+						//run_t.input_digital_key_number_counter =0 ;
 		
 						run_t.confirm_button_flag=confirm_button_unlock;
 					    run_t.new_pwd_save_data_tag = NEW_PWD_SAVE_DATA_TO_EEPROM;
@@ -514,7 +536,7 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-		key_input_number=KEY_0;
+		
              
 	break;
 
@@ -523,14 +545,14 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 		run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-		key_input_number=KEY_1;
+		
 	break;
 			
     case KEY_2:
 		key=1;
 	    run_t.getNumbers_key++;
 	    run_t.keyPressed_flag =1;
-		key_input_number=KEY_2;
+		
 	 
 	break;
 			
@@ -538,7 +560,7 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-		key_input_number=KEY_3;
+		
 	
     break;
 			
@@ -546,14 +568,14 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-		key_input_number=KEY_4;
+	
 	break;
 			
 	case KEY_5:
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-		key_input_number=KEY_5;
+		
 			
     break;
 			
@@ -562,28 +584,28 @@ void RunCheck_Mode(uint16_t dat)
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-		key_input_number=KEY_6;
+		
     break;
 	
 	case KEY_7:
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-		key_input_number=KEY_7;
+		
 	break;
 			
 	case KEY_8:
 		key=1;
 		run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-		key_input_number=KEY_8;
+	
 	break;
 
 	case KEY_9:
 		key=1;
 	    run_t.getNumbers_key++;
 		run_t.keyPressed_flag =1;
-		key_input_number=KEY_9;
+		
 	break;
 		  
 
@@ -620,35 +642,26 @@ void RunCheck_Mode(uint16_t dat)
 					run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; 
 
 				}
+				else{
+					read_digital_key = InputNumber_ToSpecialNumbers((TouchKey_Numbers)dat); 
+			     	ReadDigital_Key_Numbers_Handler();
+			
+
+				}
 			break;
 
 	    case 0:
 		
-			temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) key_input_number); //input Numbers
+			read_digital_key = InputNumber_ToSpecialNumbers((TouchKey_Numbers)dat); //input Numbers
 			//virtual password is 20bit
 			 //virtual input key numbers 
 			if(run_t.input_digital_key_number_counter < 21){
 			//if(run_t.input_digital_key_number_counter > 20)run_t.input_digital_key_number_counter =20;
 			
-			    virtualPwd[run_t.input_digital_key_number_counter-1]=temp;
+			    virtualPwd[run_t.input_digital_key_number_counter-1]=read_digital_key;
 		        
 
-			if(run_t.input_digital_key_number_counter < 7){//run_t.inputNewPasswordTimes
-
-				if(run_t.inputNewPasswordTimes ==0 && run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.14
-					read_numbers = OverNumbers_Password_Handler();
-					if(read_numbers==1){
-						run_t.confirm_button_flag=confirm_button_unlock;
-						run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; //over times ten group numbers password
-                        run_t.input_digital_key_number_counter =0;
-					}
-					else
-					    pwd2[run_t.input_digital_key_number_counter-1]=temp; //the first input new password .
-				}
-				else  pwd1[run_t.input_digital_key_number_counter-1] =temp;
-
-			}
-			
+			ReadDigital_Key_Numbers_Handler();
 
 		   }
 
@@ -657,6 +670,46 @@ void RunCheck_Mode(uint16_t dat)
 		run_t.gTimer_8s=0;
 		run_t.inputNewPwd_OK_led_blank_times=0;
 	}
+}
+
+/********************************************************************
+	*
+	*Function Name: static void ReadDigital_Inputkey_Fun(void)
+	*Function : read touch key input digital numbers
+	*
+	*
+	*
+********************************************************************/
+static void ReadDigital_Inputkey_Fun(void)
+{
+    uint8_t read_numbers;
+   
+	
+	if(run_t.input_digital_key_number_counter < 7){//run_t.inputNewPasswordTimes
+
+		if(run_t.inputNewPasswordTimes ==0 && run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.14
+            read_numbers = OverNumbers_Password_Handler();
+            if(read_numbers==1){
+            run_t.confirm_button_flag=confirm_button_unlock;
+            run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; //over times ten group numbers password
+            run_t.input_digital_key_number_counter =0;
+            }
+            else
+            pwd2[run_t.input_digital_key_number_counter-1]=read_digital_key; //the first input new password .
+		}
+		else 
+            pwd1[run_t.input_digital_key_number_counter-1] =read_digital_key;
+
+	}
+
+}
+/*******************************************************************
+* Funtion of pointer 
+*******************************************************************/
+void ReadInput_KeyNumber_Handler(void(*read_digital_key_handler)(void))
+{
+	ReadDigital_Key_Numbers_Handler = read_digital_key_handler;
+
 }
 
 
