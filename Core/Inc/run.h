@@ -70,7 +70,7 @@ typedef struct __RUN_T{
 	uint8_t motor_return_homePosition;
     uint8_t error_times;
 	uint8_t panel_lock;
-	uint8_t lock_fail;
+	
 	uint8_t inputDeepSleep_times;
 	uint8_t clearEeprom;
     

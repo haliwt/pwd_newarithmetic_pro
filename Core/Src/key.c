@@ -205,10 +205,7 @@ void  SideKey_Fun(uint8_t keyvalue)
 		run_t.backlight_label =BACKLIGHT_ON; //WT.EDIT .2022.10.06
 
        	run_t.inputNewPasswordTimes =0;
-		run_t.password_unlock=0;
-		run_t.lock_fail =0;
-         
-		run_t.confirm_button_flag=confirm_button_donot_pressed;
+        run_t.confirm_button_flag=confirm_button_donot_pressed;
 
 		run_t.panel_lock =0;
 	
@@ -312,7 +309,7 @@ void RunCheck_Mode(uint16_t dat)
 			//run_t.buzzer_flag =1;
 			run_t.buzzer_sound_tag = key_sound;
             //panel lock ref 
-			run_t.lock_fail=0;//WT.EDIT 2022.09.13
+
 			run_t.gTimer_8s=0;  //LED turn on holde times
 
 			POWER_ON();
@@ -361,7 +358,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.password_unlock=UNLOCK_NULL;
 						run_t.confirm_button_flag=confirm_button_donot_pressed;
 
-						run_t.lock_fail=0;
+				
 						run_t.led_ok_flag = ok_led_on;
 						run_t.backlight_label =BACKLIGHT_OFF;
 
@@ -442,7 +439,7 @@ void RunCheck_Mode(uint16_t dat)
                 run_t.input_digital_key_number_counter=0;
                 run_t.confirm_button_flag = confirm_button_donot_pressed;
                 run_t.error_times ++ ;
-                run_t.lock_fail=1;
+           
                // run_t.fail_sound_flag=1;
 			     run_t.buzzer_sound_tag = fail_sound;
 			

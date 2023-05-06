@@ -117,7 +117,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 				run_t.led_ok_flag=1;
 				run_t.led_error_flag =0;
 			
-				run_t.lock_fail=0;
+		
 				ERR_LED_OFF();
 				OK_LED_ON();
 

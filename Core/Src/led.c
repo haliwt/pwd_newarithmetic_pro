@@ -80,7 +80,7 @@ static void ClearEEPROM_Data_Fun(void)
 			
 		Panle_InputTimesError_LED_Off();
 
-		run_t.lock_fail=0;
+
 		run_t.backlight_label =BACKLIGHT_ON;
 		ERR_LED_ON(); //WT.EDIT 202209.28
 
@@ -218,7 +218,7 @@ void BackLight_Control_Handler(void)
 
         case BACKLIGHT_OK_BLINK:
          cnt0 ++ ;
-		 run_t.lock_fail=0;
+	
 	 
 	     run_t.gTimer_8s=10; //WT.EDIT 2022.10.14
 	   
@@ -297,7 +297,7 @@ void BackLight_Control_Handler(void)
 		  	cntrecoder =0;
 		 
 		    
-			  run_t.lock_fail=0;
+			
 			
 
 			  ERR_LED_OFF();

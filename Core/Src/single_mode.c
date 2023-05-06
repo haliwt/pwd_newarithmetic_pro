@@ -134,7 +134,7 @@ static void UnLock_Aand_SaveData_Handler(void)
 	
 
 		//led control led
-		run_t.lock_fail =1;   //input new password is error
+	
 		run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
 
 		run_t.new_pwd_save_data_tag=UNLOCK_NULL;
