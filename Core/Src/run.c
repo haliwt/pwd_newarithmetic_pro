@@ -164,7 +164,8 @@ void SavePassword_To_EEPROM(void)
 				//clear data reference 
 				run_t.Confirm_newPassword =0;
 				run_t.inputNewPassword_Enable =0; 
-			     run_t.inputNewPasswordTimes = 0;
+			    run_t.inputNewPasswordTimes = 0;
+				run_t.input_digital_key_number_counter =0 ;
 				
 			    run_t.buzzer_sound_tag = confirm_sound;
 				run_t.clear_inputNumbers_newpassword=0;
@@ -195,6 +196,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.inputNewPasswordTimes =0;
 				run_t.Confirm_newPassword =0; 
 			    run_t.inputNewPassword_Enable =0; 
+				run_t.input_digital_key_number_counter =0 ;
 
 				run_t.password_unlock=UNLOCK_NULL;
 				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
@@ -477,13 +479,11 @@ static void Read_Administrator_Password(void)
 
 					}
 					else{ // pass word compare is error 
-						run_t.password_unlock = UNLOCK_FAIL;
-						 run_t.gTimer_8s =0;//
-						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
-						 
-						 return ;
+					     run_t.gTimer_8s =0;
+						 run_t.keyPressed_flag=1;
+						
                         
-                   }
+                   	}
 						
 		   	}
           
@@ -533,7 +533,8 @@ static void Read_Administrator_Password(void)
 				 
 		}
       }
-
+	
+	  run_t.password_unlock = UNLOCK_FAIL;
 }
 /****************************************************************************
 *

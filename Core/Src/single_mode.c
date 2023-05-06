@@ -105,8 +105,6 @@ static void UnLock_Aand_SaveData_Handler(void)
 
 
 	case NEW_PWD_SAVE_DATA_TO_EEPROM: //SaveData to EEPROM //new password for the first input 
-        run_t.confirm_button_flag=confirm_button_donot_pressed  ;
-	    run_t.new_pwd_save_data_tag =UNLOCK_NULL;
 
 	   Save_To_EeepromNewPwd();
     break;

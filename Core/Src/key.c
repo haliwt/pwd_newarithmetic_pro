@@ -199,12 +199,13 @@ void  SideKey_Fun(uint8_t keyvalue)
 		run_t.Confirm_newPassword = 1; //set up new passwords of flag:1->enable ,0->disable
 		run_t.inputDeepSleep_times =0;
 		run_t.inputNewPassword_Enable =0;
+		run_t.input_digital_key_number_counter =0 ;
 		run_t.gTimer_8s=0;
-		//run_t.buzzer_flag =1;//WT.EDIT 2022.10.06
-		run_t.buzzer_sound_tag = key_sound;
-		run_t.backlight_label =BACKLIGHT_ON; //WT.EDIT .2022.10.06
 
-       	run_t.inputNewPasswordTimes =0;
+		run_t.buzzer_sound_tag = key_sound;
+		run_t.backlight_label =BACKLIGHT_ON; 
+
+   
         run_t.confirm_button_flag=confirm_button_donot_pressed;
 
 		run_t.panel_lock =0;
@@ -486,7 +487,7 @@ void RunCheck_Mode(uint16_t dat)
 						 //   run_t.buzzer_two_short = 2;
 						run_t.buzzer_sound_tag = two_short_two_sound;
                         run_t.input_digital_key_number_counter=0;
-						//run_t.input_digital_key_number_counter =0 ;
+						run_t.input_digital_key_number_counter =0 ;
 		
 						run_t.confirm_button_flag=confirm_button_unlock;
 					    run_t.new_pwd_save_data_tag = NEW_PWD_SAVE_DATA_TO_EEPROM;
