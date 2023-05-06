@@ -464,11 +464,11 @@ void RunCheck_Mode(uint16_t dat)
 
 						case 1:
 						
-						 //Confirm Key "#"
-						    run_t.input_digital_key_number_counter =0 ;
-							//run_t.buzzer_two_short = 2;
-							run_t.buzzer_sound_tag = two_short_two_sound;
-                            run_t.input_digital_key_number_counter=0;
+						//Confirm Key "#"
+						run_t.input_digital_key_number_counter =0 ;
+						//run_t.buzzer_two_short = 2;
+						run_t.buzzer_sound_tag = two_short_two_sound;
+                        run_t.input_digital_key_number_counter=0;
 						
 					
 						//run_t.confirm_button_flag = confirm_button_pressed; //run next step process
@@ -485,9 +485,9 @@ void RunCheck_Mode(uint16_t dat)
 						//Confirm Key "#"
 						 //  run_t.buzzer_flag =0; 
 						 //   run_t.buzzer_two_short = 2;
-						run_t.buzzer_sound_tag = two_short_two_sound;
+						//run_t.buzzer_sound_tag = two_short_two_sound;
                         run_t.input_digital_key_number_counter=0;
-						run_t.input_digital_key_number_counter =0 ;
+				
 		
 						run_t.confirm_button_flag=confirm_button_unlock;
 					    run_t.new_pwd_save_data_tag = NEW_PWD_SAVE_DATA_TO_EEPROM;
@@ -503,8 +503,7 @@ void RunCheck_Mode(uint16_t dat)
 						
 			    }
 				else if(run_t.motor_doing_flag==motor_null){ // return home position
-						//run_t.buzzer_flag =1; 
-						//run_t.buzzer_sound_tag= key_sound;->run process result select buzzer sound
+					    //sound by run process adjust
 						run_t.inputNewPasswordTimes=0; 
 					   // run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
 						run_t.inputDeepSleep_times =0;
@@ -513,8 +512,7 @@ void RunCheck_Mode(uint16_t dat)
 				}
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
 						run_t.input_digital_key_number_counter=0;
-				       // run_t.buzzer_flag =1; 
-					   //	run_t.buzzer_sound_tag= key_sound;
+				       //sound by run process adjust
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
 					   run_t.eepromAddress=0;
