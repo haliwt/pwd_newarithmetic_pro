@@ -171,16 +171,11 @@ void SavePassword_To_EEPROM(void)
 				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
 		      
-		        
-	      
-
-				//led control
+		      
+	             //led control
 				run_t.gTimer_8s=10;
 			
-				//backlight ctl
-				OK_LED_ON(); //WT.EDIT 2022.10.28
-				ERR_LED_OFF();
-				BACKLIGHT_OFF();
+			
 				run_t.backlight_label = BACKLIGHT_OK_BLINK;
 				
 				return ;
@@ -208,12 +203,7 @@ void SavePassword_To_EEPROM(void)
 		
 				run_t.clear_inputNumbers_newpassword=0;
 
-				
-				
-				OK_LED_OFF(); //WT.EDIT 2022.10.28
-				ERR_LED_ON();
-				
-				//led control led
+	
 				run_t.gTimer_8s=3;//WT.EDIT 2023.02.11
 			
 				run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
