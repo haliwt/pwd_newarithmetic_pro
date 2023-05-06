@@ -125,8 +125,9 @@ int main(void)
 	   	}
        CheckPassword_Lock_Handler();
 	   RunMotor_Definite_Handler(); //definite motor
+	   Buzzer_Sound_Handler();
        BackLight_Control_Handler();
-
+	  
     
     }
   /* USER CODE END 3 */

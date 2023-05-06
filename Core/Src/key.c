@@ -178,7 +178,8 @@ void  SideKey_Fun(uint8_t keyvalue)
 		run_t.inputDeepSleep_times =0;
 		run_t.inputNewPassword_Enable =0;
 		run_t.gTimer_8s=0;
-		run_t.buzzer_flag =1;//WT.EDIT 2022.10.06
+		//run_t.buzzer_flag =1;//WT.EDIT 2022.10.06
+		run_t.buzzer_sound_tag = key_sound;
 		run_t.backlight_label =BACKLIGHT_ON; //WT.EDIT .2022.10.06
 
        	run_t.inputNewPasswordTimes =0;
@@ -286,7 +287,8 @@ void RunCheck_Mode(uint16_t dat)
             //backlight
 			run_t.backlight_label =BACKLIGHT_ON;
 			//sound buzzer
-			run_t.buzzer_flag =1;
+			//run_t.buzzer_flag =1;
+			run_t.buzzer_sound_tag = key_sound;
             //panel lock ref 
 			run_t.lock_fail=0;//WT.EDIT 2022.09.13
 			run_t.gTimer_8s=0;  //LED turn on holde times
@@ -326,7 +328,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.Confirm_newPassword=0;  //Clear set up input new password KEY
 						run_t.inputNewPasswordTimes =0;
 
-						run_t.buzzer_flag =1;
+						//run_t.buzzer_flag =1;
 					
 
 						run_t.keyPressed_flag =0;
@@ -394,11 +396,13 @@ void RunCheck_Mode(uint16_t dat)
 		   
          
 			if(run_t.Confirm_newPassword ==0){
-				run_t.buzzer_flag =1; 
+				//run_t.buzzer_flag =1; 
+				run_t.buzzer_sound_tag =key_sound;
 				
             }
 			else if(run_t.inputNewPasswordTimes ==0){
-				run_t.buzzer_two_short = 1;
+				//run_t.buzzer_two_short = 1;
+				run_t.buzzer_sound_tag =two_short_one_sound;
 			}
 			run_t.gTimer_8s=0;
 			POWER_ON();
@@ -417,8 +421,9 @@ void RunCheck_Mode(uint16_t dat)
                 run_t.confirm_button_flag = confirm_button_donot_pressed;
                 run_t.error_times ++ ;
                 run_t.lock_fail=1;
-                run_t.fail_sound_flag=1;
-				run_t.buzzer_flag =0;
+               // run_t.fail_sound_flag=1;
+			     run_t.buzzer_sound_tag = fail_sound;
+			
 				run_t.inputNewPassword_Enable=0;
 				
                 if(run_t.error_times > 4 ){ //OVER 5 error  times auto lock touchkey 60 s
@@ -440,8 +445,9 @@ void RunCheck_Mode(uint16_t dat)
 						case 1:
 						
 						 //Confirm Key "#"
-						    run_t.buzzer_flag =0; 
-							run_t.buzzer_two_short = 2;
+						
+							//run_t.buzzer_two_short = 2;
+							run_t.buzzer_sound_tag = two_short_two_sound;
                             run_t.input_digital_key_number_counter=0;
 						
 					
@@ -457,8 +463,9 @@ void RunCheck_Mode(uint16_t dat)
 
 						case 2:
 						//Confirm Key "#"
-						   run_t.buzzer_flag =0; 
-						    run_t.buzzer_two_short = 2;
+						 //  run_t.buzzer_flag =0; 
+						 //   run_t.buzzer_two_short = 2;
+						run_t.buzzer_sound_tag = two_short_two_sound;
                             run_t.input_digital_key_number_counter=0;
 						
 		
@@ -476,8 +483,8 @@ void RunCheck_Mode(uint16_t dat)
 						
 			    }
 				else if(run_t.motor_doing_flag==motor_null){ // return home position
-						run_t.buzzer_flag =1; 
-						
+						//run_t.buzzer_flag =1; 
+						run_t.buzzer_sound_tag= key_sound;
 						run_t.inputNewPasswordTimes=0; 
 					    run_t.input_digital_key_number_counter=0;
 						run_t.inputDeepSleep_times =0;
@@ -486,8 +493,8 @@ void RunCheck_Mode(uint16_t dat)
 				}
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
 						run_t.input_digital_key_number_counter=0;
-				        run_t.buzzer_flag =1; 
-					  // run_t.confirm_button_flag=1;
+				       // run_t.buzzer_flag =1; 
+					   	run_t.buzzer_sound_tag= key_sound;
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
 					   run_t.eepromAddress=0;
@@ -594,7 +601,8 @@ void RunCheck_Mode(uint16_t dat)
 		run_t.backlight_label =BACKLIGHT_ON;
 	
 		run_t.input_digital_key_number_counter ++ ;
-		run_t.buzzer_flag =1;
+		//run_t.buzzer_flag =1;
+		run_t.buzzer_sound_tag = key_sound;
 
 		run_t.gTimer_8s=0;
 
@@ -605,8 +613,8 @@ void RunCheck_Mode(uint16_t dat)
 
 			
 			run_t.gTimer_8s=0;
-			run_t.fail_sound_flag =1;
-	
+			//run_t.fail_sound_flag =1;
+	        run_t.buzzer_sound_tag = fail_sound;
 		
 			run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
 			run_t.confirm_button_flag=confirm_button_unlock;

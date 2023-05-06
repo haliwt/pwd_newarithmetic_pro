@@ -66,8 +66,9 @@ static void ClearEEPROM_Data_Fun(void)
 			
 			run_t.clearEeeprom_done = 1;
 			run_t.inputDeepSleep_times =0;//WT.EDIT 2022.10.26
-			run_t.buzzer_longsound_flag =1 ;
-			run_t.fail_sound_flag =0;
+			//run_t.buzzer_longsound_flag =1 ;
+			run_t.buzzer_sound_tag = confirm_sound;
+		
 			run_t. clearEeeprom_count=0;
 			//back light led control
 			
@@ -148,7 +149,7 @@ void BackLight_Control_Handler(void)
 	static uint16_t cnt,cnt0;
 	//back light turn on or turn off function
 
-	 Buzzer_Sound_Handler();
+	 
 
 	  switch(run_t.backlight_label){
    

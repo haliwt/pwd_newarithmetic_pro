@@ -11,6 +11,21 @@
 #define BUZZER_OFF()     HAL_GPIO_WritePin(BEEP_GPIO_Port , BEEP_GPIO_Pin , GPIO_PIN_RESET)
 #define BUZZER_ON()      HAL_GPIO_WritePin(BEEP_GPIO_Port , BEEP_GPIO_Pin , GPIO_PIN_SET)
 
+
+typedef enum {
+   
+   key_sound =0x01,
+   two_short_one_sound,
+   two_short_two_sound,
+   high_sound,
+   clear_eeprom_sound,
+   confirm_sound,
+   fail_sound,
+   buzzer_sound_null
+
+
+}buzzer_sound_state;
+
 void BUZZER_KeySound(void);
 
 

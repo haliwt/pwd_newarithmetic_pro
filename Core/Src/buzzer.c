@@ -3,8 +3,8 @@
 #include "run.h"
 #include "delay.h"
 #define CPU_FREQUENCY_MHZ 24 // STM32时钟主频
-static void Buzzer_RunSound(void);
-static void  Buzzer_InputNewPassword_two_short(void);
+
+
 static void Fail_Buzzer_Sound(void);
 
 /*****************************************************************
@@ -135,39 +135,7 @@ void Buzzer_High_Sound_2(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
-static void Buzzer_RunSound(void)
-{
 
-	 if(run_t.clearEeeprom_done == 1){
-		  	run_t.clearEeeprom_done = 0;
-
-			Buzzer_LongSound(); //WT.EDIT 2022.10.05
-		}
-  
-  
-  
-   if(run_t.buzzer_longsound_flag ==1 && run_t.fail_sound_flag ==0){
-		   run_t.buzzer_longsound_flag =0;
-		   run_t.buzzer_flag =0;
-		   Buzzer_LongSound();
-		  
-	      
-	 }
-    else{
-
-
-	 if(run_t.fail_sound_flag ==1){
-	 	  run_t.fail_sound_flag=0; //WT.EDIT 2022.10.06
-		   Fail_Buzzer_Sound();
-	       run_t.buzzer_flag=0;//WT.EDIT 2022.10.19
-		}
-		else if(run_t.buzzer_flag ==1){
-			run_t.buzzer_flag =0;//WT.EDIT 2022.10.06
-		    BUZZER_KeySound();
-		}
-
-     }	
-}
 
 static void Fail_Buzzer_Sound(void)
 {
@@ -185,61 +153,92 @@ static void Fail_Buzzer_Sound(void)
 }
 /****************************************************************************
 *
-*Function Name:void  Buzzer_InputNewPassword_two_short(void)
+*Function Name:void Buzzer_Sound_Handler(void)
 *Function : run is main 
 *Input Ref: NO
 *Retrun Ref:NO
 *
 ****************************************************************************/
-static void  Buzzer_InputNewPassword_two_short(void)
-{
-
-     if(run_t.fail_sound_flag==0){//WT.EDIT 2022.10.06
-	 	
-      if(run_t.buzzer_two_short ==1){
-	  	  
-          run_t.buzzer_two_short =0;
-		   run_t.inputDeepSleep_times =0; //WT.EDIT 2022.10.26
-		   run_t.gTimer_8s=0;
-          Buzzer_High_Sound();
-	      run_t.buzzer_flag =0;
-		
-		 }
-
-
-      if(run_t.buzzer_two_short ==2){
-          run_t.buzzer_two_short =0;
-		        run_t.inputDeepSleep_times =0;//WT.EDIT 2022.10.26
-                run_t.gTimer_8s=0;
-                BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.09.13
-				HAL_Delay(50);
-				BUZZER_KeySound();
-				run_t.buzzer_flag =0;
-		
-			
-
-        }
-	  
-     }
-
-	 if(run_t.buzzer_highsound_flag==1){
-	     run_t.buzzer_highsound_flag=0;
-          Buzzer_High_Sound();
-          HAL_Delay(50);
-	      Buzzer_High_Sound_2();
-	 
-
-
-	 }
-
-}
-
 void Buzzer_Sound_Handler(void)
 {
 
-     Buzzer_RunSound();
+     static uint8_t sound_continuce;
+    switch(run_t.buzzer_sound_tag){
 
-     Buzzer_InputNewPassword_two_short();
+	   case key_sound:
+	   	    if(sound_continuce==0){
+                sound_continuce++;
+                BUZZER_KeySound();
+              
+                
+            }
+	        run_t.buzzer_sound_tag = buzzer_sound_null;
+
+	  break;
+
+	  case two_short_one_sound: //run_t.buzzer_two_short ==1
+	 	   if(sound_continuce==0){
+			sound_continuce++;
+            Buzzer_High_Sound();
+	 	   	}
+	        run_t.buzzer_sound_tag = buzzer_sound_null;
+       break;
+
+	   case two_short_two_sound://run_t.buzzer_two_short ==2
+          if(sound_continuce==0){
+				sound_continuce++;
+	          BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.09.13
+			  HAL_Delay(50);
+			  BUZZER_KeySound();
+          	}
+		 run_t.buzzer_sound_tag = buzzer_sound_null;
+			
+
+	  break;
+	  
+
+	  case high_sound://run_t.buzzer_highsound_flag==1
+		if(sound_continuce==0){
+			sound_continuce++;
+         Buzzer_High_Sound();
+	     HAL_Delay(50);
+		 Buzzer_High_Sound_2();
+			}
+		 run_t.buzzer_sound_tag = buzzer_sound_null;
+	 break;
+
+
+     case  clear_eeprom_sound: //run_t.clearEeeprom_done == 1
+		if(sound_continuce==0){
+			sound_continuce++;
+		Buzzer_LongSound(); //WT.EDIT 2022.10.05
+			}
+  		run_t.buzzer_sound_tag = buzzer_sound_null;
+     break;
+
+	 case confirm_sound://run_t.buzzer_longsound_flag ==1
+	 
+  		Buzzer_LongSound();
+	 	
+		  run_t.buzzer_sound_tag = buzzer_sound_null;
+     break;
+
+	 case fail_sound://run_t.fail_sound_flag ==1)
+      
+	        Fail_Buzzer_Sound();
+		   
+     
+		run_t.buzzer_sound_tag = buzzer_sound_null;
+	 break;
+
+	 case buzzer_sound_null:
+       sound_continuce=0;
+	 	   BUZZER_OFF() ;
+
+	 break;
+
+
+	}
 
 
 

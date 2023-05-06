@@ -76,8 +76,7 @@ typedef struct __RUN_T{
     
     uint8_t eepromAddress;
     uint8_t ADC_times;
-	
-	uint8_t fail_sound_flag;
+
 
 
 
@@ -93,10 +92,9 @@ typedef struct __RUN_T{
 
 	
 	//buzzer sound
-	uint8_t  buzzer_flag;
-	uint8_t buzzer_two_short;
-    uint8_t buzzer_longsound_flag;
-	uint8_t buzzer_highsound_flag;
+	
+
+	uint8_t buzzer_sound_tag;
 
 	//new password
     uint8_t new_pwd_save_data_tag;

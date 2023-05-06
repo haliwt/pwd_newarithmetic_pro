@@ -29,7 +29,8 @@ void Start_PowerOn_Handler(void)
 				  run_t.factory_test = 1;
 			
 				  run_t.gTimer_input_error_times_60s =0;
-				  run_t.buzzer_flag =1;
+				 // run_t.buzzer_flag =1;
+                  run_t.buzzer_sound_tag = key_sound;
 				  POWER_ON();
 				  run_t.backlight_label  = BACKLIGHT_FACTORY_LED;
 	  
@@ -80,7 +81,7 @@ void CheckPassword_Lock_Handler(void)
 		      run_t.gTimer_8s=0;
 	          RunCommand_Unlock();
 	    }
-	   //break;
+	   break;
 
 	   case confirm_button_unlock:
 	   	
@@ -88,8 +89,7 @@ void CheckPassword_Lock_Handler(void)
 
 	   break;
 	}
-	//open lock and save new password
-	//UnLock_Aand_SaveData_Handler();
+	
 }
 
 /**************************************************************************
@@ -123,9 +123,10 @@ static void UnLock_Aand_SaveData_Handler(void)
 		
 		
 		run_t.confirm_button_flag =confirm_button_donot_pressed ;
-		run_t.buzzer_flag =0;
+		
 
-		run_t.fail_sound_flag=1; 
+		//run_t.fail_sound_flag=1; 
+         run_t.buzzer_sound_tag = fail_sound;
 	
 		run_t.clear_inputNumbers_newpassword=0;
 

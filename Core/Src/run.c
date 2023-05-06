@@ -117,8 +117,9 @@ void SavePassword_To_EEPROM(void)
 				//key ref
 				
 				//buzzer ref
-				run_t.buzzer_flag =0;//WT.EDIT 2022.10.06	
-				run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06
+		
+				//run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06
+				run_t.buzzer_sound_tag = fail_sound;
 				//eeprom ref	
 		 
 		        run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
@@ -158,9 +159,9 @@ void SavePassword_To_EEPROM(void)
 		
 			    //clear data reference 
 				run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
-				run_t.buzzer_flag =0; //WT.EDIT 2022.10.05
-				run_t.buzzer_longsound_flag =1;//WT.EDIT 2022.10.28
 			
+				//run_t.buzzer_longsound_flag =1;//WT.EDIT 2022.10.28
+			    run_t.buzzer_sound_tag = confirm_sound;
 				run_t.clear_inputNumbers_newpassword=0;
 		        run_t.inputNewPassword_Enable =0; 
 		        run_t.inputNewPasswordTimes = 0;
@@ -190,12 +191,13 @@ void SavePassword_To_EEPROM(void)
 				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
                  
-         		run_t.buzzer_flag =0;
-				run_t.fail_sound_flag=1; 
-				run_t.buzzer_longsound_flag =0;
+      
+				//run_t.fail_sound_flag=1;
+				run_t.buzzer_sound_tag = fail_sound;
+				//run_t.buzzer_longsound_flag =0;
 			
 				run_t.inputDeepSleep_times =0;
-				run_t.buzzer_two_short = 0;
+		
 				run_t.clear_inputNumbers_newpassword=0;
 
 				
@@ -280,9 +282,10 @@ void RunCommand_Unlock(void)
         run_t.Confirm_newPassword =0;
 	    run_t.inputNewPassword_Enable =0;
 		//buzzer sound 
-	    run_t.fail_sound_flag=1;
-		run_t.buzzer_flag =0; //WT.EDIT 2022.10.19
-		run_t.buzzer_two_short=0;//WT.EDIT 2022.10.19
+	    //run_t.fail_sound_flag=1;
+		//run_t.buzzer_flag =0; //WT.EDIT 2022.10.19
+		//run_t.buzzer_two_short=0;//WT.EDIT 2022.10.19
+		run_t.buzzer_sound_tag = fail_sound;
 		
 	    for(i=0;i<6;i++){
 	  	   pwd1[i]=0;
@@ -312,8 +315,9 @@ void RunCommand_Unlock(void)
 			run_t.eepromAddress=0;
 			run_t.confirm_button_flag = 0;
 			
-			run_t.buzzer_flag =0; 
-			run_t.buzzer_highsound_flag =1; //WT.EDIT 2022.10.28
+
+			//run_t.buzzer_highsound_flag =1; //WT.EDIT 2022.10.28
+			run_t.buzzer_sound_tag = high_sound;
 			run_t.inputDeepSleep_times =0;
 			run_t.error_times=0;
 			run_t.lock_fail=0;
@@ -324,7 +328,8 @@ void RunCommand_Unlock(void)
 		    run_t.gTimer_8s = 7;
 		    run_t.led_ok_flag = ok_led_on;
 			run_t.backlight_label = BACKLIGHT_AT_ONCE_OFF;
-		    
+			//buzzzer sound
+			
 		
 		
 		break;
@@ -338,7 +343,7 @@ void RunCommand_Unlock(void)
 		        OK_LED_ON();
 				run_t.led_ok_flag =1;
 				run_t.led_error_flag=0;
-				run_t.buzzer_flag=0;
+			
 				run_t.oneself_copy_behavior=0;
 				run_t.password_unlock = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
@@ -352,8 +357,9 @@ void RunCommand_Unlock(void)
 				  	}
                run_t.keyPressed_flag=0; //WT.EDIT 2023.
               // Buzzer_LongSound(); //
-			  run_t.buzzer_longsound_flag =1 ;
-			  run_t.fail_sound_flag ==0;
+			 // run_t.buzzer_longsound_flag =1 ;
+			 // run_t.fail_sound_flag ==0;
+			    run_t.buzzer_sound_tag = confirm_sound;
 		   }
            else{
                run_t.motor_doing_flag=1;
