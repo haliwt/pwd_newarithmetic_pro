@@ -87,8 +87,6 @@ typedef struct __RUN_T{
 	uint8_t motor_doing_flag;
 
     
-    
-	uint8_t BackLight;
 	uint8_t clear_virtual_numbers;
 
 	

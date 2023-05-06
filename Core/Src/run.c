@@ -131,9 +131,6 @@ void SavePassword_To_EEPROM(void)
 				run_t.buzzer_sound_tag = fail_sound;
 				//eeprom ref	
 		 
-		        run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
-		      
-		     
 		        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 				run_t.keyPressed_flag =0; //WT.EDIT 2023.02.13
 

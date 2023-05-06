@@ -305,13 +305,11 @@ void RunCheck_Mode(uint16_t dat)
 			run_t.keyPressed_flag =1; // has a input key be pressing 
 			key=0;
             //backlight
+            OK_LED_OFF();
+			ERR_LED_OFF();
 			run_t.backlight_label =BACKLIGHT_ON;
-			//sound buzzer
-			//run_t.buzzer_flag =1;
 			run_t.buzzer_sound_tag = key_sound;
-            //panel lock ref 
-
-			run_t.gTimer_8s=0;  //LED turn on holde times
+            run_t.gTimer_8s=0;  //LED turn on holde times
 
 			POWER_ON();
             switch(run_t.inputNewPassword_Enable){
@@ -331,22 +329,21 @@ void RunCheck_Mode(uint16_t dat)
 						}
 						run_t.inputNewPasswordTimes =0; 
                     
-					
-						//other ref
+					   //other ref
 						run_t.gTimer_8s=0;
 						run_t.confirm_button_flag=confirm_button_donot_pressed;//confirm_button_unlock;
-						run_t.inputNewPwd_OK_led_blank_times=0;
 
 				
 				break;
 
-				   case 2: 
+				   case 2:  //continue input "two" times -> exit input new password 
 					    //the second times cancel input new password action.
 
 						run_t.clear_inputNumbers_newpassword=0;
 						run_t.inputNewPassword_Enable=0; //cancel input input new password disable
 						run_t.Confirm_newPassword=0;  //Clear set up input new password KEY
 						run_t.inputNewPasswordTimes =0;
+						
 
 						//run_t.buzzer_flag =1;
 					
@@ -359,14 +356,10 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.password_unlock=UNLOCK_NULL;
 						run_t.confirm_button_flag=confirm_button_donot_pressed;
 
-				
-						run_t.led_ok_flag = ok_led_on;
-						run_t.backlight_label =BACKLIGHT_OFF;
+						run_t.backlight_label = BACKLIGHT_OFF;
 
-						/****************/
-						OK_LED_OFF();
-						ERR_LED_OFF();
-					
+						run_t.inputNewPassword_Enable=0;
+
 						for(i=0;i<6;i++){
 							pwd2[i]=0;
 							pwd1[i]=0;
@@ -458,47 +451,43 @@ void RunCheck_Mode(uint16_t dat)
 		   else{ //input key equal to 4 or bigger than  4
 				if(run_t.inputNewPassword_Enable ==1){ //prepare input newpassword .WT.EDI 2022.10.13//if( run_t.Confirm_newPassword ==1){
 
-			            run_t.inputNewPasswordTimes ++ ;  //recoder times
-			             run_t.gTimer_8s=0;
-				        switch(run_t.inputNewPasswordTimes){
+		            run_t.inputNewPasswordTimes ++ ;  //recoder times
+		            run_t.gTimer_8s=0;
+			        switch(run_t.inputNewPasswordTimes){
 
-						case 1:
-						
-						//Confirm Key "#"
-						run_t.input_digital_key_number_counter =0 ;
-						//run_t.buzzer_two_short = 2;
-						run_t.buzzer_sound_tag = two_short_two_sound;
-                        run_t.input_digital_key_number_counter=0;
-						
+					case 1:
 					
-						//run_t.confirm_button_flag = confirm_button_pressed; //run next step process
-						
-					    run_t.confirm_button_flag=confirm_button_donot_pressed;
-						run_t.inputDeepSleep_times =0;
-						run_t.gTimer_8s=0;
-						run_t.inputNewPwd_OK_led_blank_times=0;
-						run_t.backlight_label =BACKLIGHT_OK_BLINK;
-						
-						break;
+					//Confirm Key "#"
+					run_t.input_digital_key_number_counter =0 ;
+					//run_t.buzzer_two_short = 2;
+					run_t.buzzer_sound_tag = two_short_two_sound;
+                    run_t.input_digital_key_number_counter=0;
+					run_t.confirm_button_flag=confirm_button_donot_pressed;
+					run_t.inputDeepSleep_times =0;
+					run_t.gTimer_8s=0;
+					run_t.inputNewPwd_OK_led_blank_times=0;
+					run_t.backlight_label =BACKLIGHT_OK_BLINK;
+					
+					break;
 
-						case 2:
-						//Confirm Key "#"
-						 //  run_t.buzzer_flag =0; 
-						 //   run_t.buzzer_two_short = 2;
-						//run_t.buzzer_sound_tag = two_short_two_sound;
-                        run_t.input_digital_key_number_counter=0;
-				
-		
-						run_t.confirm_button_flag=confirm_button_unlock;
-					    run_t.new_pwd_save_data_tag = NEW_PWD_SAVE_DATA_TO_EEPROM;
-						run_t.inputDeepSleep_times =0;
-						run_t.gTimer_8s=0;
-						run_t.inputNewPwd_OK_led_blank_times=0;
-						run_t.backlight_label =BACKLIGHT_OK_BLINK;
+					case 2:
+					//Confirm Key "#"
+					 //  run_t.buzzer_flag =0; 
+					 //   run_t.buzzer_two_short = 2;
+					//run_t.buzzer_sound_tag = two_short_two_sound;
+                    run_t.input_digital_key_number_counter=0;
+			
+	
+					run_t.confirm_button_flag=confirm_button_unlock;
+				    run_t.new_pwd_save_data_tag = NEW_PWD_SAVE_DATA_TO_EEPROM;
+					run_t.inputDeepSleep_times =0;
+					run_t.gTimer_8s=0;
+					run_t.inputNewPwd_OK_led_blank_times=0;
+					run_t.backlight_label =BACKLIGHT_OK_BLINK;
 
 
-						break;
-				        }
+					break;
+			        }
 					
 						
 			    }
@@ -515,7 +504,6 @@ void RunCheck_Mode(uint16_t dat)
 				       //sound by run process adjust
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
-					   run_t.eepromAddress=0;
 					   run_t.confirm_button_flag = confirm_button_pressed; //run next step process
 
 				 }

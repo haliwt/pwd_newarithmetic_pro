@@ -200,27 +200,9 @@ void BackLight_Control_Handler(void)
 		
           break;
 
-		case BACKLIGHT_AT_ONCE_OFF://2
-          if(run_t.keyPressed_flag ==1){
-				BACKLIGHT_ON();
-              
-				run_t.gTimer_8s=0;
-                run_t.backlight_label = BACKLIGHT_ON;
-		  }
-		  else{
-			 if(run_t.gTimer_8s > 8){
-            	BACKLIGHT_OFF();
-				Panel_LED_Off();
-            	run_t.backlight_label =BACKLIGHT_INPUT_STOP_MODEL;
-			 }
-		   }
-		break;
-
-        case BACKLIGHT_OK_BLINK:
+		case BACKLIGHT_OK_BLINK:
          cnt0 ++ ;
-	
-	 
-	     run_t.gTimer_8s=10; //WT.EDIT 2022.10.14
+			run_t.gTimer_8s=10; //WT.EDIT 2022.10.14
 	   
 		  if(cnt0 < 501 ){
 	
@@ -268,6 +250,22 @@ void BackLight_Control_Handler(void)
 
 		
 		 break;
+
+		case BACKLIGHT_AT_ONCE_OFF://2
+          if(run_t.keyPressed_flag ==1){
+				BACKLIGHT_ON();
+              
+				run_t.gTimer_8s=0;
+                run_t.backlight_label = BACKLIGHT_ON;
+		  }
+		  else{
+			 if(run_t.gTimer_8s > 8){
+            	BACKLIGHT_OFF();
+				Panel_LED_Off();
+            	run_t.backlight_label =BACKLIGHT_INPUT_STOP_MODEL;
+			 }
+		   }
+		break;
 
 		case BACKLIGHT_ERROR_BLINK:
 		   cnt ++ ;
@@ -344,7 +342,7 @@ void BackLight_Control_Handler(void)
 			//clear new password flag
 			run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
 			run_t.input_digital_key_number_counter =0;
-			run_t.clear_inputNumbers_newpassword=0;//WT.EDIT 2022.10.14
+			run_t.clear_inputNumbers_newpassword=0;
 			
 			//wake up touch key
 		
