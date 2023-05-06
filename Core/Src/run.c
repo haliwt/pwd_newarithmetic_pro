@@ -126,10 +126,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
 				run_t.inputNewPasswordTimes =0;
 				
-				//key ref
-				
-				//buzzer ref
-		
+
 				//run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06
 				run_t.buzzer_sound_tag = fail_sound;
 				//eeprom ref	
@@ -164,19 +161,19 @@ void SavePassword_To_EEPROM(void)
 				 HAL_Delay(5);
 			 
 	           
-
-	    		run_t.inputNewPasswordTimes =0;
-		
+				//clear data reference 
+				run_t.Confirm_newPassword =0;
+				run_t.inputNewPassword_Enable =0; 
+			     run_t.inputNewPasswordTimes = 0;
 				
-		
-			    //clear data reference 
-				run_t.Confirm_newPassword =0;//WT.EIDT 2022.09.12
-			
-				//run_t.buzzer_longsound_flag =1;//WT.EDIT 2022.10.28
 			    run_t.buzzer_sound_tag = confirm_sound;
 				run_t.clear_inputNumbers_newpassword=0;
-		        run_t.inputNewPassword_Enable =0; 
-		        run_t.inputNewPasswordTimes = 0;
+
+				run_t.password_unlock=UNLOCK_NULL;
+				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
+				run_t.confirm_button_flag=confirm_button_donot_pressed;
+		      
+		        
 	      
 
 				//led control
@@ -226,12 +223,8 @@ void SavePassword_To_EEPROM(void)
               
 		}
 		
-    	}
+    }
 		
-		
-	
-
-
 }
 
 
@@ -265,7 +258,6 @@ void RunCommand_Unlock(void)
 	   
 	    run_t.password_unlock=UNLOCK_NULL;
 	    run_t.confirm_button_flag=confirm_button_donot_pressed;
-
 		run_t.Confirm_newPassword=0;
 		
         run_t.gTimer_8s=0;
@@ -295,10 +287,6 @@ void RunCommand_Unlock(void)
 		//new input pwd ref
         run_t.Confirm_newPassword =0;
 	    run_t.inputNewPassword_Enable =0;
-		//buzzer sound 
-	    //run_t.fail_sound_flag=1;
-		//run_t.buzzer_flag =0; //WT.EDIT 2022.10.19
-		//run_t.buzzer_two_short=0;//WT.EDIT 2022.10.19
 		run_t.buzzer_sound_tag = fail_sound;
 		
 	    for(i=0;i<6;i++){
@@ -321,14 +309,14 @@ void RunCommand_Unlock(void)
 		 case 1: //set input new password 
 			ERR_LED_OFF();
 			OK_LED_ON();
-		    //run_t.new_pwd_save_data_tag= NEW_PWD_SAVE_DATA_TO_EEPROM; //motor don't need run to moved 
-			//run_t.confirm_button_flag=confirm_button_unlock;
+		   
 			run_t.password_unlock=UNLOCK_NULL;
 			run_t.confirm_button_flag=confirm_button_donot_pressed;
 			
 			run_t.inputNewPassword_Enable =1; //Input Administrator password is OK
 			run_t.Confirm_newPassword=0;
 			run_t.inputNewPasswordTimes=0;
+			run_t.input_digital_key_number_counter =0;
 			
 			run_t.eepromAddress=0;
 	
@@ -349,13 +337,13 @@ void RunCommand_Unlock(void)
 			//buzzzer sound
 			for(i=0;i<6;i++){
 		  	   pwd1[i]=0;
-			   Readpwd[i]=0;
-			   pwd2[i]=0;
-			   virtualPwd[i]=0;
+			  // Readpwd[i]=0;
+			  // pwd2[i]=0;
+			  // virtualPwd[i]=0;
 				
 			}
 			
-		ClearVirtual_Numbers();
+		//ClearVirtual_Numbers();
 		
 		break;
 

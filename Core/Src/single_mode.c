@@ -76,7 +76,7 @@ void CheckPassword_Lock_Handler(void)
        break;
 
 	   case confirm_button_pressed:
-	       run_t.confirm_button_flag=confirm_button_donot_pressed;
+	      // run_t.confirm_button_flag=confirm_button_donot_pressed;
 	       RunCommand_Unlock();
 	    
 	   break;

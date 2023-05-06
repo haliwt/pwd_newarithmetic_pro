@@ -687,9 +687,9 @@ static void ReadDigital_Inputkey_Fun(void)
 		if(run_t.inputNewPasswordTimes ==0 && run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.14
             read_numbers = OverNumbers_Password_Handler();
             if(read_numbers==1){
-            run_t.confirm_button_flag=confirm_button_unlock;
-            run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; //over times ten group numbers password
-            run_t.input_digital_key_number_counter =0;
+	            run_t.confirm_button_flag=confirm_button_unlock;
+	            run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; //over times ten group numbers password
+	            run_t.input_digital_key_number_counter =0;
             }
             else
             pwd2[run_t.input_digital_key_number_counter-1]=read_digital_key; //the first input new password .
