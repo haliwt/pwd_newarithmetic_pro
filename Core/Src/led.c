@@ -199,7 +199,7 @@ void BackLight_Control_Handler(void)
 		   }
 		break;
 
-		case BACKLIGHT_OK_BLINK:
+		case BACKLIGHT_OK_BLINK://3
          ok_cnt ++ ;
 		 BACKLIGHT_ON();
 		 ERR_LED_OFF();
@@ -218,7 +218,7 @@ void BackLight_Control_Handler(void)
            
 		   }
 		  
-		  if(confirm_ok_counter > 3){
+		  if(confirm_ok_counter > 2){
 			  ok_cnt  = 0;
 			  confirm_ok_counter=0; 
 
@@ -235,7 +235,7 @@ void BackLight_Control_Handler(void)
 		
 		 break;
 
-		case BACKLIGHT_ERROR_BLINK:
+		case BACKLIGHT_ERROR_BLINK://4
 		   err_cnt ++ ;
 		    BACKLIGHT_ON();
 		
@@ -256,7 +256,7 @@ void BackLight_Control_Handler(void)
 			
 		  }
 		  
-		  if(err_counter > 3){
+		  if(err_counter > 2){
 		  	err_cnt = 0;
 			err_counter=0;
 		    run_t.backlight_label =BACKLIGHT_OFF;
@@ -299,7 +299,7 @@ void BackLight_Control_Handler(void)
 
 		break;
 
-		case BACKLIGHT_ERROR_OVER_INPUT_TIMES:
+		case BACKLIGHT_ERROR_OVER_INPUT_TIMES://6
 			    run_t.keyPressed_flag =0;
 		        BACKLIGHT_OFF();
 				ERR_LED_OFF();
@@ -309,7 +309,7 @@ void BackLight_Control_Handler(void)
 		break;
 
 
-		case BACKLIGHT_FACTORY_LED:
+		case BACKLIGHT_FACTORY_LED://7
 		  BACKLIGHT_ON();
 		  OK_LED_ON();
 		  ERR_LED_ON();
@@ -327,7 +327,8 @@ void BackLight_Control_Handler(void)
 	
 	    break;
 
-		case BACKLIGHT_INPUT_STOP_MODEL: //7
+		case BACKLIGHT_INPUT_STOP_MODEL: //8
+		
 
             run_t.confirm_button_flag =0 ;
 			run_t.powerOn =3;
@@ -352,10 +353,10 @@ void BackLight_Control_Handler(void)
 					*(pwd1+i)=0;//pwd1[i]=0;
 
 			}
-			 
+			  POWER_OFF();
 			  Panel_LED_Off();
 			  HAL_ADC_Stop(&hadc);
-		      POWER_OFF();
+		     
 
               if(run_t.inputDeepSleep_times > 29){  //wait 30s  
 			   run_t.inputDeepSleep_times =0;
