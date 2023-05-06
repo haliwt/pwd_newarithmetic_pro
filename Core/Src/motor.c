@@ -114,8 +114,8 @@ void RunMotor_Definite_Handler(void) //definite motor
 				run_t.motor_return_homePosition= 1; 
 				Buzzer_LongSound(); //WT.EDIT 2022.10.06
 				Motor_CCW_Run();//open lock 
-				run_t.led_ok_flag=1;
-				run_t.led_error_flag =0;
+				
+		
 			
 		
 				ERR_LED_OFF();
@@ -137,8 +137,8 @@ void RunMotor_Definite_Handler(void) //definite motor
 				Motor_Stop();
 				if(led==0){
 				led++;
-				run_t.led_ok_flag =0;
-				run_t.led_error_flag=0;
+				
+			
 				run_t.backlight_label =BACKLIGHT_ON;
 
 			}
@@ -175,8 +175,8 @@ void RunMotor_Definite_Handler(void) //definite motor
 				 run_t.motor_doing_flag=motor_null;
 				run_t.oneself_copy_behavior=0;
                 
-                run_t.led_error_flag=0;
-				run_t.led_ok_flag =0;
+      
+			
 				//led control gpio
 				run_t.gTimer_8s =10;//WT.EDIT 2022.10.06
 				run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;

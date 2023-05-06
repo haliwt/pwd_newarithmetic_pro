@@ -404,19 +404,7 @@ void RunCheck_Mode(uint16_t dat)
 		     run_t.getNumbers_key++;//n2++;
 		     run_t.keyPressed_flag =1;//has a input key be pressing 
 		     key=0;
-			 
-			run_t.backlight_label =BACKLIGHT_ON;
-		   
-         
-			if(run_t.Confirm_newPassword ==0){
-				//run_t.buzzer_flag =1; 
-				run_t.buzzer_sound_tag =key_sound;
-				
-            }
-			else if(run_t.inputNewPasswordTimes ==0){
-				//run_t.buzzer_two_short = 1;
-				run_t.buzzer_sound_tag =two_short_one_sound;
-			}
+			
 			run_t.gTimer_8s=0;
 			POWER_ON();
 
@@ -425,6 +413,8 @@ void RunCheck_Mode(uint16_t dat)
 		    if(run_t.input_digital_key_number_counter ==0){
 			
 				run_t.confirm_button_flag = confirm_button_donot_pressed;
+				run_t.buzzer_sound_tag = key_sound;
+				
 				run_t.gTimer_8s=0;
 			}
 		    else if(run_t.input_digital_key_number_counter < 4 ){//error input key times be msut greater than or equal to  4  
@@ -436,6 +426,7 @@ void RunCheck_Mode(uint16_t dat)
            
                // run_t.fail_sound_flag=1;
 			     run_t.buzzer_sound_tag = fail_sound;
+			     run_t.backlight_label =BACKLIGHT_ERROR_BLINK;
 			
 				run_t.inputNewPassword_Enable=0;
 				
@@ -444,6 +435,7 @@ void RunCheck_Mode(uint16_t dat)
 	                run_t.gTimer_input_error_times_60s =0;
 	                run_t.panel_lock=1;
 					run_t.gTimer_8s=0;
+				    run_t.backlight_label = BACKLIGHT_ERROR_OVER_INPUT_TIMES;
 
                 }
 
@@ -465,16 +457,14 @@ void RunCheck_Mode(uint16_t dat)
 					run_t.confirm_button_flag=confirm_button_donot_pressed;
 					run_t.inputDeepSleep_times =0;
 					run_t.gTimer_8s=0;
-					run_t.inputNewPwd_OK_led_blank_times=0;
-					run_t.backlight_label =BACKLIGHT_OK_BLINK;
+				
+					//run_t.backlight_label =BACKLIGHT_OK_BLINK;
 					
 					break;
 
 					case 2:
 					//Confirm Key "#"
-					 //  run_t.buzzer_flag =0; 
-					 //   run_t.buzzer_two_short = 2;
-					//run_t.buzzer_sound_tag = two_short_two_sound;
+			
                     run_t.input_digital_key_number_counter=0;
 			
 	
@@ -482,8 +472,8 @@ void RunCheck_Mode(uint16_t dat)
 				    run_t.new_pwd_save_data_tag = NEW_PWD_SAVE_DATA_TO_EEPROM;
 					run_t.inputDeepSleep_times =0;
 					run_t.gTimer_8s=0;
-					run_t.inputNewPwd_OK_led_blank_times=0;
-					run_t.backlight_label =BACKLIGHT_OK_BLINK;
+				
+					//run_t.backlight_label =BACKLIGHT_OK_BLINK;
 
 
 					break;
@@ -496,14 +486,17 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputNewPasswordTimes=0; 
 					   // run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
 						run_t.inputDeepSleep_times =0;
+				        run_t.backlight_label =BACKLIGHT_ON;
 
 						run_t.confirm_button_flag = confirm_button_pressed;
 				}
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
 						run_t.input_digital_key_number_counter=0;
+						run_t.backlight_label =BACKLIGHT_ON;
 				       //sound by run process adjust
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
+					  
 					   run_t.confirm_button_flag = confirm_button_pressed; //run next step process
 
 				 }
@@ -652,7 +645,7 @@ void RunCheck_Mode(uint16_t dat)
 		   break;
         }
 		run_t.gTimer_8s=0;
-		run_t.inputNewPwd_OK_led_blank_times=0;
+		
 	}
 }
 

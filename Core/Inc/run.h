@@ -51,12 +51,13 @@ typedef struct __RUN_T{
     //unsigned char cmdCtr_;   //event order cunter
 
     unsigned char powerOn;
-	uint8_t   getTouchkey;
+	//KEY
 	uint8_t   getSpecial_1_key;
 	uint8_t   getSpecial_2_key;
 	uint8_t   getNumbers_key;
 	
 	uint8_t   keyPressed_flag;
+	uint8_t   confirm_button_flag ;
 
 	
 	uint8_t  clearEeeprom_count;
@@ -77,13 +78,10 @@ typedef struct __RUN_T{
     uint8_t eepromAddress;
     uint8_t ADC_times;
 
-
-
-
     uint8_t inputNewPassword_Enable;
 	
     uint8_t clear_inputNumbers_newpassword;
-	uint8_t inputNewPwd_OK_led_blank_times;
+
 	uint8_t motor_doing_flag;
 
     
@@ -97,21 +95,13 @@ typedef struct __RUN_T{
     uint8_t new_pwd_save_data_tag;
 	
 	uint8_t input_digital_key_number_counter;
-	uint8_t  confirm_button_flag;
-	uint8_t  password_unlock;
-	uint8_t       led_ok_flag;
-	uint8_t 	  led_error_flag ;
-	uint8_t       Led_battery_flag;
 	
-    
+	uint8_t  password_unlock;
 
 	uint8_t factory_test;
 	uint8_t lowPower_flag;
 	uint8_t oneself_copy_behavior;
   
-	
-
-
 	uint8_t clearEeeprom_done;
 	
 	uint8_t gTimer_8s;

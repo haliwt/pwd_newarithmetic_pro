@@ -176,7 +176,7 @@ void SavePassword_To_EEPROM(void)
 
 				//led control
 				run_t.gTimer_8s=10;
-				run_t.led_ok_flag = ok_led_on;
+			
 				//backlight ctl
 				OK_LED_ON(); //WT.EDIT 2022.10.28
 				ERR_LED_OFF();
@@ -263,8 +263,8 @@ void RunCommand_Unlock(void)
 		OK_LED_OFF();
 		ERR_LED_ON();
 		//led
-	    run_t.led_ok_flag=0;
-		run_t.led_error_flag =1;
+
+		
 		run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
 		//others ref
 		run_t.oneself_copy_behavior =0;//WT.EDIT 2022.10.28
@@ -327,12 +327,12 @@ void RunCommand_Unlock(void)
 			run_t.error_times=0;
 		
 			
-			run_t.inputNewPwd_OK_led_blank_times=0;
+
 		    run_t.keyPressed_flag=0; //WT.EDIT 2023.
 		    //led control 
 		    run_t.gTimer_8s = 0;
-		    run_t.led_ok_flag = ok_led_on;
-			run_t.backlight_label = BACKLIGHT_ON;
+		
+			run_t.backlight_label = BACKLIGHT_NEW_PASSWORD_LED;
 			//buzzzer sound
 			for(i=0;i<6;i++){
 		  	   pwd1[i]=0;
@@ -353,9 +353,9 @@ void RunCommand_Unlock(void)
                 
 		        ERR_LED_OFF();
 		        OK_LED_ON();
-				run_t.led_ok_flag =1;
-				run_t.led_error_flag=0;
-			
+		
+	
+			    run_t.backlight_label = BACKLIGHT_OK_BLINK;
 				run_t.oneself_copy_behavior=0;
 				run_t.password_unlock = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
@@ -377,6 +377,7 @@ void RunCommand_Unlock(void)
 		   case 0:
         
                run_t.motor_doing_flag=1;
+			   run_t.backlight_label = BACKLIGHT_OK_BLINK;
 			   run_t.password_unlock=UNLOCK_NULL;
 		       run_t.confirm_button_flag = confirm_button_donot_pressed;
 			 
@@ -597,8 +598,8 @@ void ReadPassword_EEPROM_SaveData(void)
 				 case 10:
 				   //Fail = 1;
 				   run_t.password_unlock = UNLOCK_FAIL;
-				   run_t.led_ok_flag =0;
-				   run_t.led_error_flag=1;
+			
+		
 				   return ;
 				break;
 	
@@ -634,8 +635,8 @@ void ReadPassword_EEPROM_SaveData(void)
 						run_t.password_unlock=UNLOCK_SUCCESS;
 						if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
 						run_t.input_digital_key_number_counter=0;
-						run_t.led_ok_flag =1;
-						run_t.led_error_flag=0;
+					
+				
 						run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						return ;
 
@@ -647,8 +648,8 @@ void ReadPassword_EEPROM_SaveData(void)
 						   run_t.password_unlock = UNLOCK_FAIL;
 						   if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
 						   run_t.input_digital_key_number_counter=0;
-						   run_t.led_ok_flag =0;
-						   run_t.led_error_flag=1;
+					
+						
 						   run_t.keyPressed_flag=0; //WT.EDIT 2023.
 							return ;
 						}
@@ -675,8 +676,8 @@ void ReadPassword_EEPROM_SaveData(void)
 						 run_t.password_unlock=UNLOCK_SUCCESS;
 					
 						 run_t.input_digital_key_number_counter=0;
-						 run_t.led_ok_flag =1;
-						 run_t.led_error_flag=0;
+				
+	
 						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
 					
 						return ;
@@ -687,8 +688,8 @@ void ReadPassword_EEPROM_SaveData(void)
 					   //  Fail = 1;
 						 run_t.password_unlock = UNLOCK_FAIL;
 					     run_t.input_digital_key_number_counter=0;
-						  run_t.led_ok_flag =0;
-						  run_t.led_error_flag=1;
+						
+					
 						  run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						 return ;
 						

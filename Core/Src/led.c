@@ -145,8 +145,8 @@ static void ClearEEPROM_Data_Fun(void)
 void BackLight_Control_Handler(void)
 {
     uint8_t i;
-	static uint8_t cntrecoder;
-	static uint16_t cnt,cnt0;
+	static uint8_t err_counter,new_pwd_counter,confirm_ok_counter;
+	static uint16_t err_cnt,ok_cnt,new_counter;
 	//back light turn on or turn off function
 
 	 
@@ -155,30 +155,6 @@ void BackLight_Control_Handler(void)
    
           case BACKLIGHT_ON:
              BACKLIGHT_ON();
-			 if(run_t.led_ok_flag == ok_led_on){
-				  OK_LED_ON();
-
-			 }
-			 else{
-                OK_LED_OFF();
-             }
-
-			 if(run_t.led_error_flag == error_led_on){
-					ERR_LED_ON();
-			 }
-			 else{
-				   ERR_LED_OFF();
-
-			 }
-
-			if(run_t.Led_battery_flag ==battery_led_on)
-			{
-					BAT_LED_ON();
-			}
-			else{
-					BAT_LED_OFF();
-			}
-
 			if(run_t.gTimer_8s > 8){
                 run_t.gTimer_8s=6;
 				run_t.inputDeepSleep_times=0;
@@ -200,58 +176,7 @@ void BackLight_Control_Handler(void)
 		
           break;
 
-		case BACKLIGHT_OK_BLINK:
-         cnt0 ++ ;
-			run_t.gTimer_8s=10; //WT.EDIT 2022.10.14
-	   
-		  if(cnt0 < 501 ){
-	
-			  
-               OK_LED_OFF();
-			  
-		  }
-		  else if(cnt0>499 && cnt0 < 1001){//500.WT.EDIT 2022.10.31
-			  OK_LED_ON();
-		  }
-	
-		  if(cnt0>999){ //1000.WT.EDIT 2022.10.31
-		  	cnt0 = 0;
-           
-		    run_t.clearEeeprom_count++;
-		    if(run_t.inputNewPassword_Enable ==1)
-		          run_t.inputNewPwd_OK_led_blank_times ++ ;
-		  }
-		  
-		    if(run_t.inputNewPassword_Enable ==1 ){//WT.EDIT 2022.10.08
-		    
-				if(run_t.inputNewPwd_OK_led_blank_times >9){
-					 run_t.inputNewPwd_OK_led_blank_times=0;
-					 run_t.backlight_label =BACKLIGHT_OFF;
-					 run_t.inputNewPassword_Enable =0;
-				   
-				     OK_LED_OFF();
-				
-					 run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
-					 
-				 }
-                  
-			}
-			else{
-
-                  if(run_t.clearEeeprom_count > 3){
-					  run_t.clearEeeprom_count=0;
-
-				      run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
-
-
-				  }
-
-			}
-
-		
-		 break;
-
-		case BACKLIGHT_AT_ONCE_OFF://2
+		 case BACKLIGHT_AT_ONCE_OFF://2
           if(run_t.keyPressed_flag ==1){
 				BACKLIGHT_ON();
               
@@ -260,6 +185,13 @@ void BackLight_Control_Handler(void)
 		  }
 		  else{
 			 if(run_t.gTimer_8s > 8){
+			 	 new_counter = 0;
+                 new_pwd_counter=0;
+			     err_cnt = 0;
+			    err_counter=0;
+				
+				ok_cnt	= 0;
+				confirm_ok_counter=0; 
             	BACKLIGHT_OFF();
 				Panel_LED_Off();
             	run_t.backlight_label =BACKLIGHT_INPUT_STOP_MODEL;
@@ -267,48 +199,113 @@ void BackLight_Control_Handler(void)
 		   }
 		break;
 
-		case BACKLIGHT_ERROR_BLINK:
-		   cnt ++ ;
-		  run_t.inputNewPassword_Enable =0;//WT.EDIT 2022.10.05
-	      run_t.confirm_button_flag=confirm_button_donot_pressed;
-		  run_t.password_unlock=0;//WT.EDIT 2022.10.06
-		  run_t.Confirm_newPassword=0; //WT.EDIT .2022.10.07
-		  run_t.inputNewPasswordTimes =0;//WT.EDIT .2022.10.07
+		case BACKLIGHT_OK_BLINK:
+         ok_cnt ++ ;
+		 BACKLIGHT_ON();
+		 ERR_LED_OFF();
+		 if(ok_cnt  < 501 ){
+	
+			 OK_LED_OFF();
+			  
+		  }
+		  else if(ok_cnt >499 && ok_cnt  < 1001){//500.WT.EDIT 2022.10.31
+			  OK_LED_ON();
+		  }
+	
+		  if(ok_cnt >999){ //1000.WT.EDIT 2022.10.31
+		  	ok_cnt  = 0;
+			confirm_ok_counter++;
+           
+		   }
+		  
+		  if(confirm_ok_counter > 3){
+			  ok_cnt  = 0;
+			  confirm_ok_counter=0; 
+
+			  new_counter = 0;
+              new_pwd_counter=0;
+
+			  run_t.gTimer_8s=10;
+
+			run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
+
+
+		  }
+
 		
-		  OK_LED_OFF();
+		 break;
+
+		case BACKLIGHT_ERROR_BLINK:
+		   err_cnt ++ ;
+		    BACKLIGHT_ON();
+		
+		    OK_LED_OFF();
 	
 	  
-		  if(cnt < 501 ){
+		  if(err_cnt < 501 ){
 	
 			  ERR_LED_OFF();
 			  
 		  }
-		  else if(cnt > 500 && cnt < 1001){
+		  else if(err_cnt > 500 && err_cnt < 1001){
 			  ERR_LED_ON();
 		  }
-		  if(cnt>1000){
-		  	cnt = 0;
-			cntrecoder++;
+		  if(err_cnt>1000){
+		  	err_cnt = 0;
+			err_counter++;
 			
 		  }
-		  if(cntrecoder > 2){
-		  	cntrecoder =0;
-		 
-		    
-			
-			
-
-			  ERR_LED_OFF();
-            
-               run_t.backlight_label =BACKLIGHT_OFF;
+		  
+		  if(err_counter > 2){
+		  	err_cnt = 0;
+			err_counter=0;
+		    run_t.backlight_label =BACKLIGHT_OFF;
 		 
 		  }
 	
 		break;
 
-		case BACKLIGHT_NEW_PASSWORD_LED:
+		case BACKLIGHT_NEW_PASSWORD_LED: //new input Pwd
+		   new_counter ++ ;
+		   BACKLIGHT_ON();
+		   ERR_LED_OFF();
+		   if(new_counter < 501 ){
+	
+			  OK_LED_OFF();
+			  
+		  }
+		  else if(new_counter>499 && new_counter < 1001){//500.WT.EDIT 2022.10.31
+			  OK_LED_ON();
+		  }
+	
+		  if(new_counter>999){ //1000.WT.EDIT 2022.10.31
+		  	new_counter = 0;
+            new_pwd_counter++;
+		  }
+		  
+		    
+		    
+		if(new_pwd_counter>9){
 
+		    new_counter = 0;
+            new_pwd_counter=0;
+					
+			run_t.inputNewPassword_Enable =0;
+			run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
+					 
+		}
+                  
+			
 
+		break;
+
+		case BACKLIGHT_ERROR_OVER_INPUT_TIMES:
+			    run_t.keyPressed_flag =0;
+		        BACKLIGHT_OFF();
+				ERR_LED_OFF();
+		        if(run_t.panel_lock==0){
+                  run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
+		        }
 		break;
 
 
