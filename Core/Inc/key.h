@@ -63,7 +63,7 @@ typedef  struct  _state_
 
 extern key_types key;
 
-extern uint32_t virtualPwd[20];
+extern uint8_t virtualPwd[20];
 
 
 

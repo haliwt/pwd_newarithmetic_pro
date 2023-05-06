@@ -89,11 +89,10 @@ typedef struct __RUN_T{
     
     
 	uint8_t BackLight;
+	uint8_t clear_virtual_numbers;
 
 	
 	//buzzer sound
-	
-
 	uint8_t buzzer_sound_tag;
 
 	//new password
@@ -140,9 +139,13 @@ extern uint8_t pwd2[6];
 extern uint8_t Readpwd[6];
 
 
-
+extern void (*ClearVirtual_Numbers)(void);
 
 extern void (*RunChed_KeyMode)(uint16_t keydat);
+
+
+void Run_Init(void);
+
 
 void RunCommand_Unlock(void);
 
@@ -158,7 +161,8 @@ void ReadPassword_EEPROM_SaveData(void);
 
 uint8_t  CompareValue(uint8_t *pt1,uint8_t *pt2);
 
-unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
+uint8_t InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
+void Clear_VirtualArray_Numbers(void(*clear_virtual)(void));
 
 uint8_t OverNumbers_Password_Handler(void);
 

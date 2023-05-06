@@ -20,7 +20,18 @@ uint8_t Readpwd[6];
 uint32_t eevalue ;
 
 void (*RunChed_KeyMode)(uint16_t keydat);
+void (*ClearVirtual_Numbers)(void);
+
 static void Read_Administrator_Password(void);
+static void ClearVirtual_Aarray_Fun(void);
+
+
+void Run_Init(void)
+{
+    Clear_VirtualArray_Numbers(ClearVirtual_Aarray_Fun);
+
+
+}
 
 /****************************************************************************
 *
@@ -235,8 +246,7 @@ void SavePassword_To_EEPROM(void)
 void RunCommand_Unlock(void)
 {
 
-    
-	uint8_t i;
+     uint8_t i;
 
 
 	 if(run_t.Confirm_newPassword == 1){
@@ -291,10 +301,12 @@ void RunCommand_Unlock(void)
 	  	   pwd1[i]=0;
 		   Readpwd[i]=0;
 		   pwd2[i]=0;
+		   virtualPwd[i]=0;
+		   
 		
 		 }
 
-	
+	   ClearVirtual_Numbers();
 	  break;
 
 	  case UNLOCK_SUCCESS://2
@@ -330,14 +342,14 @@ void RunCommand_Unlock(void)
 			run_t.backlight_label = BACKLIGHT_AT_ONCE_OFF;
 			//buzzzer sound
 			
-		
+		ClearVirtual_Numbers();
 		
 		break;
 
 		case 0:
-		 
-	       if(run_t.oneself_copy_behavior ==1){//WT.EDIT 2022.10.28
-	       	    run_t.gTimer_8s=0;
+		   switch(run_t.oneself_copy_behavior){
+		   	case 1:
+	             run_t.gTimer_8s=0;
                 
 		        ERR_LED_OFF();
 		        OK_LED_ON();
@@ -353,15 +365,17 @@ void RunCommand_Unlock(void)
 				  	   pwd1[i]=0;
 					   Readpwd[i]=0;
 					   pwd2[i]=0;
+					   virtualPwd[i]=0;
 				
 				  	}
                run_t.keyPressed_flag=0; //WT.EDIT 2023.
-              // Buzzer_LongSound(); //
-			 // run_t.buzzer_longsound_flag =1 ;
-			 // run_t.fail_sound_flag ==0;
-			    run_t.buzzer_sound_tag = confirm_sound;
-		   }
-           else{
+               run_t.buzzer_sound_tag = confirm_sound;
+			  ClearVirtual_Numbers();
+		 
+		   break;
+		   
+		   case 0:
+        
                run_t.motor_doing_flag=1;
 			   run_t.password_unlock=UNLOCK_NULL;
 		       run_t.confirm_button_flag = confirm_button_donot_pressed;
@@ -373,15 +387,21 @@ void RunCommand_Unlock(void)
 			  	   pwd1[i]=0;
 				   Readpwd[i]=0;
 				   pwd2[i]=0;
-			
+			      virtualPwd[i]=0;
 			  	}
 
-           }
+			   ClearVirtual_Numbers();
+			   
+		   break;
+		   }
 		  break;
-	     }
+	    }
 		
 		break; 
-	  	}
+		 
+		 
+	  }
+		
 }
 /****************************************************************************
 *
@@ -629,7 +649,6 @@ void ReadPassword_EEPROM_SaveData(void)
 				 case 10:
 				   //Fail = 1;
 				   run_t.password_unlock = UNLOCK_FAIL;
-				 //  run_t.confirm_button_flag = confirm_button_unlock;
 				   run_t.led_ok_flag =0;
 				   run_t.led_error_flag=1;
 				   return ;
@@ -654,6 +673,7 @@ void ReadPassword_EEPROM_SaveData(void)
                     if(run_t.input_digital_key_number_counter > 4){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
  
                         value = BF_Search(virtualPwd,Readpwd);
+						run_t.clear_virtual_numbers =1;
 					}
 					else
 					    value = CompareValue(Readpwd,pwd1);
@@ -661,10 +681,10 @@ void ReadPassword_EEPROM_SaveData(void)
 					
 					if(value==1)//if(strcmp(pwd1,pwd2)==0)
 					{
-						readFlag[0]=0;
 						
-						 run_t.password_unlock=UNLOCK_SUCCESS;
-						// run_t.confirm_button_flag = confirm_button_unlock;
+						
+						run_t.password_unlock=UNLOCK_SUCCESS;
+						run_t.input_digital_key_number_counter=0;
 						run_t.led_ok_flag =1;
 						run_t.led_error_flag=0;
 						run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -673,10 +693,10 @@ void ReadPassword_EEPROM_SaveData(void)
 					}
 					else{
 						if(run_t.Confirm_newPassword ==1){
-                     		readFlag[0]=0;
+                     	
 						  // Fail = 1;
 						   run_t.password_unlock = UNLOCK_FAIL;
-						 //  run_t.confirm_button_flag = confirm_button_unlock;
+						   run_t.input_digital_key_number_counter=0;
 						   run_t.led_ok_flag =0;
 						   run_t.led_error_flag=1;
 						   run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -703,7 +723,8 @@ void ReadPassword_EEPROM_SaveData(void)
 				   if(value==1){
 									   
 						 run_t.password_unlock=UNLOCK_SUCCESS;
-						//  run_t.confirm_button_flag = confirm_button_unlock;
+					
+						 run_t.input_digital_key_number_counter=0;
 						 run_t.led_ok_flag =1;
 						 run_t.led_error_flag=0;
 						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -715,7 +736,7 @@ void ReadPassword_EEPROM_SaveData(void)
 
 					   //  Fail = 1;
 						 run_t.password_unlock = UNLOCK_FAIL;
-					  //   run_t.confirm_button_flag = confirm_button_unlock;
+					     run_t.input_digital_key_number_counter=0;
 						  run_t.led_ok_flag =0;
 						  run_t.led_error_flag=1;
 						  run_t.keyPressed_flag=0; //WT.EDIT 2023.
@@ -812,12 +833,30 @@ unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
 
 }
 
+static void ClearVirtual_Aarray_Fun(void)
+{
+     uint8_t i;
+    if(run_t.clear_virtual_numbers==1){
+		 run_t.clear_virtual_numbers=0;
+		 for(i=0;i<20;i++){
+		   virtualPwd[i]=0;
+					   
+	   }
+
+    }
+}
+
 void RunCheck_KeyMode_Handler(void(*keymode_handler)(uint16_t keydat))
 {
       RunChed_KeyMode=keymode_handler; 
 
 }
 
+void Clear_VirtualArray_Numbers(void(*clear_virtual)(void))
+{
+
+		ClearVirtual_Numbers = clear_virtual;
+}
 
 /****************************************************************************
 *

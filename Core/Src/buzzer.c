@@ -177,20 +177,18 @@ void Buzzer_Sound_Handler(void)
 	  break;
 
 	  case two_short_one_sound: //run_t.buzzer_two_short ==1
-	 	   if(sound_continuce==0){
-			sound_continuce++;
+	 	   
             Buzzer_High_Sound();
-	 	   	}
+	 	   	
 	        run_t.buzzer_sound_tag = buzzer_sound_null;
        break;
 
 	   case two_short_two_sound://run_t.buzzer_two_short ==2
-          if(sound_continuce==0){
-				sound_continuce++;
+        
 	          BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.09.13
 			  HAL_Delay(50);
 			  BUZZER_KeySound();
-          	}
+          	
 		 run_t.buzzer_sound_tag = buzzer_sound_null;
 			
 
@@ -198,21 +196,21 @@ void Buzzer_Sound_Handler(void)
 	  
 
 	  case high_sound://run_t.buzzer_highsound_flag==1
-		if(sound_continuce==0){
-			sound_continuce++;
+
          Buzzer_High_Sound();
 	     HAL_Delay(50);
 		 Buzzer_High_Sound_2();
-			}
+			
 		 run_t.buzzer_sound_tag = buzzer_sound_null;
 	 break;
 
 
      case  clear_eeprom_sound: //run_t.clearEeeprom_done == 1
-		if(sound_continuce==0){
-			sound_continuce++;
+
+	 
 		Buzzer_LongSound(); //WT.EDIT 2022.10.05
-			}
+			
+	
   		run_t.buzzer_sound_tag = buzzer_sound_null;
      break;
 

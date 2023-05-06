@@ -14,7 +14,7 @@ uint8_t buzzertimes;
 void (*TouchKey_Handler)(void);
 __IO uint16_t  KeyValue;
 
-uint32_t virtualPwd[20];
+uint8_t virtualPwd[20];
 
 uint8_t read_key_value;
 uint8_t key_up =1 ;
@@ -466,7 +466,7 @@ void RunCheck_Mode(uint16_t dat)
 						 //  run_t.buzzer_flag =0; 
 						 //   run_t.buzzer_two_short = 2;
 						run_t.buzzer_sound_tag = two_short_two_sound;
-                            run_t.input_digital_key_number_counter=0;
+                        run_t.input_digital_key_number_counter=0;
 						
 		
 						run_t.confirm_button_flag=confirm_button_unlock;
@@ -484,9 +484,9 @@ void RunCheck_Mode(uint16_t dat)
 			    }
 				else if(run_t.motor_doing_flag==motor_null){ // return home position
 						//run_t.buzzer_flag =1; 
-						run_t.buzzer_sound_tag= key_sound;
+						//run_t.buzzer_sound_tag= key_sound;->run process result select buzzer sound
 						run_t.inputNewPasswordTimes=0; 
-					    run_t.input_digital_key_number_counter=0;
+					   // run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
 						run_t.inputDeepSleep_times =0;
 
 						run_t.confirm_button_flag = confirm_button_pressed;
@@ -494,7 +494,7 @@ void RunCheck_Mode(uint16_t dat)
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
 						run_t.input_digital_key_number_counter=0;
 				       // run_t.buzzer_flag =1; 
-					   	run_t.buzzer_sound_tag= key_sound;
+					   //	run_t.buzzer_sound_tag= key_sound;
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
 					   run_t.eepromAddress=0;
@@ -601,35 +601,38 @@ void RunCheck_Mode(uint16_t dat)
 		run_t.backlight_label =BACKLIGHT_ON;
 	
 		run_t.input_digital_key_number_counter ++ ;
-		//run_t.buzzer_flag =1;
 		run_t.buzzer_sound_tag = key_sound;
 
 		run_t.gTimer_8s=0;
 
 		run_t.confirm_button_flag =confirm_button_donot_pressed;
 		POWER_ON();
+        switch(run_t.Confirm_newPassword){
 
-		if(run_t.Confirm_newPassword ==1 && run_t.input_digital_key_number_counter >6){//WT.EDIT 2022.10.08
+			case 1:
+				if(run_t.input_digital_key_number_counter >6){//WT.EDIT 2022.10.08
+					run_t.gTimer_8s=0;
+					//run_t.fail_sound_flag =1;
+			        run_t.buzzer_sound_tag = fail_sound;
+				
+					run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
+					run_t.confirm_button_flag=confirm_button_unlock;
+					run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; 
 
-			
-			run_t.gTimer_8s=0;
-			//run_t.fail_sound_flag =1;
-	        run_t.buzzer_sound_tag = fail_sound;
+				}
+			break;
+
+	    case 0:
 		
-			run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
-			run_t.confirm_button_flag=confirm_button_unlock;
-			run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; 
-
-		}
-		else{
 			temp = InputNumber_ToSpecialNumbers((TouchKey_Numbers) key_input_number); //input Numbers
 			//virtual password is 20bit
-			if(run_t.input_digital_key_number_counter > 20)run_t.input_digital_key_number_counter =20;
+			 //virtual input key numbers 
+			if(run_t.input_digital_key_number_counter < 21){
+			//if(run_t.input_digital_key_number_counter > 20)run_t.input_digital_key_number_counter =20;
 			
-			virtualPwd[run_t.input_digital_key_number_counter-1]=temp;
+			    virtualPwd[run_t.input_digital_key_number_counter-1]=temp;
+		        
 
-			
-				
 			if(run_t.input_digital_key_number_counter < 7){//run_t.inputNewPasswordTimes
 
 				if(run_t.inputNewPasswordTimes ==0 && run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.14
@@ -645,9 +648,12 @@ void RunCheck_Mode(uint16_t dat)
 				else  pwd1[run_t.input_digital_key_number_counter-1] =temp;
 
 			}
+			
 
-		}
+		   }
 
+		   break;
+        }
 		run_t.gTimer_8s=0;
 		run_t.inputNewPwd_OK_led_blank_times=0;
 	}

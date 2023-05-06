@@ -2,7 +2,7 @@
 #define __KMP_H_
 #include "main.h"
 
-unsigned char BF_Search(uint32_t *virtual,uint8_t *pattern);
+unsigned char BF_Search(uint8_t *virtual,uint8_t *pattern);
 
 
 
