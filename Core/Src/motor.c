@@ -133,7 +133,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 				run_t.password_unlock=0;
 			}
 
-			if(run_t.motorRunCount>160 && run_t.motorRunCount <200){
+			if(run_t.motorRunCount>180 && run_t.motorRunCount <210){
 				Motor_Stop();
 				if(led==0){
 				led++;
@@ -167,7 +167,7 @@ void RunMotor_Definite_Handler(void) //definite motor
 			}
            
 			
-			if(run_t.returnHomePosition_Count > 230){
+			if(run_t.returnHomePosition_Count > 231){
 			    Motor_Stop();
 				run_t.motorRunCount=0;
 				run_t.motor_return_homePosition=0;//WT.EDIT 2022.08.18
