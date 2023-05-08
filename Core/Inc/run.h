@@ -86,7 +86,8 @@ typedef struct __RUN_T{
 
     
 	uint8_t clear_virtual_numbers;
-
+    //back light 
+    uint8_t gTimer_total_backling_off;
 	
 	//buzzer sound
 	uint8_t buzzer_sound_tag;
@@ -110,10 +111,11 @@ typedef struct __RUN_T{
 	uint8_t  gTimer_input_error_times_60s;
 	
 
-     uint8_t readEepromData;
+    uint8_t readEepromData;
 
-	uint16_t motorRunCount;
-	uint16_t   returnHomePosition_Count;
+	uint16_t  motorRunCount;
+	uint16_t  returnHomePosition_Count;
+	
 
 	uint32_t userId;
     

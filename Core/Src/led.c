@@ -77,11 +77,8 @@ static void ClearEEPROM_Data_Fun(void)
 		  }
         if(run_t.panel_lock ==1){
 			
-			
-		Panle_InputTimesError_LED_Off();
-
-
-		run_t.backlight_label =BACKLIGHT_ON;
+		run_t.backlight_label =BACKLIGHT_OFF;
+		OK_LED_OFF();
 		ERR_LED_ON(); //WT.EDIT 202209.28
 
         if(run_t.gTimer_input_error_times_60s > 59){
@@ -125,11 +122,7 @@ static void ClearEEPROM_Data_Fun(void)
 	  }
 
 
-//	   if(run_t.gTimer_8s > 20){
-//		  Panel_LED_Off();
-//
-//	   }
-      
+	  
 
 }
 
@@ -175,8 +168,14 @@ void BackLight_Control_Handler(void)
 
 		  case BACKLIGHT_OFF: //0X00
 		  
-	           BACKLIGHT_OFF();
-
+	         BACKLIGHT_OFF();
+			  new_counter = 0;
+              new_pwd_counter=0;
+			  err_cnt = 0;
+			  err_counter=0;
+			  ok_cnt	= 0;
+			  confirm_ok_counter=0; 
+			run_t.gTimer_total_backling_off=0;
 		    if(run_t.gTimer_8s > 8){
 	             run_t.keyPressed_flag =0;
 				 run_t.inputDeepSleep_times=0;
@@ -202,8 +201,8 @@ void BackLight_Control_Handler(void)
 				
 				ok_cnt	= 0;
 				confirm_ok_counter=0; 
-            	BACKLIGHT_OFF();
 				Panel_LED_Off();
+				run_t.gTimer_total_backling_off=0;
             	run_t.backlight_label =BACKLIGHT_INPUT_STOP_MODEL;
 			 }
 		   }
@@ -369,7 +368,7 @@ void BackLight_Control_Handler(void)
 			  HAL_ADC_Stop(&hadc);
 		     
 
-              if(run_t.inputDeepSleep_times > 29){  //wait 30s  
+              if(run_t.inputDeepSleep_times > 19){  //wait 30s  
 			   run_t.inputDeepSleep_times =0;
 		
 		
@@ -389,5 +388,11 @@ void BackLight_Control_Handler(void)
 		  break;
 		}
 		ClearEEPROM_Data_Fun();
+	    if(run_t.gTimer_total_backling_off > 180){
+			run_t.gTimer_total_backling_off=0;
+		  	Panel_LED_Off();
+
+	     }
+      
 }
 

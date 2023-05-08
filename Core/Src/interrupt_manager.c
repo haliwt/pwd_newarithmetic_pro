@@ -92,6 +92,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         run_t.gTimer_ADC ++;
         run_t.gTimer_input_error_times_60s++;
 		run_t.inputDeepSleep_times++;
+		run_t.gTimer_total_backling_off++;
 		
 	    
 	
