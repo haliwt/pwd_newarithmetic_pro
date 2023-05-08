@@ -110,18 +110,18 @@ void Buzzer_High_Sound(void)
   
       while(m--){
           HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-          delay_us(500);//480
+          delay_us(600);//480
          
        }
 }
 
 void Buzzer_High_Sound_2(void)
 {
-     unsigned int m=50;//100
+     unsigned int m=40;//100
 
       while(m--){
           HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
-          delay_us(500);//__delay_us(500);//delayUS(99);
+          delay_us(700);//__delay_us(500);//delayUS(99);
        }
 }
 
@@ -198,7 +198,7 @@ void Buzzer_Sound_Handler(void)
 	  case high_sound://run_t.buzzer_highsound_flag==1
 
          Buzzer_High_Sound();
-	     HAL_Delay(50);
+	     HAL_Delay(100);
 		 Buzzer_High_Sound_2();
 			
 		 run_t.buzzer_sound_tag = buzzer_sound_null;

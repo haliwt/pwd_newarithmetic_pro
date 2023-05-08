@@ -308,9 +308,7 @@ void BackLight_Control_Handler(void)
 					 
 		}
                   
-			
-
-		break;
+	   break;
 
 		case BACKLIGHT_ERROR_OVER_INPUT_TIMES://6
 			    run_t.keyPressed_flag =0;
