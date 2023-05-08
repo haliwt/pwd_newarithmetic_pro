@@ -143,24 +143,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 static uint16_t Get_Adc(void)   
 {
     uint16_t adc_temp;
-    ADC_ChannelConfTypeDef ADC0_ChanConf;
-    
-    ADC0_ChanConf.Channel=0;                                   // channel :0
-    ADC0_ChanConf.Rank=ADC_RANK_CHANNEL_NUMBER  ;                                       //the first sequency 1:
-  //  ADC1_ChanConf.SamplingTime=ADC_SAMPLETIME_239CYCLES_5;      //sample timing              
-    HAL_ADC_ConfigChannel(&hadc,&ADC0_ChanConf);        //ADC channel Config
-	
-    HAL_ADC_Start(&hadc);                               //¿ªÆôADC
-	
-    HAL_ADC_PollForConversion(&hadc,20);     //ÂÖÑ¯×ª»»
-   
-    adc_temp = HAL_ADC_GetValue(&hadc);	  
-	
-    // 清除通道
-	ADC0_ChanConf.Rank = ADC_RANK_NONE;	// 清除通道
-	HAL_ADC_ConfigChannel(&hadc, &ADC0_ChanConf); //ADC_RANK_CHANNEL_NUMBER;	// 设置通道
- 
-	return adc_temp;//(uint16_t)HAL_ADC_GetValue(&hadc);	        	//·µ»Ø×î½üÒ»´ÎADC1¹æÔò×éµÄ×ª»»½á¹û
+    HAL_ADC_Start(&hadc);   
+    adc_temp = ADC1->DR;
+	return adc_temp;//ADC1->DR;		//·µ»ØadcÖµ	
+	//return adc_temp;//(uint16_t)HAL_ADC_GetValue(&hadc);	        	//·µ»Ø×î½üÒ»´ÎADC1¹æÔò×éµÄ×ª»»½á¹û
 }
 
 
@@ -185,10 +171,9 @@ if(run_t.gTimer_ADC >6){
 	   POWER_ON();
 	   adcx=Get_Adc_Average(10);
 	
-	   adcVale=(uint16_t)((adcx*3300)/4096); //3111 ampliiction * 1000
-   
+	   adcVale=(uint16_t)((adcx*3300)/4096) +100; //3111 ampliiction * 1000
 
-	   if(adcVale < 1500 ){ // low 3.3V is alarm
+	   if(adcVale < 1900 ){ // low 3.8V is alarm
 		   run_t.ADC_times++; //WT.EDIT 2022.09.09
 		   if(run_t.ADC_times > 2 ){
 			   run_t.ADC_times = 0;
