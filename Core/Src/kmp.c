@@ -12,9 +12,9 @@
 	*Return Ref:NO
 	*
 **************************************************************************/
-unsigned char BF_Search(uint8_t *virtual,uint8_t *pattern)
+unsigned char BF_Search(uint8_t *virtual,uint8_t *pattern,uint8_t length)
 {
-    unsigned char m,n;
+   unsigned char m;//n;
 	unsigned char i=0,j=0;
 	while(i < run_t.input_digital_key_number_counter){
 
@@ -22,14 +22,7 @@ unsigned char BF_Search(uint8_t *virtual,uint8_t *pattern)
                  i++;
 				 j++;
 		         m++;
-				 if(m == 6) return 1;
-				 else if(m==5){
-				 	n=5;
-				 }
-				 else if(m==4){
-				 	n =4;
-					
-				 }
+				 if(m == (length-1)) return 1;
 
 		  }
 		  else{
@@ -44,14 +37,14 @@ unsigned char BF_Search(uint8_t *virtual,uint8_t *pattern)
 
 	}
 
-	if(n ==5){
-         return 1;
-
-	}
-	else if(n==4){
-         return 1;
-
-	}
+//	if(n ==5){
+//         return 1;
+//
+//	}
+//	else if(n==4){
+//         return 1;
+//
+//	}
 	return 0;
 	 
 

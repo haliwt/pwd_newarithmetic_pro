@@ -18,6 +18,8 @@ uint8_t origin_pwd[6]={1,2,3,4,0,0};
 
 uint8_t Readpwd[6];
 uint32_t eevalue ;
+__IO uint8_t readpwd_array_length;
+
 
 void (*RunChed_KeyMode)(uint16_t keydat);
 void (*ClearVirtual_Numbers)(void);
@@ -405,7 +407,7 @@ void RunCommand_Unlock(void)
 static void Read_Administrator_Password(void)
 {
      
-	  static unsigned char value;
+	  static unsigned char value,lenth;
 	  static uint32_t    ReadAddress; 
       uint8_t i;
 
@@ -446,10 +448,11 @@ static void Read_Administrator_Password(void)
 					EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
 					HAL_Delay(5);
 					
-
-                    if(run_t.input_digital_key_number_counter > 6){
+                    lenth= sizeof(Readpwd)/(sizeof(Readpwd[0]));
+                    if(run_t.input_digital_key_number_counter > (lenth-1)){
  
-                        value = BF_Search(virtualPwd,Readpwd);
+                        value = BF_Search(virtualPwd,Readpwd,lenth);
+						run_t.clear_virtual_numbers =1;
 					}
 					else
 					    value = CompareValue(Readpwd,pwd1);
@@ -535,8 +538,9 @@ static void Read_Administrator_Password(void)
 void ReadPassword_EEPROM_SaveData(void)
 {
      
-	  static unsigned char value;
+	  static unsigned char value;//readpwd_array_length;
 	  static uint32_t    ReadAddress; 
+	  
 
 	 for(run_t.eepromAddress =0; run_t.eepromAddress <11;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
 	  
@@ -602,17 +606,17 @@ void ReadPassword_EEPROM_SaveData(void)
            }
 		   
 		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
-		  //  HAL_Delay(5);
+		    HAL_Delay(3);
 		   if(readFlag[0] ==1){// has a been saved pwassword 
 
 					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,6);
-				//	HAL_Delay(5);
+					HAL_Delay(5);
 					
-
-                    if(run_t.input_digital_key_number_counter > 4){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
+                    run_t.readpwd_array_length = sizeof(Readpwd)/(sizeof(Readpwd[0]));
+                    if(run_t.input_digital_key_number_counter > 6){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
  
-                        value = BF_Search(virtualPwd,Readpwd);
-						
+                        value = BF_Search(virtualPwd,Readpwd,run_t.readpwd_array_length);
+						run_t.clear_virtual_numbers =1;
 					}
 					else
 					    value = CompareValue(Readpwd,pwd1);
@@ -623,7 +627,7 @@ void ReadPassword_EEPROM_SaveData(void)
 						
 						
 						run_t.password_unlock=UNLOCK_SUCCESS;
-						if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
+						//if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
 						run_t.input_digital_key_number_counter=0;
 					
 				
@@ -632,16 +636,17 @@ void ReadPassword_EEPROM_SaveData(void)
 
 					}
 					else{
-						if(run_t.Confirm_newPassword ==1){
-                     	
+						
+                     	if(run_t.Confirm_newPassword == 1){
 						  // Fail = 1;
 						   run_t.password_unlock = UNLOCK_FAIL;
-						   if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
+						 //  if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
 						   run_t.input_digital_key_number_counter=0;
 					
 						
 						   run_t.keyPressed_flag=0; //WT.EDIT 2023.
-							return ;
+						   return;
+							
 						}
 						//n_t.eepromAddress++ ;	
 					}
@@ -655,7 +660,7 @@ void ReadPassword_EEPROM_SaveData(void)
                      if(run_t.input_digital_key_number_counter > 4){
  
                             value=0;
-							run_t.clear_virtual_numbers =1;    
+							//run_t.clear_virtual_numbers =1;    
                          //value = BF_Search(virtualPwd,origin_pwd);
 					 }
                     else
@@ -667,7 +672,6 @@ void ReadPassword_EEPROM_SaveData(void)
 					
 						 run_t.input_digital_key_number_counter=0;
 				
-	
 						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
 					
 						return ;
@@ -785,6 +789,7 @@ static void ClearVirtual_Aarray_Fun(void)
 	   }
 
     }
+	run_t.readpwd_array_length = 0;
 	HAL_Delay(5);
 	
 }

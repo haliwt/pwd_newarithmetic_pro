@@ -63,7 +63,8 @@ typedef struct __RUN_T{
 	uint8_t  clearEeeprom_count;
 	uint8_t  backlight_label;
 	
-	
+	//password 
+	uint8_t readpwd_array_length ;
 	
 	uint8_t Confirm_newPassword;
 	uint8_t inputNewPasswordTimes;
