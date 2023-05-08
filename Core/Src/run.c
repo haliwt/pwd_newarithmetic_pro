@@ -655,7 +655,7 @@ void ReadPassword_EEPROM_SaveData(void)
                      if(run_t.input_digital_key_number_counter > 4){
  
                             value=0;
-							    
+							run_t.clear_virtual_numbers =1;    
                          //value = BF_Search(virtualPwd,origin_pwd);
 					 }
                     else

@@ -492,7 +492,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.confirm_button_flag = confirm_button_pressed;
 				}
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
-						run_t.input_digital_key_number_counter=0;
+						//run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
 						run_t.backlight_label =BACKLIGHT_ON;
 				       //sound by run process adjust
 				       run_t.oneself_copy_behavior=1;
