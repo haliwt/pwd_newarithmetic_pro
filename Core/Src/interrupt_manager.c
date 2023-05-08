@@ -13,16 +13,19 @@
 *******************************************************************************/
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-   static  uint8_t touchkey=0xff;
+  
     
-   
-   if(GPIO_Pin == SC12B_KEY_Pin){
-       POWER_ON();
+  if(GPIO_Pin == SC12B_KEY_Pin){
+      
+      if(Read_SC12B_KEY()==1)
+           POWER_ON();
    
       if(run_t.lowPower_flag ==0){
 	  	   
+	  	   
 	 	     SystemClock_Config();
 			  HAL_ResumeTick();
+	          MX_GPIO_Init();
 			  run_t.inputDeepSleep_times =0;
 			  POWER_ON();
 
@@ -46,6 +49,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 				 
 				  SystemClock_Config();
 				  HAL_ResumeTick();
+		         MX_GPIO_Init();
 				 run_t.inputDeepSleep_times =0;
 				 POWER_ON();
 			 

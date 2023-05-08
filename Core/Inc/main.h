@@ -95,8 +95,8 @@ void Error_Handler(void);
 #define CTRL2_Pin 					GPIO_PIN_7
 #define CTRL2_GPIO_Port 			GPIOA
 
-#define LED1_Pin GPIO_PIN_1
-#define LED1_GPIO_Port GPIOB
+#define LED1_Pin 							GPIO_PIN_1  //key of led light
+#define LED1_GPIO_Port 						GPIOB       //key of led light
 
 #define SC12B_KEY_Pin GPIO_PIN_9
 #define SC12B_KEY_GPIO_Port GPIOA

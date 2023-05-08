@@ -122,7 +122,7 @@ void BackLight_Control_Handler(void)
 
 		  case BACKLIGHT_OFF: //0X00
 		  
-	         BACKLIGHT_OFF();
+	        // BACKLIGHT_OFF();
 			  new_counter = 0;
               new_pwd_counter=0;
 			  err_cnt = 0;
@@ -133,7 +133,7 @@ void BackLight_Control_Handler(void)
 		    if(run_t.gTimer_8s > 8){
 	             run_t.keyPressed_flag =0;
 				 run_t.inputDeepSleep_times=0;
-				 run_t.backlight_label =BACKLIGHT_INPUT_STOP_MODEL;
+				 run_t.backlight_label =BACKLIGHT_AT_ONCE_OFF;
 			}
 
 		
@@ -325,7 +325,7 @@ void BackLight_Control_Handler(void)
               if(run_t.inputDeepSleep_times > 19){  //wait 30s  
 			   run_t.inputDeepSleep_times =0;
 		
-		
+		        GPIO_Standby_Init();
           		/*close tick timer low power Mode */
 		
 			    run_t.lowPower_flag=0;

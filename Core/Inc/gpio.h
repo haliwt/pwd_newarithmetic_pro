@@ -55,7 +55,7 @@ void MX_GPIO_Init(void);
 
 #define SC12B_KEY_Pin 					GPIO_PIN_9
 #define SC12B_KEY_GPIO_Port 			GPIOA
-#define SC12B_KEY_EXTI_IRQn 			EXTI4_15_IRQn
+
 
 
 #define Read_SC12B_KEY()         HAL_GPIO_ReadPin(SC12B_KEY_GPIO_Port,SC12B_KEY_Pin)
