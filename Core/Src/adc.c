@@ -19,10 +19,17 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "adc.h"
+#include "run.h"
+#include "led.h"
 
 /* USER CODE BEGIN 0 */
-//static uint16_t Get_Adc(void)  ;
+uint16_t adcVale;
+uint16_t adcx;
 
+
+static uint16_t Get_Adc(void) ;
+
+static uint16_t Get_Adc_Average(uint8_t times);
 
 /* USER CODE END 0 */
 
@@ -133,7 +140,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 //»ñµÃADCÖµ
 //ch: channel 0~16
 //return value: ADC trasmit defulat 
-uint16_t Get_Adc(void)   
+static uint16_t Get_Adc(void)   
 {
     uint16_t adc_temp;
     ADC_ChannelConfTypeDef ADC0_ChanConf;
@@ -157,16 +164,46 @@ uint16_t Get_Adc(void)
 }
 
 
-uint16_t Get_Adc_Average(uint8_t times)
+static uint16_t Get_Adc_Average(uint8_t times)
 {
 	uint32_t temp_val=0;
 	uint8_t t;
 	for(t=0;t<times;t++)
 	{
 		temp_val+=Get_Adc();
-		HAL_Delay(10);
+		HAL_Delay(5);
 	}
 	return temp_val/times;
 } 	 
+
+void ADC_Detected_LowVoltage(void)
+{
+if(run_t.gTimer_ADC >6){
+	   
+	   run_t.gTimer_ADC=0;
+
+	   POWER_ON();
+	   adcx=Get_Adc_Average(10);
+	
+	   adcVale=(uint16_t)((adcx*3300)/4096); //3111 ampliiction * 1000
+   
+
+	   if(adcVale < 1500 ){ // low 3.3V is alarm
+		   run_t.ADC_times++; //WT.EDIT 2022.09.09
+		   if(run_t.ADC_times > 2 ){
+			   run_t.ADC_times = 0;
+			   BAT_LED_ON();
+		   }
+
+	   }
+	   else{
+		   run_t.ADC_times = 0;
+		   BAT_LED_OFF();
+		   HAL_ADC_Stop(&hadc);  
+
+	   }
+			   
+	 }
+}
 
 /* USER CODE END 1 */
