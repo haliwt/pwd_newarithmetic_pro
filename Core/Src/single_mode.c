@@ -48,6 +48,8 @@ void Start_PowerOn_Handler(void)
 		
 			POWER_ON();
 			BACKLIGHT_ON();
+			OK_LED_OFF();
+			ERR_LED_OFF();
 			BUZZER_KeySound();//WT.EDIT 2022.09.12
 		           
 		} 
