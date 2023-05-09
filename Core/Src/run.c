@@ -419,11 +419,11 @@ void RunCommand_Unlock(void)
 static void Read_Administrator_Password(void)
 {
      
-	  static unsigned char value;
+	  static uint8_t  value,default_read_has_been;
 	  static uint32_t    ReadAddress; 
       uint8_t i;
 
-	 for(run_t.eepromAddress =0; run_t.eepromAddress <3;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
+	 for(run_t.eepromAddress =0; run_t.eepromAddress <4;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
 	  
 	    switch(run_t.eepromAddress){
 	
@@ -440,6 +440,15 @@ static void Read_Administrator_Password(void)
 					 ReadAddress = USER_2;
 			   break;
 
+			   case 3:
+
+			         run_t.password_unlock = UNLOCK_FAIL;
+				     run_t.input_digital_key_number_counter=0;
+			         run_t.keyPressed_flag=0; //WT.EDIT 2023.
+					break;
+
+			   break;
+
 			   default:
 
 			   break;
@@ -453,10 +462,10 @@ static void Read_Administrator_Password(void)
 	   	 
 		    run_t.gTimer_8s =0;//
 		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
-		    HAL_Delay(5);
+		    HAL_Delay(1);
 		   if(readFlag[0] >0){// has a been saved pwassword 
 
-                    
+                    default_read_has_been = 1;
 					EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
 					HAL_Delay(5);
 					
@@ -488,14 +497,17 @@ static void Read_Administrator_Password(void)
                    	}
 						
 		   	}
+		    else{
+
+
+			}
 		    
           
 		   
-		   if(run_t.eepromAddress==2){ //don't has a empty space,default password is  "1,2,3,4" ,don't be write new  password
+		   if(run_t.eepromAddress==2 && default_read_has_been ==0 ){ //don't has a empty space,default password is  "1,2,3,4" ,don't be write new  password
 				Default_Read_Administrator_Pwd();
 			        
-                
-             }
+            }
 			 
 				 
 		}
