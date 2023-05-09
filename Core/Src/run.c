@@ -792,7 +792,7 @@ uint8_t OverNumbers_Password_Handler(void)
 	EEPROM_Read_Byte(ReadAddress,readFlag,0x01);
 
 
-	if(readFlag[0] ==1){ //over ten numbers password
+	if(readFlag[0] > 0){ //over ten numbers password
 		
 		read_flag = 1;
 	}
