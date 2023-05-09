@@ -23,8 +23,8 @@ __IO uint8_t readpwd_array_length;
 
 void (*RunChed_KeyMode)(uint16_t keydat);
 void (*ClearVirtual_Numbers)(void);
-void (*Default_Read_Administrator_Pwd)(void);
-static void Default_Read_Administrator_PwdFun(void);
+uint8_t (*Default_Read_Administrator_Pwd)(void);
+static uint8_t Default_Read_Administrator_PwdFun(void);
 
 
 
@@ -514,7 +514,7 @@ static void Read_Administrator_Password(void)
 void ReadPassword_EEPROM_SaveData(void)
 {
      
-	  uint8_t i,value;//readpwd_array_length;
+	  uint8_t i,value,default_read;//readpwd_array_length;
 	  static uint32_t    ReadAddress; 
 	  
 	  ReadAddress = ADMINI;
@@ -624,7 +624,10 @@ void ReadPassword_EEPROM_SaveData(void)
 	 		}
 		    else{
 
-					Default_Read_Administrator_Pwd();
+					default_read = Default_Read_Administrator_Pwd();
+
+			        if(default_read == 1) return ;
+					else return ;
 			       
 				 }
 
@@ -634,48 +637,48 @@ void ReadPassword_EEPROM_SaveData(void)
 
 
 
-static void Default_Read_Administrator_PwdFun(void)
+static uint8_t Default_Read_Administrator_PwdFun(void)
 {
     uint8_t value;  
     uint32_t default_address;
 	
-	                 default_address = ADMINI;
-					 EEPROM_Read_Byte(default_address,readFlag,1);
-					 HAL_Delay(5);
-					if(readFlag[0] ==0){
-	
+         default_address = ADMINI;
+		 EEPROM_Read_Byte(default_address,readFlag,1);
+		 HAL_Delay(5);
+		if(readFlag[0] ==0){
+
+		 
+		  if(run_t.input_digital_key_number_counter > 4){//6 default is 4 nuber adminstrator "1,2,3,4"
+
+				 value=0;
 					 
-					  if(run_t.input_digital_key_number_counter > 4){//6 default is 4 nuber adminstrator "1,2,3,4"
-	
-							 value=0;
-								 
-						  //value = BF_Search(virtualPwd,origin_pwd);
-					  }
-					 else
-					  value =CompareValue(origin_pwd, pwd1);
-	
-					if(value==1){
-										
-						 run_t.password_unlock=UNLOCK_SUCCESS;
-						 //run_t.confirm_button_flag=confirm_button_unlock;
-						 run_t.gTimer_8s =0;//
-						 run_t.keyPressed_flag=0; //WT.EDIT 2023
-					 
-						 return ;
-	
-					 }
-					 else{
-	
-						 // Fail = 1;
-						  run_t.password_unlock = UNLOCK_FAIL;
-						   run_t.input_digital_key_number_counter=0;
-						  run_t.gTimer_8s =0;//
-						  run_t.keyPressed_flag=0; //WT.EDIT 2023.
-	
-						  return ;
-						 
-					 }
-				  }
+			  //value = BF_Search(virtualPwd,origin_pwd);
+		  }
+		 else
+		  value =CompareValue(origin_pwd, pwd1);
+
+		if(value==1){
+							
+			 run_t.password_unlock=UNLOCK_SUCCESS;
+			 //run_t.confirm_button_flag=confirm_button_unlock;
+			 run_t.gTimer_8s =0;//
+			 run_t.keyPressed_flag=0; //WT.EDIT 2023
+		 
+			 return 1 ;
+
+		 }
+		 else{
+
+			 // Fail = 1;
+			  run_t.password_unlock = UNLOCK_FAIL;
+			   run_t.input_digital_key_number_counter=0;
+			  run_t.gTimer_8s =0;//
+			  run_t.keyPressed_flag=0; //WT.EDIT 2023.
+
+			  return 0 ;
+			 
+		 }
+	  }
 
 
 
@@ -790,7 +793,7 @@ void Clear_VirtualArray_Numbers(void(*clear_virtual)(void))
 }
 
 
-void Default_Read_Administrator_Handler(void(*default_read_pwd)(void))
+void Default_Read_Administrator_Handler(uint8_t (*default_read_pwd)(void))
 {
 
 	Default_Read_Administrator_Pwd =default_read_pwd;
