@@ -122,19 +122,19 @@ void SavePassword_To_EEPROM(void)
 
 		   case 10:
 		   	  	run_t.gTimer_8s=0;
-				run_t.Confirm_newPassword =0; //to save new password of flag 
+				run_t.Confirm_newPassword =0; 
 				
 				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
 				run_t.inputNewPasswordTimes =0;
 				
 
-				//run_t.fail_sound_flag=1; //WT.EDIT 2022.10.06
+				
 				run_t.buzzer_sound_tag = fail_sound;
 				//eeprom ref	
 		 
-		        run_t.inputNewPassword_Enable =0; //WT.EDIT 2022.09.28
-				run_t.keyPressed_flag =0; //WT.EDIT 2023.02.13
+		        run_t.inputNewPassword_Enable =0; 
+				run_t.keyPressed_flag =0; 
 
 				//led error control 
 	
@@ -148,15 +148,15 @@ void SavePassword_To_EEPROM(void)
 
         EEPROM_Read_Byte(run_t.userId,&run_t.readEepromData,1);
 		HAL_Delay(5);
-		if(run_t.readEepromData !=1){
+		if(run_t.readEepromData == 0){//if(run_t.readEepromData !=1){
 	 
              compare_value =CompareValue(pwd1, pwd2);
-			
+			 initvalue=run_t.input_digital_key_number_counter;
 			 if(compare_value ==1){ //be save data to eeprom flag 
 		 	     
-		         EEPROM_Write_Byte(run_t.userId ,&initvalue,1);
+		        EEPROM_Write_Byte(run_t.userId ,&initvalue,1);//EEPROM_Write_Byte(run_t.userId ,&initvalue,1); //physical_length
 				 HAL_Delay(5);
-				 EEPROM_Write_Byte(run_t.userId + 0x01,pwd1,6);
+				 EEPROM_Write_Byte(run_t.userId + 0x01,pwd1,run_t.input_digital_key_number_counter);
 				 HAL_Delay(5);
 			 
 	           
@@ -442,16 +442,16 @@ static void Read_Administrator_Password(void)
 		    run_t.gTimer_8s =0;//
 		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
 		    HAL_Delay(5);
-		   if(readFlag[0] ==1){// has a been saved pwassword 
+		   if(readFlag[0] > 0){// has a been saved pwassword 
 
                     
-					EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
+					EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,readFlag[0]);//EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
 					HAL_Delay(5);
 					
-                    lenth= sizeof(Readpwd)/(sizeof(Readpwd[0]));
-                    if(run_t.input_digital_key_number_counter > lenth){
+                     // lenth= sizeof(Readpwd)/(sizeof(Readpwd[0]));
+                    if(run_t.input_digital_key_number_counter > readFlag[0]){
  
-                        value = BF_Search(virtualPwd,Readpwd,lenth);
+                        value = BF_Search(virtualPwd,Readpwd,readFlag[0]);
 						run_t.clear_virtual_numbers =1;
 					}
 					else
@@ -541,13 +541,14 @@ static void Read_Administrator_Password(void)
 void ReadPassword_EEPROM_SaveData(void)
 {
      
-	  static unsigned char value;//readpwd_array_length;
+	  uint8_t i,value;//readpwd_array_length;
 	  static uint32_t    ReadAddress; 
+	  ReadAddress = ADMINI;
 	  
-
-	 for(run_t.eepromAddress =0; run_t.eepromAddress <11;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
+    while(run_t.eepromAddress< run_t.eepromAddress <11){
+	 //for(run_t.eepromAddress =0; run_t.eepromAddress <11;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
 	  
-
+        #if 0
 		switch(run_t.eepromAddress){
 	
 				 case 0:
@@ -605,24 +606,19 @@ void ReadPassword_EEPROM_SaveData(void)
 				break;
 	
 		   }
-
-      
-	   if(run_t.eepromAddress <10){
-	   	   if(run_t.Confirm_newPassword == 1){ //set save new password flag bit by administrator open lock
-                ReadAddress = ADMINI;
-           }
+	#endif 
+		   run_t.gTimer_8s =0;
+           EEPROM_Read_Byte(ReadAddress,readFlag,1);
 		   
-		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
-		    HAL_Delay(3);
-		   if(readFlag[0] ==1){// has a been saved pwassword 
+		   if(readFlag[0] >0){ // has a been saved pwassword 
 
-					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,6);
-					HAL_Delay(5);
+					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,readFlag[0]);
+				
 					
-                    run_t.readpwd_array_length = sizeof(Readpwd)/(sizeof(Readpwd[0]));
-                    if(run_t.input_digital_key_number_counter > run_t.readpwd_array_length){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
+                   // run_t.readpwd_array_length = sizeof(Readpwd)/(sizeof(Readpwd[0]));
+                    if(run_t.input_digital_key_number_counter > readFlag[0]){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
  
-                        value = BF_Search(virtualPwd,Readpwd,run_t.readpwd_array_length);
+                        value = BF_Search(virtualPwd,Readpwd,readFlag[0]);
 						run_t.clear_virtual_numbers =1;
 					}
 					else
@@ -643,68 +639,91 @@ void ReadPassword_EEPROM_SaveData(void)
 					}
 					else{
 						
-                     	if(run_t.Confirm_newPassword == 1){
-						  // Fail = 1;
+                         
+
+                               for(i=0;i<6;i++){
+
+								Readpwd[i]=0;
+
+							   }
+
+						 
+                         run_t.eepromAddress++;
+					     switch(run_t.eepromAddress){
+			
+						 case 0:
+							  ReadAddress = ADMINI;
+						 break;
+						 case 1:
+							 ReadAddress = USER_1;
+						  
+					   break;
+			
+						 case 2:
+							 ReadAddress = USER_2;
+					   break;
+			
+					   case 3:
+							 ReadAddress = USER_3;
+					   break;
+			
+					   case 4:
+							 ReadAddress = USER_4;
+					   break;
+			
+					   case 5:
+							ReadAddress = USER_5;
+						break;
+			
+					   case 6:
+							 ReadAddress = USER_6;
+						break;
+						
+						case 7:
+							ReadAddress = USER_7;
+						  break;
+			
+						 case 8:
+						 
+						   ReadAddress = USER_8;
+						 break;
+			
+						 case 9:
+						 
+							  ReadAddress = USER_9;
+					   break;
+			
+						 case 10:
+						   //Fail = 1;
 						   run_t.password_unlock = UNLOCK_FAIL;
-						 //  if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
 						   run_t.input_digital_key_number_counter=0;
-					         run_t.readpwd_array_length=0;
-						
-						   run_t.keyPressed_flag=0; //WT.EDIT 2023.
-						   return;
+						   run_t.readpwd_array_length=0;
 							
-						}
-						run_t.input_digital_key_number_counter=0;
-						run_t.readpwd_array_length=0;
-						//n_t.eepromAddress++ ;	
-					}
-
-			}
-			else{ //don't has a empty space,default password is  "1,2,3,4" ,don't be write new  password
-
-			     if(ReadAddress == ADMINI){
-
-				    
-                     if(run_t.input_digital_key_number_counter > 4){
- 
-                            value=0;
-							//run_t.clear_virtual_numbers =1;    
-                         //value = BF_Search(virtualPwd,origin_pwd);
-					 }
-                    else
-					 value =CompareValue(origin_pwd, pwd1);
-
-				   if(value==1){
-									   
-						 run_t.password_unlock=UNLOCK_SUCCESS;
+					      run_t.keyPressed_flag=0; //WT.EDIT 2023.
 					
-						 run_t.input_digital_key_number_counter=0;
 				
-						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
-					
-						return ;
-
-					}
-					else{
-
-					   //  Fail = 1;
-						 run_t.password_unlock = UNLOCK_FAIL;
-					     run_t.input_digital_key_number_counter=0;
+						   return ;
+						break;
+			
+		   					}
 						
-					
-						  run_t.keyPressed_flag=0; //WT.EDIT 2023.
-						 return ;
-						
-					}
-				 }
-				 //n_t.eepromAddress++ ;	
-				 
-			}
-
 		 
-	   	}
+	   				}
 	  
-	 }
+	 		}
+		    else{
+
+			   run_t.password_unlock = UNLOCK_FAIL;
+			  run_t.input_digital_key_number_counter=0;
+			  run_t.readpwd_array_length=0;
+				   
+			 run_t.keyPressed_flag=0; //WT.EDIT 2023.
+	   
+   
+			  return ;
+
+			}
+	}
 }
 
 /****************************************************************************

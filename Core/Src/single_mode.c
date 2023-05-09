@@ -121,10 +121,7 @@ static void UnLock_And_SaveData_Handler(void)
 		
 		
 		run_t.confirm_button_flag =confirm_button_donot_pressed ;
-		
-
-		//run_t.fail_sound_flag=1; 
-         run_t.buzzer_sound_tag = fail_sound;
+		run_t.buzzer_sound_tag = fail_sound;
 	
 		run_t.clear_inputNumbers_newpassword=0;
 

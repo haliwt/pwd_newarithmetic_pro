@@ -9,7 +9,7 @@
 #include "key.h"
 #include "single_mode.h"
 
-
+//#define DEBUG_FLAG    
 
 static void ClearEEPROM_Data_Fun(void);
 
@@ -324,8 +324,12 @@ void BackLight_Control_Handler(void)
 
               if(run_t.inputDeepSleep_times > 19){  //wait 30s  
 			   run_t.inputDeepSleep_times =0;
-		
-		        GPIO_Standby_Init();
+
+			   #ifdef DEBUG_FLAG
+
+			       GPIO_Standby_Init();
+
+			   #endif 
           		/*close tick timer low power Mode */
 		
 			    run_t.lowPower_flag=0;

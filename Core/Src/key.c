@@ -470,15 +470,12 @@ void RunCheck_Mode(uint16_t dat)
 					case 2:
 					//Confirm Key "#"
 			
-                    run_t.input_digital_key_number_counter=0;
+                   // run_t.input_digital_key_number_counter=0;
 			
-	
 					run_t.confirm_button_flag=confirm_button_unlock;
 				    run_t.new_pwd_save_data_tag = NEW_PWD_SAVE_DATA_TO_EEPROM;
 					run_t.inputDeepSleep_times =0;
 					run_t.gTimer_8s=0;
-				
-					//run_t.backlight_label =BACKLIGHT_OK_BLINK;
 
 
 					break;
@@ -491,13 +488,13 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputNewPasswordTimes=0; 
 					   // run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
 						run_t.inputDeepSleep_times =0;
-				        run_t.backlight_label =BACKLIGHT_ON;
+				      
 
 						run_t.confirm_button_flag = confirm_button_pressed;
 				}
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
 						//run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
-						run_t.backlight_label =BACKLIGHT_ON;
+					
 				       //sound by run process adjust
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
