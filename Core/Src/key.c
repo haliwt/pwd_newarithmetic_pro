@@ -406,9 +406,10 @@ void RunCheck_Mode(uint16_t dat)
 		     key=0;
 			
 			run_t.gTimer_8s=0;
+			
 			POWER_ON();
 
-			
+			run_t.backlight_label =BACKLIGHT_ON;
 
 		    if(run_t.input_digital_key_number_counter ==0){
 			

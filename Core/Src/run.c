@@ -655,7 +655,7 @@ void ReadPassword_EEPROM_SaveData(void)
 							
 						}
 						run_t.input_digital_key_number_counter=0;
-						  run_t.readpwd_array_length=0;
+						run_t.readpwd_array_length=0;
 						//n_t.eepromAddress++ ;	
 					}
 
