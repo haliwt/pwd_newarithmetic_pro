@@ -16,6 +16,9 @@ uint8_t pwd1[6];
 uint8_t pwd2[6];
 uint8_t origin_pwd[4]={1,2,3,4};
 
+uint8_t default_read_has_been;
+
+
 uint8_t Readpwd[6];
 uint32_t eevalue ;
 __IO uint8_t readpwd_array_length;
@@ -25,6 +28,8 @@ void (*RunChed_KeyMode)(uint16_t keydat);
 void (*ClearVirtual_Numbers)(void);
 uint8_t (*Default_Read_Administrator_Pwd)(void);
 static uint8_t Default_Read_Administrator_PwdFun(void);
+static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress);
+
 
 
 
@@ -419,28 +424,41 @@ void RunCommand_Unlock(void)
 static void Read_Administrator_Password(void)
 {
      
-	  static uint8_t  value,default_read_has_been;
+	  static uint8_t  value,read_value;
 	  static uint32_t    ReadAddress; 
       uint8_t i;
 
-	 for(run_t.eepromAddress =0; run_t.eepromAddress <4;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
+	// for(run_t.eepromAddress =0; run_t.eepromAddress <4;run_t.eepromAddress++){ //2022.10.07 be changed ten password 
 	  
 	    switch(run_t.eepromAddress){
 	
 				 case 0:
 					  ReadAddress = ADMINI;
+		              read_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+				      if(read_value == 1) run_t.eepromAddress= 5;
+					  else if(read_value ==0) run_t.eepromAddress= 1;
+					  else if(read_value==0xff) run_t.eepromAddress= 4;
 				 break;
 				 
 				 case 1:
 					 ReadAddress = USER_1;
+					 read_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+				     if(read_value == 1) run_t.eepromAddress= 5; 
+					 else if(read_value ==0) run_t.eepromAddress= 2;
+					 else run_t.eepromAddress= 3;
 				  
 			   break;
 	
 			   case 2:
 					 ReadAddress = USER_2;
+					 read_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+				     if(read_value == 1) run_t.eepromAddress= 5;
+					 else if(read_value ==0)  run_t.eepromAddress= 3;
+					 else run_t.eepromAddress= 3;
 			   break;
 
 			   case 3:
+					 run_t.eepromAddress=0;
 
 			         run_t.password_unlock = UNLOCK_FAIL;
 				     run_t.input_digital_key_number_counter=0;
@@ -449,71 +467,131 @@ static void Read_Administrator_Password(void)
 
 			   break;
 
+			   case 4:
+			   	 run_t.eepromAddress=0;
+				read_value=	Default_Read_Administrator_Pwd();
+				
+				return ;
+			   break;
+
+			   case 5:
+			   	    run_t.eepromAddress=0;
+                   return ;
+			   break;
+
 			   default:
 
 			   break;
-	
+
 			  
 	
 		   }
 
       
-	   if(run_t.eepromAddress <3){
-	   	 
-		    run_t.gTimer_8s =0;//
-		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
-		    HAL_Delay(1);
-		   if(readFlag[0] >0){// has a been saved pwassword 
-
-                    default_read_has_been = 1;
-					EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
-					HAL_Delay(5);
-					
-
-                    if(run_t.input_digital_key_number_counter > 6){
- 
-                        value = BF_Search(virtualPwd,Readpwd,readFlag[0]);
-					}
-					else
-					    value = CompareValue(Readpwd,pwd1);
-					
-					
-					if(value==1)//if(strcmp(pwd1,pwd2)==0)
-					{
-						readFlag[0]=0;
-						
-						run_t.password_unlock=UNLOCK_SUCCESS;
-						//run_t.confirm_button_flag=confirm_button_unlock;
-						  run_t.gTimer_8s =0;//
-						  run_t.keyPressed_flag=0; //WT.EDIT 2023.
-						return ;
-
-					}
-					else{ // pass word compare is error 
-					     run_t.gTimer_8s =0;
-						 run_t.keyPressed_flag=1;
-						
-                        
-                   	}
-						
-		   	}
-		    else{
-
-
-			}
-		    
-          
-		   
-		   if(run_t.eepromAddress==2 && default_read_has_been ==0 ){ //don't has a empty space,default password is  "1,2,3,4" ,don't be write new  password
-				Default_Read_Administrator_Pwd();
-			        
-            }
-			 
-				 
-		}
-      }
-	
+//	   if(run_t.eepromAddress <3){
+//	   	 
+//		    run_t.gTimer_8s =0;//
+//		    
+//		    EEPROM_Read_Byte(ReadAddress,readFlag,1);
+//		    HAL_Delay(1);
+//		   if(readFlag[0] >0){// has a been saved pwassword 
+//
+//                    default_read_has_been = 1;
+//					EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
+//					HAL_Delay(5);
+//					
+//
+//                    if(run_t.input_digital_key_number_counter > 6){
+// 
+//                        value = BF_Search(virtualPwd,Readpwd,readFlag[0]);
+//					}
+//					else
+//					    value = CompareValue(Readpwd,pwd1);
+//					
+//					
+//					if(value==1)//if(strcmp(pwd1,pwd2)==0)
+//					{
+//						readFlag[0]=0;
+//						
+//						run_t.password_unlock=UNLOCK_SUCCESS;
+//						//run_t.confirm_button_flag=confirm_button_unlock;
+//						  run_t.gTimer_8s =0;//
+//						  run_t.keyPressed_flag=0; //WT.EDIT 2023.
+//						return ;
+//
+//					}
+//					else{ // pass word compare is error 
+//					     run_t.gTimer_8s =0;
+//						 run_t.keyPressed_flag=1;
+//						
+//                        
+//                   	}
+//						
+//		   	}
+//		   
+//		    
+//          
+//		   
+//		   if(run_t.eepromAddress==2 && default_read_has_been ==0 ){ //don't has a empty space,default password is  "1,2,3,4" ,don't be write new  password
+//				Default_Read_Administrator_Pwd();
+//			        
+//            }
+//			 
+//				 
+//		}
+  
 	  
+}
+
+static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
+{
+            uint8_t value ;
+	         EEPROM_Read_Byte(ReadAddress,readFlag,1);
+			 HAL_Delay(1);
+			if(readFlag[0] >0){// has a been saved pwassword 
+	
+					 default_read_has_been = 1;
+					 EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
+					 HAL_Delay(5);
+					 
+	
+					 if(run_t.input_digital_key_number_counter > 6){
+	
+						 value = BF_Search(virtualPwd,Readpwd,readFlag[0]);
+					 }
+					 else
+						 value = CompareValue(Readpwd,pwd1);
+					 
+					 
+					 if(value==1)//if(strcmp(pwd1,pwd2)==0)
+					 {
+						 readFlag[0]=0;
+						 
+						 run_t.password_unlock=UNLOCK_SUCCESS;
+						 //run_t.confirm_button_flag=confirm_button_unlock;
+						   run_t.gTimer_8s =0;//
+						   run_t.keyPressed_flag=0; //WT.EDIT 2023.
+						 return 1;
+	
+					 }
+					 else{ // pass word compare is error 
+						  run_t.gTimer_8s =0;
+						  run_t.keyPressed_flag=1;
+					      return 0;
+						 
+						 
+					 }
+						 
+			 }
+             else{
+
+                    if(ReadAddress==ADMINI) return 0xff;
+					else 2;
+
+
+			 }
+
+
 }
 /****************************************************************************
 *
