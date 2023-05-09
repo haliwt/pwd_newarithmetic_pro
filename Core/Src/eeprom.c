@@ -57,7 +57,7 @@ static void EEPROM_EraseData(void)
 void EEPROM_Read_Byte(uint32_t Addr,uint8_t *Buffer,uint8_t Length)
 {
    uint8_t *wAddr;  
-   // HAL_FLASHEx_DATAEEPROM_Unlock();
+    HAL_FLASHEx_DATAEEPROM_Unlock();
     wAddr=(uint8_t *)(DATA_EEPROM_BASE+Addr);  
     while(Length--){  
         *Buffer++=*wAddr++;  

@@ -592,6 +592,10 @@ void ReadPassword_EEPROM_SaveData(void)
 				 case 10:
 				   //Fail = 1;
 				   run_t.password_unlock = UNLOCK_FAIL;
+				   run_t.input_digital_key_number_counter=0;
+				   run_t.readpwd_array_length=0;
+						
+			      run_t.keyPressed_flag=0; //WT.EDIT 2023.
 			
 		
 				   return ;
@@ -613,7 +617,7 @@ void ReadPassword_EEPROM_SaveData(void)
 					HAL_Delay(5);
 					
                     run_t.readpwd_array_length = sizeof(Readpwd)/(sizeof(Readpwd[0]));
-                    if(run_t.input_digital_key_number_counter > 6){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
+                    if(run_t.input_digital_key_number_counter > run_t.readpwd_array_length){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
  
                         value = BF_Search(virtualPwd,Readpwd,run_t.readpwd_array_length);
 						run_t.clear_virtual_numbers =1;
@@ -627,10 +631,9 @@ void ReadPassword_EEPROM_SaveData(void)
 						
 						
 						run_t.password_unlock=UNLOCK_SUCCESS;
-						//if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
 						run_t.input_digital_key_number_counter=0;
 					
-				
+				        run_t.readpwd_array_length=0;
 						run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						return ;
 
@@ -642,12 +645,14 @@ void ReadPassword_EEPROM_SaveData(void)
 						   run_t.password_unlock = UNLOCK_FAIL;
 						 //  if(run_t.input_digital_key_number_counter > 6)run_t.clear_virtual_numbers =1;
 						   run_t.input_digital_key_number_counter=0;
-					
+					         run_t.readpwd_array_length=0;
 						
 						   run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						   return;
 							
 						}
+						run_t.input_digital_key_number_counter=0;
+						  run_t.readpwd_array_length=0;
 						//n_t.eepromAddress++ ;	
 					}
 

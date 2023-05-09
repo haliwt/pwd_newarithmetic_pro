@@ -22,7 +22,7 @@ unsigned char BF_Search(uint8_t *virtual,uint8_t *pattern,uint8_t length)
                  i++;
 				 j++;
 		         m++;
-				 if(m == (length-1)) return 1;
+				 if(m == (length)) return 1;
 
 		  }
 		  else{
