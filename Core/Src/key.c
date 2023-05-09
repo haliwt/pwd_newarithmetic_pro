@@ -305,6 +305,7 @@ void RunCheck_Mode(uint16_t dat)
 			run_t.keyPressed_flag =1; // has a input key be pressing 
 			key=0;
             //backlight
+            POWER_ON();
             OK_LED_OFF();
 			ERR_LED_OFF();
 			run_t.backlight_label =BACKLIGHT_ON;
@@ -408,8 +409,10 @@ void RunCheck_Mode(uint16_t dat)
 			run_t.gTimer_8s=0;
 			
 			POWER_ON();
+			OK_LED_OFF();
 
 			run_t.backlight_label =BACKLIGHT_ON;
+			
 
 		    if(run_t.input_digital_key_number_counter ==0){
 			
@@ -598,7 +601,7 @@ void RunCheck_Mode(uint16_t dat)
 
 		run_t.getSpecial_2_key++;//n1++;
 
-
+		POWER_ON();
 		run_t.backlight_label =BACKLIGHT_ON;
 	
 		run_t.input_digital_key_number_counter ++ ;
