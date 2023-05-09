@@ -616,7 +616,7 @@ void ReadPassword_EEPROM_SaveData(void)
 						    Readpwd[i]=0;
 
 							}
-
+						  readFlag[0]=0;
 						  run_t.keyPressed_flag=1;
                          run_t.eepromAddress++;
 					     switch(run_t.eepromAddress){
