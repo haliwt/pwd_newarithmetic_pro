@@ -72,7 +72,7 @@ void CheckPassword_Lock_Handler(void)
 
 	    case confirm_button_donot_pressed:
 	    if(run_t.panel_lock==0 &&  run_t.factory_test ==0){
-		   TouchKey();//TouchKey_Handler();
+		   TouchKey_Handler();//TouchKey_Handler();
 	     }
 
        break;

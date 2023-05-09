@@ -134,6 +134,8 @@ extern void (*ClearVirtual_Numbers)(void);
 
 extern void (*RunChed_KeyMode)(uint16_t keydat);
 
+extern void (*Default_Read_Administrator_Pwd)(void);
+
 
 void Run_Init(void);
 
@@ -156,6 +158,8 @@ uint8_t InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
 void Clear_VirtualArray_Numbers(void(*clear_virtual)(void));
 
 uint8_t OverNumbers_Password_Handler(void);
+
+void Default_Read_Administrator_Handler(void(*default_read_pwd)(void));
 
 #endif 
 

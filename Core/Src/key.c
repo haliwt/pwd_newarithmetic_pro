@@ -11,7 +11,7 @@
 
 key_types key;
 uint8_t buzzertimes;
-void (*TouchKey_Handler)(void);
+
 void  (*ReadDigital_Key_Numbers_Handler)(void);
 
 __IO uint16_t  KeyValue;
@@ -35,7 +35,7 @@ static void ReadDigital_Inputkey_Fun(void);
 *******************************************************************************/
 void KeyFiles_Init(void)
 {
-    TouchKey_Run_Handler(TouchKey);
+
 	ReadInput_KeyNumber_Handler(ReadDigital_Inputkey_Fun);
 
 
@@ -232,13 +232,13 @@ void  SideKey_Fun(uint8_t keyvalue)
 
 /*******************************************************
  * 
- * Function Name:void TouchKey(void)
+ * Function Name:void TouchKey_Handler(void)
  * Function: start power on handler
  * INPUT Ref:NO
  * Return Ref:NO
  * 
 ********************************************************/
-void TouchKey(void)
+void TouchKey_Handler(void)
 {
   
 	 
@@ -268,12 +268,6 @@ void TouchKey(void)
 	}
 }
 
-void TouchKey_Run_Handler(void (*touchkey_huandler)(void))
-{
-
-	TouchKey_Handler=touchkey_huandler;
-
-}
 
 
 /****************************************************************************
@@ -488,9 +482,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputNewPasswordTimes=0; 
 					   // run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
 						run_t.inputDeepSleep_times =0;
-				      
-
-						run_t.confirm_button_flag = confirm_button_pressed;
+				        run_t.confirm_button_flag = confirm_button_pressed;
 				}
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
 						//run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number

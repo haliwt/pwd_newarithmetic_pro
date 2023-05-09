@@ -14,7 +14,7 @@ uint8_t compare_value;
 uint8_t readFlag[1]={0};
 uint8_t pwd1[6];
 uint8_t pwd2[6];
-uint8_t origin_pwd[6]={1,2,3,4,0,0};
+uint8_t origin_pwd[4]={1,2,3,4};
 
 uint8_t Readpwd[6];
 uint32_t eevalue ;
@@ -23,15 +23,20 @@ __IO uint8_t readpwd_array_length;
 
 void (*RunChed_KeyMode)(uint16_t keydat);
 void (*ClearVirtual_Numbers)(void);
+void (*Default_Read_Administrator_Pwd)(void);
+static void Default_Read_Administrator_PwdFun(void);
+
+
 
 static void Read_Administrator_Password(void);
 static void ClearVirtual_Aarray_Fun(void);
+static void Read_Administrator_Password(void);
 
 
 void Run_Init(void)
 {
     Clear_VirtualArray_Numbers(ClearVirtual_Aarray_Fun);
-
+	Default_Read_Administrator_Handler(Default_Read_Administrator_PwdFun);
 
 }
 
@@ -483,47 +488,12 @@ static void Read_Administrator_Password(void)
                    	}
 						
 		   	}
+		    
           
 		   
 		   if(run_t.eepromAddress==2){ //don't has a empty space,default password is  "1,2,3,4" ,don't be write new  password
-
-			        ReadAddress = ADMINI;
-                    EEPROM_Read_Byte(ReadAddress,readFlag,1);
-                    HAL_Delay(5);
-                   if(readFlag[0] ==0){
-
-				    
-                     if(run_t.input_digital_key_number_counter > 4){//6 default is 4 nuber adminstrator "1,2,3,4"
- 
-                            value=0;
-							    
-                         //value = BF_Search(virtualPwd,origin_pwd);
-					 }
-                    else
-					 value =CompareValue(origin_pwd, pwd1);
-
-				   if(value==1){
-									   
-						run_t.password_unlock=UNLOCK_SUCCESS;
-						//run_t.confirm_button_flag=confirm_button_unlock;
-						run_t.gTimer_8s =0;//
-						run_t.keyPressed_flag=0; //WT.EDIT 2023
-					
-						return ;
-
-					}
-					else{
-
-					    // Fail = 1;
-						 run_t.password_unlock = UNLOCK_FAIL;
-						// run_t.confirm_button_flag=confirm_button_unlock;
-						 run_t.gTimer_8s =0;//
-						 run_t.keyPressed_flag=0; //WT.EDIT 2023.
-
-						 return ;
-						
-					}
-				 }
+				Default_Read_Administrator_Pwd();
+			        
                 
              }
 			 
@@ -654,20 +624,64 @@ void ReadPassword_EEPROM_SaveData(void)
 	 		}
 		    else{
 
-			   run_t.password_unlock = UNLOCK_FAIL;
-			  run_t.input_digital_key_number_counter=0;
-			  run_t.readpwd_array_length=0;
-			   run_t.eepromAddress=0;
-				   
-			 run_t.keyPressed_flag=0; 
-	   
-   
-			  return ;
+					Default_Read_Administrator_Pwd();
+			       
+				 }
 
-			}
+			  
 	}
 }
 
+
+
+static void Default_Read_Administrator_PwdFun(void)
+{
+    uint8_t value;  
+    uint32_t default_address;
+	
+	                 default_address = ADMINI;
+					 EEPROM_Read_Byte(default_address,readFlag,1);
+					 HAL_Delay(5);
+					if(readFlag[0] ==0){
+	
+					 
+					  if(run_t.input_digital_key_number_counter > 4){//6 default is 4 nuber adminstrator "1,2,3,4"
+	
+							 value=0;
+								 
+						  //value = BF_Search(virtualPwd,origin_pwd);
+					  }
+					 else
+					  value =CompareValue(origin_pwd, pwd1);
+	
+					if(value==1){
+										
+						 run_t.password_unlock=UNLOCK_SUCCESS;
+						 //run_t.confirm_button_flag=confirm_button_unlock;
+						 run_t.gTimer_8s =0;//
+						 run_t.keyPressed_flag=0; //WT.EDIT 2023
+					 
+						 return ;
+	
+					 }
+					 else{
+	
+						 // Fail = 1;
+						  run_t.password_unlock = UNLOCK_FAIL;
+						   run_t.input_digital_key_number_counter=0;
+						  run_t.gTimer_8s =0;//
+						  run_t.keyPressed_flag=0; //WT.EDIT 2023.
+	
+						  return ;
+						 
+					 }
+				  }
+
+
+
+
+
+}
 /****************************************************************************
 *
 *Function Name:unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
@@ -775,6 +789,14 @@ void Clear_VirtualArray_Numbers(void(*clear_virtual)(void))
 		ClearVirtual_Numbers = clear_virtual;
 }
 
+
+void Default_Read_Administrator_Handler(void(*default_read_pwd)(void))
+{
+
+	Default_Read_Administrator_Pwd =default_read_pwd;
+
+}
+
 /****************************************************************************
 *
 *Function Name:void OverNumbers_Password_Handler(void)
@@ -805,3 +827,4 @@ uint8_t OverNumbers_Password_Handler(void)
 
 
 }
+
