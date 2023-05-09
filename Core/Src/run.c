@@ -639,12 +639,12 @@ void ReadPassword_EEPROM_SaveData(void)
 
 static uint8_t Default_Read_Administrator_PwdFun(void)
 {
-    uint8_t value;  
+    uint8_t value,i;  
     uint32_t default_address;
 	
          default_address = ADMINI;
 		 EEPROM_Read_Byte(default_address,readFlag,1);
-		 HAL_Delay(5);
+		 HAL_Delay(1);
 		if(readFlag[0] ==0){
 
 		 
@@ -660,9 +660,13 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 		if(value==1){
 							
 			 run_t.password_unlock=UNLOCK_SUCCESS;
-			 //run_t.confirm_button_flag=confirm_button_unlock;
+			 run_t.input_digital_key_number_counter=0;
 			 run_t.gTimer_8s =0;//
 			 run_t.keyPressed_flag=0; //WT.EDIT 2023
+			 for(i=0;i<4;i++){
+                pwd1[i]=0;
+
+			 }
 		 
 			 return 1 ;
 
@@ -674,6 +678,10 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 			   run_t.input_digital_key_number_counter=0;
 			  run_t.gTimer_8s =0;//
 			  run_t.keyPressed_flag=0; //WT.EDIT 2023.
+			   for(i=0;i<4;i++){
+                pwd1[i]=0;
+
+			 }
 
 			  return 0 ;
 			 
