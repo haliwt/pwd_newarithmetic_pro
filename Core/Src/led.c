@@ -9,7 +9,7 @@
 #include "key.h"
 #include "single_mode.h"
 
-#define DEBUG_FLAG    
+//#define DEBUG_FLAG    
 
 static void ClearEEPROM_Data_Fun(void);
 

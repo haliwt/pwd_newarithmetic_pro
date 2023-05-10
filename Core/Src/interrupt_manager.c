@@ -19,7 +19,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
       
        
    
-      if(run_t.lowPower_flag < 2){
+      if(run_t.lowPower_flag == 0){
 	  	   
 	  	   
 	 	     SystemClock_Config();
@@ -44,7 +44,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   
 	   
 		// __HAL_GPIO_EXTI_CLEAR_IT(KEY_Pin);
-		 if(run_t.lowPower_flag <2){
+		 if(run_t.lowPower_flag ==0){
 				 
 				  SystemClock_Config();
 				  HAL_ResumeTick();

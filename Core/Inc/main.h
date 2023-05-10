@@ -68,10 +68,10 @@ void Error_Handler(void);
 #define MOTOR_CW_Pin GPIO_PIN_15
 #define MOTOR_CW_GPIO_Port GPIOC
 
-#define BAT_VOL_Pin 						GPIO_PIN_9 //GPIO_PIN_0
+#define BAT_VOL_Pin 						GPIO_PIN_1 //GPIO_PIN_0
 #define BAT_VOL_GPIO_Port 					GPIOA
 
-#define LOW_LED_Pin 						GPIO_PIN_1
+#define LOW_LED_Pin 						GPIO_PIN_9
 #define LOW_LED_GPIO_Port 					GPIOA
 
 #define OK_LED_Pin             				 GPIO_PIN_2
