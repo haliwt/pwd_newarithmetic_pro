@@ -24,7 +24,7 @@ static void UnLock_And_SaveData_Handler(void);
 void Start_PowerOn_Handler(void)
 {
     
-	if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0){
+	if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0 && run_t.lowPower_flag==0){
 	              run_t.powerOn++;
 				  run_t.factory_test = 1;
 			

@@ -53,7 +53,7 @@ void MX_GPIO_Init(void);
 
 
 
-#define SC12B_KEY_Pin 					GPIO_PIN_9
+#define SC12B_KEY_Pin 					GPIO_PIN_0
 #define SC12B_KEY_GPIO_Port 			GPIOA
 
 

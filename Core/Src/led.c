@@ -334,13 +334,16 @@ void BackLight_Control_Handler(void)
 		
 			    run_t.lowPower_flag=0;
               
-				HAL_SuspendTick();
+				//HAL_SuspendTick();
 				SysTick->CTRL = 0x00;//关闭定时器
                 SysTick->VAL = 0x00;//清空val,清空定时器
 				
 				/* input low power mode "STOP"*/
+				//__HAL_RCC_PWR_CLK_ENABLE();
 		        HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);//WFI ->wait for interrupt
-		        SystemClock_Config();//Low power of low frequency 8MHz
+
+           
+			//	SystemClock_Config();//Low power of low frequency 8MHz
 			   
 		  }
 		  break;
