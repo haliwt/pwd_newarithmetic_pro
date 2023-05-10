@@ -6,6 +6,8 @@
 
 
 static void Fail_Buzzer_Sound(void);
+static void Buzzer_Two_KeySound(void);
+
 
 /*****************************************************************
   *
@@ -29,6 +31,22 @@ void BUZZER_KeySound(void)
 
   }
 }
+
+static void Buzzer_Two_KeySound(void)
+{
+  //unsigned int m=300;//80
+  unsigned int m=90;//100//80
+	while(m--){
+
+    HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
+    //delay_us(600);
+    delay_us(600);//460//__delay_us(300);;//__delay_us(800);//delayUS(300);
+   
+       
+
+  }
+}
+
 /*****************************************************************
   *
   *Function Name: void BUZZER_KeySound(void)
@@ -117,7 +135,7 @@ void Buzzer_High_Sound(void)
 
 void Buzzer_High_Sound_2(void)
 {
-     unsigned int m=40;//100
+     unsigned int m=70;//40;//100
 
       while(m--){
           HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
@@ -185,9 +203,9 @@ void Buzzer_Sound_Handler(void)
 
 	   case two_short_two_sound://run_t.buzzer_two_short ==2
         
-	          BUZZER_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.09.13
-			  HAL_Delay(50);
-			  BUZZER_KeySound();
+	          Buzzer_Two_KeySound();//Buzzer_ShortSound(); //WT.EDIT 2022.09.13
+			  HAL_Delay(200);
+			  Buzzer_Two_KeySound();
           	
 		 run_t.buzzer_sound_tag = buzzer_sound_null;
 			
