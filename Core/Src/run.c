@@ -75,7 +75,7 @@ uint8_t CompareValue(uint8_t *pt1,uint8_t *pt2)
 ****************************************************************************/
 void SavePassword_To_EEPROM(void)
 {
-   static uint8_t eeNumbers;
+   static uint8_t eeNumbers,i;
    static uint8_t initvalue =0x01;
    run_t.gTimer_8s=0;
   for(eeNumbers =0; eeNumbers< 11;eeNumbers++){// password is ten numbers
@@ -157,7 +157,7 @@ void SavePassword_To_EEPROM(void)
 		  }
 
         EEPROM_Read_Byte(run_t.userId,&run_t.readEepromData,1);
-		HAL_Delay(5);
+		HAL_Delay(1);
 		if(run_t.readEepromData == 0){//if(run_t.readEepromData !=1){
 	 
              compare_value =CompareValue(pwd1, pwd2);
@@ -186,9 +186,13 @@ void SavePassword_To_EEPROM(void)
 		      
 	             //led control
 				run_t.gTimer_8s=10;
-			
-			
 				run_t.backlight_label = BACKLIGHT_OK_BLINK;
+
+				for(i=0;i<6;i++){
+				   pwd1[i]=0;
+				   pwd2[i]=0;
+				   virtualPwd[i]=0;
+				}
 				
 				return ;
 			
@@ -219,6 +223,11 @@ void SavePassword_To_EEPROM(void)
 				run_t.gTimer_8s=3;//WT.EDIT 2023.02.11
 			
 				run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
+				for(i=0;i<6;i++){
+				   pwd1[i]=0;
+				   pwd2[i]=0;
+				   virtualPwd[i]=0;
+				}
 				return ;
 			}
               
