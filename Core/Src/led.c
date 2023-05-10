@@ -9,7 +9,7 @@
 #include "key.h"
 #include "single_mode.h"
 
-//#define DEBUG_FLAG    
+#define DEBUG_FLAG    
 
 static void ClearEEPROM_Data_Fun(void);
 
@@ -333,7 +333,7 @@ void BackLight_Control_Handler(void)
           		/*close tick timer low power Mode */
 		
 			    run_t.lowPower_flag=0;
-              
+              //  __HAL_IWDG_START(__HANDLE__)
 				//HAL_SuspendTick();
 				SysTick->CTRL = 0x00;//关闭定时器
                 SysTick->VAL = 0x00;//清空val,清空定时器
@@ -342,8 +342,7 @@ void BackLight_Control_Handler(void)
 				//__HAL_RCC_PWR_CLK_ENABLE();
 		        HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);//WFI ->wait for interrupt
 
-           
-			//	SystemClock_Config();//Low power of low frequency 8MHz
+                SystemClock_Config();//Low power of low frequency 8MHz
 			   
 		  }
 		  break;

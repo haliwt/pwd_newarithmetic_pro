@@ -19,7 +19,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
       
        
    
-      if(run_t.lowPower_flag < 3){
+      if(run_t.lowPower_flag < 2){
 	  	   
 	  	   
 	 	     SystemClock_Config();
