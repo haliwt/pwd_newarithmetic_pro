@@ -485,8 +485,7 @@ void RunCheck_Mode(uint16_t dat)
 				}
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
 						//run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
-					
-				       //sound by run process adjust
+						run_t.inputNewPasswordTimes=0;
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
 					  
