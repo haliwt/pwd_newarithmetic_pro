@@ -41,7 +41,7 @@ void ClearEEPROM_Data_Fun(void)
 		  if(run_t.clearEeprom==1){
 			run_t.clearEeprom = 0;
 			run_t.gTimer_8s =0;
-
+            
 			ClearEEPRO_Data();
 			run_t.gTimer_8s =0;
 			
@@ -56,6 +56,7 @@ void ClearEEPROM_Data_Fun(void)
 			run_t.backlight_label = BACKLIGHT_OK_BLINK; //WT.EDIT 2023.03.27
 			run_t.confirm_button_flag=confirm_button_donot_pressed;
 			run_t.Confirm_newPassword = 0;
+			run_t.eepromAddress=0;
 			 
 		  }
       
@@ -159,16 +160,16 @@ void BackLight_Control_Handler(void)
          ok_cnt ++ ;
 		 BACKLIGHT_ON();
 		 ERR_LED_OFF();
-		 if(ok_cnt  < 91 ){
+		 if(ok_cnt  < 81 ){
 	
 			 OK_LED_OFF();
 			  
 		  }
-		  else if(ok_cnt >89 && ok_cnt  < 182){//500.WT.EDIT 2022.10.31
+		  else if(ok_cnt >79 && ok_cnt  < 162){//500.WT.EDIT 2022.10.31
 			  OK_LED_ON();
 		  }
 	
-		  if(ok_cnt >180){ //1000.WT.EDIT 2022.10.31
+		  if(ok_cnt >160){ //1000.WT.EDIT 2022.10.31
 		  	ok_cnt  = 0;
 			confirm_ok_counter++;
            
@@ -201,15 +202,15 @@ void BackLight_Control_Handler(void)
 		    OK_LED_OFF();
 	
 	  
-		  if(err_cnt < 91 ){
+		  if(err_cnt < 81 ){
 	
 			  ERR_LED_OFF();
 			  
 		  }
-		  else if(err_cnt > 89 && err_cnt < 182){
+		  else if(err_cnt > 79 && err_cnt < 162){
 			  ERR_LED_ON();
 		  }
-		  if(err_cnt>180){
+		  if(err_cnt>160){
 		  	err_cnt = 0;
 			err_counter++;
 			
@@ -228,16 +229,16 @@ void BackLight_Control_Handler(void)
 		   new_counter ++ ;
 		   BACKLIGHT_ON();
 		   ERR_LED_OFF();
-		   if(new_counter < 115 ){
+		   if(new_counter < 105 ){
 	
 			  OK_LED_OFF();
 			  
 		  }
-		  else if(new_counter>113 && new_counter < 231){//500.WT.EDIT 2022.10.31
+		  else if(new_counter>103 && new_counter < 211){//500.WT.EDIT 2022.10.31
 			  OK_LED_ON();
 		  }
 	
-		  if(new_counter>229){ //1000.WT.EDIT 2022.10.31
+		  if(new_counter>209){ //1000.WT.EDIT 2022.10.31
 		  	new_counter = 0;
             new_pwd_counter++;
 		  }

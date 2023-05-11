@@ -566,7 +566,23 @@ void ReadPassword_EEPROM_SaveData(void)
 	
 		   run_t.gTimer_8s =0;
            EEPROM_Read_Byte(ReadAddress,readFlag,1);
-		   
+
+		   if(ReadAddress == ADMINI){
+
+		        if(readFlag[0] ==0){
+
+             
+
+					default_read = Default_Read_Administrator_Pwd();
+
+			        if(default_read == 1) return ;
+					else return ;
+			       
+				 }
+
+
+		   }
+		  
 		   if(readFlag[0] >0){ // has a been saved pwassword 
 
 					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,readFlag[0]);
@@ -666,14 +682,7 @@ void ReadPassword_EEPROM_SaveData(void)
 	   				}
 	  
 	 		}
-		    else{
-
-					default_read = Default_Read_Administrator_Pwd();
-
-			        if(default_read == 1) return ;
-					else return ;
-			       
-				 }
+		
 
 			  
 	}
