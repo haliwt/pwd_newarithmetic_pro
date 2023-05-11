@@ -424,22 +424,18 @@ void RunCheck_Mode(uint16_t dat)
 				run_t.inputNewPassword_Enable =0;
 			
                 run_t.confirm_button_flag = confirm_button_donot_pressed;
-                run_t.error_times ++ ;
+               
            
                // run_t.fail_sound_flag=1;
 			     run_t.buzzer_sound_tag = fail_sound;
 			     run_t.backlight_label =BACKLIGHT_ERROR_BLINK;
-			
+			     run_t.error_times ++ ;
 				
                 if(run_t.error_times > 4 ){ //OVER 5 error  times auto lock touchkey 60 s
 	            
-	                run_t.gTimer_input_error_times_60s =0;
-					run_t.panel_lock=1;
-	                run_t.confirm_button_flag= confirm_button_lock_panel; //run_t.panel_lock=1;
-					run_t.gTimer_8s=0;
-				    run_t.backlight_label = BACKLIGHT_ERROR_OVER_INPUT_TIMES;
-
-                }
+	                run_t.confirm_button_flag= confirm_button_error_times; //run_t.panel_lock=1;
+				
+				  }
 
 		   }
 		   else{ //input key equal to 4 or bigger than  4
@@ -484,6 +480,7 @@ void RunCheck_Mode(uint16_t dat)
 					   // run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
 						run_t.inputDeepSleep_times =0;
 				        run_t.confirm_button_flag = confirm_button_pressed_unlock;
+						run_t.enter_key = 1;
 				}
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
 						//run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
@@ -493,7 +490,7 @@ void RunCheck_Mode(uint16_t dat)
 					   run_t.inputDeepSleep_times =0;
 					  
 					   run_t.confirm_button_flag = confirm_button_pressed_unlock; //run next step process
-
+					   run_t.enter_key = 1;
 				 }
 				 run_t.gTimer_8s=0;
 			}
@@ -614,7 +611,7 @@ void RunCheck_Mode(uint16_t dat)
 				Input_NewPwd_Digtial_Handler((TouchKey_Numbers)dat);
 
 			}
-			 else{
+			else{
 				read_digital_key = InputNumber_ToSpecialNumbers((TouchKey_Numbers)dat); //input Numbers
 				//virtual password is 20bit
 				 //virtual input key numbers 
@@ -626,7 +623,7 @@ void RunCheck_Mode(uint16_t dat)
 
 				ReadDigital_Key_Numbers_Handler();
 
-		   }
+		   		}
 		   }
 		   break;
         }

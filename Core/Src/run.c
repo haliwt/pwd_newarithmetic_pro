@@ -251,6 +251,8 @@ void RunCommand_Unlock(void)
 
       run_t.gTimer_8s=0;//WT.EDIT 2022.09.28
 
+	 
+
 	 switch(run_t.Confirm_newPassword){
 
 	 case 1:
@@ -260,7 +262,8 @@ void RunCommand_Unlock(void)
 	 
 	 case 0:
 	
-		ReadPassword_EEPROM_SaveData();
+		  ReadPassword_EEPROM_SaveData();
+	 	
 
 	 break;
      
@@ -294,12 +297,8 @@ void RunCommand_Unlock(void)
 		run_t.error_times ++ ; //input times 5 ,
 		if(run_t.error_times > 4){
 			
-			run_t.gTimer_input_error_times_60s =0;
-            run_t.panel_lock=1;
-		    run_t.gTimer_8s=0;
-		    run_t.confirm_button_flag=confirm_button_lock_panel;
+		    run_t.confirm_button_flag=confirm_button_error_times;
 			
-			run_t.backlight_label= BACKLIGHT_ERROR_OVER_INPUT_TIMES;    
 		}
 		//new input pwd ref
      
@@ -556,6 +555,7 @@ void ReadPassword_EEPROM_SaveData(void)
      
 	  uint8_t i,value,default_read;//readpwd_array_length;
 	  static uint32_t    ReadAddress; 
+	 
 	  
 	  ReadAddress = ADMINI;
 	  while(run_t.eepromAddress<11){
@@ -572,7 +572,8 @@ void ReadPassword_EEPROM_SaveData(void)
 					default_read = Default_Read_Administrator_Pwd();
 
 			        if(default_read == 1) return ;
-					else return ;
+	
+					return ;
 			       
 				 }
 
@@ -678,6 +679,16 @@ void ReadPassword_EEPROM_SaveData(void)
 	   				}
 	  
 	 		}
+		    else{
+
+			   run_t.password_unlock = UNLOCK_FAIL;
+			  run_t.input_digital_key_number_counter=0;
+			  run_t.readpwd_array_length=0;
+			   run_t.eepromAddress=0;
+			 	run_t.keyPressed_flag=0; //WT.EDIT 2023.
+
+               return ;
+			}
 		
 
 			  

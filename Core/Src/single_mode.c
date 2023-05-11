@@ -100,6 +100,15 @@ void CheckPassword_Lock_Handler(void)
 	   case confirm_button_over_numbers:
 			 Over_Input_MaxDigital_Fun();
 	   break;
+       
+       case confirm_button_error_times:
+           run_t.gTimer_input_error_times_60s =0;
+           run_t.panel_lock=1;
+           run_t.gTimer_8s=0;
+           run_t.backlight_label= BACKLIGHT_ERROR_OVER_INPUT_TIMES; 
+           run_t.confirm_button_flag=confirm_button_lock_panel;
+       
+       break;
 	}
 	
 }

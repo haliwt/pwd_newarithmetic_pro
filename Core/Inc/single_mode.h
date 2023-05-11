@@ -9,7 +9,8 @@ typedef enum{
    confirm_button_save_new_password,
    confirm_button_clearn_eeprom,
    confirm_button_lock_panel,
-   confirm_button_over_numbers
+   confirm_button_over_numbers,
+   confirm_button_error_times
 
 }confirm_button_stat;
 
