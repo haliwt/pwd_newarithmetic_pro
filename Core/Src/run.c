@@ -440,15 +440,15 @@ static void Read_Administrator_Password(void)
 				 case 0:
 					  ReadAddress = ADMINI;
 		              read_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
-				      if(read_value == 1) run_t.eepromAddress= 5;
+				      if(read_value == 1) run_t.eepromAddress= 4;
 					  else if(read_value ==0) run_t.eepromAddress= 1;
-					  else if(read_value==0xff) run_t.eepromAddress= 4;
+					  else run_t.eepromAddress= 3;
 				 break;
 				 
 				 case 1:
 					 ReadAddress = USER_1;
 					 read_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
-				     if(read_value == 1) run_t.eepromAddress= 5; 
+				     if(read_value == 1) run_t.eepromAddress= 4; 
 					 else if(read_value ==0) run_t.eepromAddress= 2;
 					 else run_t.eepromAddress= 3;
 				  
@@ -457,7 +457,7 @@ static void Read_Administrator_Password(void)
 			   case 2:
 					 ReadAddress = USER_2;
 					 read_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
-				     if(read_value == 1) run_t.eepromAddress= 5;
+				     if(read_value == 1) run_t.eepromAddress= 4;
 					 else if(read_value ==0)  run_t.eepromAddress= 3;
 					 else run_t.eepromAddress= 3;
 			   break;
@@ -473,14 +473,12 @@ static void Read_Administrator_Password(void)
 			   break;
 
 			   case 4:
-			   	 run_t.eepromAddress=0;
-				read_value=	Default_Read_Administrator_Pwd();
+			   	   run_t.eepromAddress=0;
+
 				
 			   break;
 
-			   case 5:
-			   	    run_t.eepromAddress=0;
-			   break;
+			 
 
 			   default:
 
@@ -495,8 +493,21 @@ static void Read_Administrator_Password(void)
 static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 {
             uint8_t value ;
-	         EEPROM_Read_Byte(ReadAddress,readFlag,1);
-			 HAL_Delay(1);
+	        
+		    if(ReadAddress == ADMINI){
+
+		   
+
+					value = Default_Read_Administrator_Pwd();
+
+			        if(value  == 1) return 1 ;
+	                else
+					   return 3;
+			       
+			 }
+
+			 EEPROM_Read_Byte(ReadAddress,readFlag,1);
+			 HAL_Delay(1); 
 			if(readFlag[0] >0){// has a been saved pwassword 
 	
 					 default_read_has_been = 1;
@@ -533,13 +544,15 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 						 
 			 }
              else{
-
-                   if(ReadAddress==ADMINI) return 0xff;
+			 	   run_t.gTimer_8s =0;
+                   run_t.password_unlock=UNLOCK_FAIL;
+				   run_t.keyPressed_flag=0; //WT.EDIT 2023.
+                   return 2;
 				
 			}
-
-	
-
+//
+//	
+//         return 0;
 
 }
 /****************************************************************************
@@ -556,29 +569,22 @@ void ReadPassword_EEPROM_SaveData(void)
 	  uint8_t i,value,default_read;//readpwd_array_length;
 	  static uint32_t    ReadAddress; 
 	 
-	  
+	  run_t.eepromAddress=0;
 	  ReadAddress = ADMINI;
 	  while(run_t.eepromAddress<11){
 	
 		   run_t.gTimer_8s =0;
-           EEPROM_Read_Byte(ReadAddress,readFlag,1);
+         
 
 		   if(ReadAddress == ADMINI){
 
-		        if(readFlag[0] ==0){
+		       default_read = Default_Read_Administrator_Pwd();
 
-             
-
-					default_read = Default_Read_Administrator_Pwd();
-
-			        if(default_read == 1) return ;
-	
-					return ;
-			       
-				 }
-
-
-		   }
+			       if(default_read == 1) return ;
+	               else if(default_read == 0) return ;
+				
+			}
+		   EEPROM_Read_Byte(ReadAddress,readFlag,1);
 		  
 		   if(readFlag[0] >0){ // has a been saved pwassword 
 
@@ -732,8 +738,6 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 
 		 }
 		 else{
-
-			 // Fail = 1;
 			  run_t.password_unlock = UNLOCK_FAIL;
 			   run_t.input_digital_key_number_counter=0;
 			  run_t.gTimer_8s =0;//
@@ -747,9 +751,14 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 			 
 		 }
 	  }
+	  else{
 
-     return 0 ;
+	      return 2 ;
 
+
+	  }
+
+    
 
 
 }

@@ -25,15 +25,15 @@ void Start_PowerOn_Handler(void)
 {
     
 	if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0){
-	              run_t.powerOn++;
-				  run_t.factory_test = 1;
-			
-				  run_t.gTimer_input_error_times_60s =0;
-				
-                  run_t.buzzer_sound_tag = key_sound;
-				  POWER_ON();
-				   run_t.confirm_button_flag =confirm_button_donot_pressed;
-				  run_t.backlight_label  = BACKLIGHT_FACTORY_LED;
+		run_t.powerOn++;
+		run_t.factory_test = 1;
+
+		run_t.gTimer_input_error_times_60s =0;
+
+		run_t.buzzer_sound_tag = key_sound;
+		POWER_ON();
+		run_t.confirm_button_flag =confirm_button_donot_pressed;
+		run_t.backlight_label  = BACKLIGHT_FACTORY_LED;
 	  
 	  }
 	 else{
@@ -61,7 +61,7 @@ void Start_PowerOn_Handler(void)
  * Return Ref:NO
  * 
 ********************************************************/
-void CheckPassword_Lock_Handler(void)
+void CheckPassword_UnLock_Handler(void)
 {
 
 
@@ -74,23 +74,23 @@ void CheckPassword_Lock_Handler(void)
 
        break;
 
-	   case confirm_button_pressed_unlock:
+	   case confirm_button_pressed_unlock://1
 	       RunCommand_Unlock();
 	    
 	   break;
 
-	   case confirm_button_save_new_password:
+	   case confirm_button_save_new_password://2
 	   	
 	      Save_To_EeepromNewPwd();//UnLock_And_SaveData_Handler();
 
 	   break;
        
-       case confirm_button_clearn_eeprom:
+       case confirm_button_clearn_eeprom://3
 	   	  ClearEEPROM_Data_Fun();
        
        break;
        
-      case confirm_button_over_numbers:
+      case confirm_button_over_numbers: //4
 			 Over_Input_MaxDigital_Fun();
 	   break;
        
@@ -123,7 +123,7 @@ void CheckPassword_Lock_Handler(void)
 static void Over_Input_MaxDigital_Fun(void)
 {
 		run_t.gTimer_8s=0;
-		
+		run_t.input_digital_key_number_counter =0;
 		run_t.Confirm_newPassword =0; //to save new password of flag 
 		run_t.inputNewPasswordTimes =0;
 	    run_t.inputNewPassword_Enable =0; 

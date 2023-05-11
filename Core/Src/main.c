@@ -123,7 +123,7 @@ int main(void)
              SideKey_Fun(sidekey);
 	      
 	   	}
-       CheckPassword_Lock_Handler();
+       CheckPassword_UnLock_Handler();
 	   RunMotor_Definite_Handler(); //definite motor
 	   Buzzer_Sound_Handler();
        BackLight_Control_Handler();

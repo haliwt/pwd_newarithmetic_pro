@@ -16,7 +16,7 @@ typedef enum{
 }confirm_button_stat;
 
 void Start_PowerOn_Handler(void);
-void CheckPassword_Lock_Handler(void);
+void CheckPassword_UnLock_Handler(void);
 
 void CheckTouchKey_Press_Handler(void);
 
