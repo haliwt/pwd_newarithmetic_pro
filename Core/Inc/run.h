@@ -161,6 +161,9 @@ uint8_t OverNumbers_Password_Handler(void);
 
 void Default_Read_Administrator_Handler( uint8_t (*default_read_pwd)(void));
 
+void Enter_Key_Fun(void);
+
+
 #endif 
 
 

@@ -58,7 +58,7 @@ void ClearEEPROM_Data_Fun(void)
 			run_t.confirm_button_flag=confirm_button_donot_pressed;
 			run_t.input_digital_key_number_counter=0;
 			run_t.Confirm_newPassword = 0;
-			run_t.eepromAddress=0;
+	        run_t.eepromAddress=0;
 			 for(i=0;i<6;i++){
 		  	   pwd1[i]=0;
 			   Readpwd[i]=0;

@@ -229,6 +229,7 @@ void  SideKey_Fun(uint8_t keyvalue)
       if(keyvalue== 0x81){ //long times key that earse EEPROM password
 
         run_t.clearEeprom = 1;
+		run_t.clearEeeprom_done = 0;
 		run_t.inputDeepSleep_times =0;
         run_t.gTimer_8s=0;
 		run_t.confirm_button_flag=confirm_button_clearn_eeprom;
@@ -479,7 +480,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputNewPasswordTimes=0; 
 					   // run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
 						run_t.inputDeepSleep_times =0;
-				        run_t.confirm_button_flag = confirm_button_pressed_unlock;
+				        run_t.confirm_button_flag = confirm_button_pressed;
 					
 				}
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
@@ -489,7 +490,7 @@ void RunCheck_Mode(uint16_t dat)
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
 					  
-					   run_t.confirm_button_flag = confirm_button_pressed_unlock; //run next step process
+					   run_t.confirm_button_flag = confirm_button_pressed; //run next step process
 					   
 				 }
 				 run_t.gTimer_8s=0;

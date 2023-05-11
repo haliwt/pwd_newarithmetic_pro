@@ -74,9 +74,15 @@ void CheckPassword_UnLock_Handler(void)
 
        break;
 
-	   case confirm_button_pressed_unlock://1
-	       RunCommand_Unlock();
+	   case confirm_button_pressed://1
+	        Enter_Key_Fun();//RunCommand_Unlock();
 	    
+	   break;
+
+	   case confirm_button_unlock:
+			RunCommand_Unlock();
+
+
 	   break;
 
 	   case confirm_button_save_new_password://2
@@ -94,7 +100,7 @@ void CheckPassword_UnLock_Handler(void)
 			 Over_Input_MaxDigital_Fun();
 	   break;
        
-       case confirm_button_error_times:
+       case confirm_button_error_times: //5
            run_t.gTimer_input_error_times_60s =0;
            run_t.panel_lock=1;
            run_t.gTimer_8s=0;
@@ -103,7 +109,7 @@ void CheckPassword_UnLock_Handler(void)
        
        break;
 
-	   case confirm_button_lock_panel:
+	   case confirm_button_lock_panel: //6
           Panel_Lock_Handler();
        break;
 
