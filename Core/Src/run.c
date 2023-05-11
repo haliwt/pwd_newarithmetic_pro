@@ -35,7 +35,7 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress);
 
 static void Read_Administrator_Password(void);
 static void ClearVirtual_Aarray_Fun(void);
-static void Read_Administrator_Password(void);
+
 
 
 void Run_Init(void)
@@ -469,7 +469,7 @@ static void Read_Administrator_Password(void)
 			         run_t.password_unlock = UNLOCK_FAIL;
 				     run_t.input_digital_key_number_counter=0;
 			         run_t.keyPressed_flag=0; //WT.EDIT 2023.
-					break;
+					
 
 			   break;
 
@@ -477,12 +477,10 @@ static void Read_Administrator_Password(void)
 			   	 run_t.eepromAddress=0;
 				read_value=	Default_Read_Administrator_Pwd();
 				
-				return ;
 			   break;
 
 			   case 5:
 			   	    run_t.eepromAddress=0;
-                   return ;
 			   break;
 
 			   default:
@@ -537,11 +535,11 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 			 }
              else{
 
-                    if(ReadAddress==ADMINI) return 0xff;
-					else return 2;
+                   if(ReadAddress==ADMINI) return 0xff;
+				
+			}
 
-
-			 }
+	
 
 
 }
