@@ -484,6 +484,12 @@ static void Read_Administrator_Password(void)
 
 			   case 4:
 			   	   run_t.eepromAddress=0;
+				   run_t.password_unlock=UNLOCK_SUCCESS;
+				  run_t.confirm_button_flag = confirm_button_unlock;
+						run_t.input_digital_key_number_counter=0;
+				        run_t.readpwd_array_length=0;
+						run_t.keyPressed_flag=0; //WT.EDIT 2023.
+				     	
 
 				
 			   break;
@@ -506,9 +512,30 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 	        
 		    if(ReadAddress == ADMINI){
 
-		         value = Default_Read_Administrator_Pwd();
-                 if(value  == 1) return 1 ;
-	             else if(value ==0) return 4;
+		         default_read = Default_Read_Administrator_Pwd();
+
+			       if(default_read == 1){
+				   		run_t.password_unlock=UNLOCK_SUCCESS;
+						run_t.confirm_button_flag = confirm_button_unlock;
+						run_t.input_digital_key_number_counter=0;
+					    run_t.eepromAddress=0;
+				        run_t.readpwd_array_length=0;
+						run_t.keyPressed_flag=0; //WT.EDIT 2023.
+				     	run_t.eepromAddress=0;
+					 
+				   	  return 1;
+			       }
+	               else if(default_read == 0){
+				   	run_t.eepromAddress=0;
+					  run_t.password_unlock = UNLOCK_FAIL;
+						   run_t.confirm_button_flag = confirm_button_unlock;
+						   run_t.input_digital_key_number_counter=0;
+						   run_t.readpwd_array_length=0;
+						    run_t.eepromAddress=0;
+					      run_t.keyPressed_flag=0; //WT.EDIT 2023.
+					
+				   	return 0;
+	               	}
 			 }
 
 			 EEPROM_Read_Byte(ReadAddress,readFlag,1);
@@ -549,7 +576,7 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 					 }
 						 
 			 }
-             else{
+             else{ //hasn't data be save in EEPROM 
 			 	   run_t.gTimer_8s =0;
                  //  run_t.password_unlock=UNLOCK_FAIL;
 			    //   run_t.confirm_button_flag = confirm_button_unlock;
@@ -557,9 +584,7 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
                    return 2;
 				
 			}
-//
-//	
-//         return 0;
+
 
 }
 /****************************************************************************
@@ -583,7 +608,7 @@ void ReadPassword_EEPROM_SaveData(void)
 		   run_t.gTimer_8s =0;
          
 
-		   if(run_t.clearEeeprom_done ==1 ||  ReadAddress == ADMINI){
+		   if(ReadAddress == ADMINI){
 
 		       default_read = Default_Read_Administrator_Pwd();
 
@@ -609,10 +634,14 @@ void ReadPassword_EEPROM_SaveData(void)
 					
 				   	return ;
 	               	}
+                   run_t.eepromAddress=1;
+				   ReadAddress = USER_1;
 				
 		  }
+
+		   
 		   EEPROM_Read_Byte(ReadAddress,readFlag,1);
-		  
+		   HAL_Delay(1); 
 		   if(readFlag[0] >0){ // has a been saved pwassword 
 
 					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,readFlag[0]);
@@ -631,23 +660,25 @@ void ReadPassword_EEPROM_SaveData(void)
 					if(value==1)//if(strcmp(pwd1,pwd2)==0)
 					{
 						
-						
+						readFlag[0]=0;
 						run_t.password_unlock=UNLOCK_SUCCESS;
 						run_t.confirm_button_flag = confirm_button_unlock;
 						run_t.input_digital_key_number_counter=0;
 					    run_t.eepromAddress=0;
 				        run_t.readpwd_array_length=0;
 						run_t.keyPressed_flag=0; //WT.EDIT 2023.
+						  for(i=0;i<6;i++){
+
+						    Readpwd[i]=0;
+							virtualPwd[i]=0;
+
+						 }
 						return ;
 
 					}
 					else{
 						
-                         for(i=0;i<6;i++){
 
-						    Readpwd[i]=0;
-
-							}
 						  readFlag[0]=0;
 						  run_t.keyPressed_flag=1;
                          run_t.eepromAddress++;

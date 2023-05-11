@@ -79,28 +79,28 @@ void CheckPassword_UnLock_Handler(void)
 	    
 	   break;
 
-	   case confirm_button_unlock:
+	   case confirm_button_unlock://2
 			RunCommand_Unlock();
 
 
 	   break;
 
-	   case confirm_button_save_new_password://2
+	   case confirm_button_save_new_password://3
 	   	
 	      Save_To_EeepromNewPwd();//UnLock_And_SaveData_Handler();
 
 	   break;
        
-       case confirm_button_clearn_eeprom://3
+       case confirm_button_clearn_eeprom://4
 	   	  ClearEEPROM_Data_Fun();
        
        break;
        
-      case confirm_button_over_numbers: //4
+      case confirm_button_over_numbers: //6
 			 Over_Input_MaxDigital_Fun();
 	   break;
        
-       case confirm_button_error_times: //5
+       case confirm_button_error_times: //6
            run_t.gTimer_input_error_times_60s =0;
            run_t.panel_lock=1;
            run_t.gTimer_8s=0;
@@ -109,7 +109,7 @@ void CheckPassword_UnLock_Handler(void)
        
        break;
 
-	   case confirm_button_lock_panel: //6
+	   case confirm_button_lock_panel: //5
           Panel_Lock_Handler();
        break;
 
