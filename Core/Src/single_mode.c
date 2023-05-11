@@ -24,14 +24,15 @@ static void Over_Input_MaxDigital_Fun(void);
 void Start_PowerOn_Handler(void)
 {
     
-	if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0 && run_t.lowPower_flag==0){
+	if(HAL_GPIO_ReadPin(KEY_GPIO_Port,KEY_Pin) ==0   && run_t.powerOn ==0){
 	              run_t.powerOn++;
 				  run_t.factory_test = 1;
 			
 				  run_t.gTimer_input_error_times_60s =0;
-				 // run_t.buzzer_flag =1;
+				
                   run_t.buzzer_sound_tag = key_sound;
 				  POWER_ON();
+				   run_t.confirm_button_flag =confirm_button_donot_pressed;
 				  run_t.backlight_label  = BACKLIGHT_FACTORY_LED;
 	  
 	  }
@@ -39,12 +40,8 @@ void Start_PowerOn_Handler(void)
 	 	if(run_t.powerOn ==0){
 
 			run_t.powerOn++;
-			run_t.confirm_button_flag =0;
-			//run_t.password_unlock =UNLOCK_MOTOR_RUN_90_ANGLE; // 4: power on is motor 1/4 angle
-			run_t.motor_doing_flag = motor_null;
+			run_t.confirm_button_flag =confirm_button_donot_pressed;
 			run_t.gTimer_8s=0;
-		
-			run_t.lowPower_flag=0; //low power flag
 		
 			POWER_ON();
 			BACKLIGHT_ON();
@@ -71,9 +68,9 @@ void CheckPassword_Lock_Handler(void)
 	switch(run_t.confirm_button_flag){
 
 	    case confirm_button_donot_pressed:
-	    if(run_t.panel_lock==0 &&  run_t.factory_test ==0){
-		   TouchKey_Handler();//TouchKey_Handler();
-	     }
+	     if(run_t.factory_test == 0)
+		    TouchKey_Handler();//TouchKey_Handler();
+	   
 
        break;
 
@@ -93,11 +90,7 @@ void CheckPassword_Lock_Handler(void)
        
        break;
        
-       case confirm_button_lock_panel:
-          Panel_Lock_Handler();
-       break;
-
-	   case confirm_button_over_numbers:
+      case confirm_button_over_numbers:
 			 Over_Input_MaxDigital_Fun();
 	   break;
        
@@ -109,6 +102,12 @@ void CheckPassword_Lock_Handler(void)
            run_t.confirm_button_flag=confirm_button_lock_panel;
        
        break;
+
+	   case confirm_button_lock_panel:
+          Panel_Lock_Handler();
+       break;
+
+	  
 	}
 	
 }

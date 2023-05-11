@@ -815,7 +815,7 @@ unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
 
 	  case KEY_0 :
 
-	       temp =0;
+	       temp ='A';
 	  break;
 
 
