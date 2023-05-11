@@ -134,12 +134,9 @@ void SavePassword_To_EEPROM(void)
 		   	  	run_t.gTimer_8s=0;
 				run_t.Confirm_newPassword =0; 
 				
-				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
-				run_t.confirm_button_flag=confirm_button_donot_pressed;
+				//run_t.new_pwd_save_data_tag = UNLOCK_NULL;
+				
 				run_t.inputNewPasswordTimes =0;
-				
-
-				
 				run_t.buzzer_sound_tag = fail_sound;
 				//eeprom ref	
 		 
@@ -147,7 +144,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.keyPressed_flag =0; 
 
 				//led error control 
-	
+	            run_t.confirm_button_flag=confirm_button_donot_pressed;
 				run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
 				
 			   return ;			
@@ -180,7 +177,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.clear_inputNumbers_newpassword=0;
 
 				run_t.password_unlock=UNLOCK_NULL;
-				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
+				//run_t.new_pwd_save_data_tag = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
 		      
 		      
@@ -207,7 +204,7 @@ void SavePassword_To_EEPROM(void)
 				run_t.input_digital_key_number_counter =0 ;
 
 				run_t.password_unlock=UNLOCK_NULL;
-				run_t.new_pwd_save_data_tag = UNLOCK_NULL;
+				//run_t.new_pwd_save_data_tag = UNLOCK_NULL;
 				run_t.confirm_button_flag=confirm_button_donot_pressed;
                  
       
@@ -276,6 +273,7 @@ void RunCommand_Unlock(void)
 	    run_t.password_unlock=UNLOCK_NULL;
 	    run_t.confirm_button_flag=confirm_button_donot_pressed;
 		run_t.Confirm_newPassword=0;
+		run_t.inputNewPassword_Enable =0;
 		
         run_t.gTimer_8s=0;
 		OK_LED_OFF();
@@ -298,13 +296,13 @@ void RunCommand_Unlock(void)
 			
 			run_t.gTimer_input_error_times_60s =0;
             run_t.panel_lock=1;
+		    run_t.gTimer_8s=0;
 		    run_t.confirm_button_flag=confirm_button_lock_panel;
-			run_t.gTimer_8s=0;
+			
 			run_t.backlight_label= BACKLIGHT_ERROR_OVER_INPUT_TIMES;    
 		}
 		//new input pwd ref
-        run_t.Confirm_newPassword =0;
-	    run_t.inputNewPassword_Enable =0;
+     
 		run_t.buzzer_sound_tag = fail_sound;
 		
 	    for(i=0;i<6;i++){
@@ -522,7 +520,7 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 						 readFlag[0]=0;
 						 
 						 run_t.password_unlock=UNLOCK_SUCCESS;
-						 //run_t.confirm_button_flag=confirm_button_unlock;
+						 //run_t.confirm_button_flag=confirm_button_save_new_password;
 						   run_t.gTimer_8s =0;//
 						   run_t.keyPressed_flag=0; //WT.EDIT 2023.
 						 return 1;
@@ -540,7 +538,7 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
              else{
 
                     if(ReadAddress==ADMINI) return 0xff;
-					else 2;
+					else return 2;
 
 
 			 }
@@ -708,7 +706,7 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 			  //value = BF_Search(virtualPwd,origin_pwd);
 		  }
 		 else
-		  value =CompareValue(origin_pwd, pwd1);
+            value =CompareValue(origin_pwd, pwd1);
 
 		if(value==1){
 							
@@ -741,7 +739,7 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 		 }
 	  }
 
-
+     return 0 ;
 
 
 

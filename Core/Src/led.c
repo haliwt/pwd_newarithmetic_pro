@@ -37,7 +37,8 @@ void Panel_LED_Off(void)
 ****************************************************************/
 void ClearEEPROM_Data_Fun(void)
 {
-		//erase EEPRO data 
+      uint8_t i;
+//erase EEPRO data 
 		  if(run_t.clearEeprom==1){
 			run_t.clearEeprom = 0;
 			run_t.gTimer_8s =0;
@@ -55,8 +56,14 @@ void ClearEEPROM_Data_Fun(void)
 			
 			run_t.backlight_label = BACKLIGHT_OK_BLINK; //WT.EDIT 2023.03.27
 			run_t.confirm_button_flag=confirm_button_donot_pressed;
+			run_t.input_digital_key_number_counter=0;
 			run_t.Confirm_newPassword = 0;
 			run_t.eepromAddress=0;
+			 for(i=0;i<6;i++){
+		  	   pwd1[i]=0;
+			   Readpwd[i]=0;
+		
+		  	}
 			 
 		  }
       

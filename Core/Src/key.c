@@ -13,6 +13,8 @@ key_types key;
 uint8_t buzzertimes;
 
 void  (*ReadDigital_Key_Numbers_Handler)(void);
+void (*Input_NewPwd_Digtial_Handler)(uint16_t dat);
+
 
 __IO uint16_t  KeyValue;
 __IO uint8_t read_digital_key;
@@ -24,6 +26,8 @@ uint8_t read_key_value;
 uint8_t key_up =1 ;
 
 static void ReadDigital_Inputkey_Fun(void);
+static void Input_NewPwd_Digital_Fun(uint16_t dat);
+
 
 /*******************************************************************************
     *
@@ -37,6 +41,7 @@ void KeyFiles_Init(void)
 {
 
 	ReadInput_KeyNumber_Handler(ReadDigital_Inputkey_Fun);
+	Input_NewPwd_Digital_Handler(Input_NewPwd_Digital_Fun);
 
 
 }
@@ -324,10 +329,11 @@ void RunCheck_Mode(uint16_t dat)
 							pwd1[i]=0;
 						}
 						run_t.inputNewPasswordTimes =0; 
+						run_t.input_digital_key_number_counter =0;
                     
 					   //other ref
 						run_t.gTimer_8s=0;
-						run_t.confirm_button_flag=confirm_button_donot_pressed;//confirm_button_unlock;
+						run_t.confirm_button_flag=confirm_button_donot_pressed;//confirm_button_save_new_password;
 
 				
 				break;
@@ -339,11 +345,6 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputNewPassword_Enable=0; //cancel input input new password disable
 						run_t.Confirm_newPassword=0;  //Clear set up input new password KEY
 						run_t.inputNewPasswordTimes =0;
-						
-
-						//run_t.buzzer_flag =1;
-					
-
 						run_t.keyPressed_flag =0;
 					
 						//input key flag
@@ -458,8 +459,6 @@ void RunCheck_Mode(uint16_t dat)
 					run_t.confirm_button_flag=confirm_button_donot_pressed;
 					run_t.inputDeepSleep_times =0;
 					run_t.gTimer_8s=0;
-				
-					//run_t.backlight_label =BACKLIGHT_OK_BLINK;
 					
 					break;
 
@@ -468,8 +467,8 @@ void RunCheck_Mode(uint16_t dat)
 			
                    // run_t.input_digital_key_number_counter=0;
 			
-					run_t.confirm_button_flag=confirm_button_unlock;
-				    run_t.new_pwd_save_data_tag = NEW_PWD_SAVE_DATA_TO_EEPROM;
+					run_t.confirm_button_flag=confirm_button_save_new_password;
+				    //run_t.new_pwd_save_data_tag = NEW_PWD_SAVE_DATA_TO_EEPROM;
 					run_t.inputDeepSleep_times =0;
 					run_t.gTimer_8s=0;
 
@@ -484,7 +483,7 @@ void RunCheck_Mode(uint16_t dat)
 						run_t.inputNewPasswordTimes=0; 
 					   // run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
 						run_t.inputDeepSleep_times =0;
-				        run_t.confirm_button_flag = confirm_button_pressed;
+				        run_t.confirm_button_flag = confirm_button_pressed_unlock;
 				}
 				else if(run_t.motor_doing_flag !=motor_null){ //motor runing ->repeat itself motor doing run
 						//run_t.input_digital_key_number_counter=0;//if is virtual more than 7 number
@@ -493,7 +492,7 @@ void RunCheck_Mode(uint16_t dat)
 				       run_t.oneself_copy_behavior=1;
 					   run_t.inputDeepSleep_times =0;
 					  
-					   run_t.confirm_button_flag = confirm_button_pressed; //run next step process
+					   run_t.confirm_button_flag = confirm_button_pressed_unlock; //run next step process
 
 				 }
 				 run_t.gTimer_8s=0;
@@ -605,39 +604,30 @@ void RunCheck_Mode(uint16_t dat)
         switch(run_t.Confirm_newPassword){
 
 			case 1:
-				if(run_t.input_digital_key_number_counter >6){//WT.EDIT 2022.10.08
-					run_t.gTimer_8s=0;
-					//run_t.fail_sound_flag =1;
-			        run_t.buzzer_sound_tag = fail_sound;
-				
-					run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
-					run_t.confirm_button_flag=confirm_button_unlock;
-					run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; 
-
-				}
-				else{
-					read_digital_key = InputNumber_ToSpecialNumbers((TouchKey_Numbers)dat); 
-			     	ReadDigital_Key_Numbers_Handler();
-			
-
-				}
+				Input_NewPwd_Digtial_Handler((TouchKey_Numbers)dat);
 			break;
 
 	    case 0:
-		
-			read_digital_key = InputNumber_ToSpecialNumbers((TouchKey_Numbers)dat); //input Numbers
-			//virtual password is 20bit
-			 //virtual input key numbers 
-			if(run_t.input_digital_key_number_counter < 21){
-			//if(run_t.input_digital_key_number_counter > 20)run_t.input_digital_key_number_counter =20;
-			
-			    virtualPwd[run_t.input_digital_key_number_counter-1]=read_digital_key;
-		        
 
-			ReadDigital_Key_Numbers_Handler();
+		     if(run_t.inputNewPassword_Enable ==1){
+
+				Input_NewPwd_Digtial_Handler((TouchKey_Numbers)dat);
+
+			}
+			 else{
+				read_digital_key = InputNumber_ToSpecialNumbers((TouchKey_Numbers)dat); //input Numbers
+				//virtual password is 20bit
+				 //virtual input key numbers 
+				if(run_t.input_digital_key_number_counter < 21){
+				//if(run_t.input_digital_key_number_counter > 20)run_t.input_digital_key_number_counter =20;
+				
+				    virtualPwd[run_t.input_digital_key_number_counter-1]=read_digital_key;
+			        
+
+				ReadDigital_Key_Numbers_Handler();
 
 		   }
-
+		   }
 		   break;
         }
 		run_t.gTimer_8s=0;
@@ -645,6 +635,32 @@ void RunCheck_Mode(uint16_t dat)
 	}
 }
 
+/********************************************************************
+	*
+	*Function Name: static void Input_NewPwd_Digital_Fun(void)
+	*Function : control input new password of digital number 
+	*			don't over seve numbers
+	*
+	*
+	*
+********************************************************************/
+static void Input_NewPwd_Digital_Fun(uint16_t dat)
+{
+	if(run_t.input_digital_key_number_counter >6){//WT.EDIT 2022.10.08
+		run_t.gTimer_8s=0;
+		run_t.confirm_button_flag=confirm_button_over_numbers;
+		
+		
+
+	}
+	else{
+		read_digital_key = InputNumber_ToSpecialNumbers((TouchKey_Numbers)dat); 
+		ReadDigital_Key_Numbers_Handler();
+
+
+	}
+
+}
 /********************************************************************
 	*
 	*Function Name: static void ReadDigital_Inputkey_Fun(void)
@@ -663,8 +679,8 @@ static void ReadDigital_Inputkey_Fun(void)
 		if(run_t.inputNewPasswordTimes ==0 && run_t.inputNewPassword_Enable ==1){//WT.EDIT 2022.10.14
             read_numbers = OverNumbers_Password_Handler();
             if(read_numbers==1){
-	            run_t.confirm_button_flag=confirm_button_unlock;
-	            run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; //over times ten group numbers password
+	            run_t.confirm_button_flag=confirm_button_save_new_password;
+	            //run_t.new_pwd_save_data_tag=UNLOCK_OVER_MAX_PWD_NUMBERS; //over times ten group numbers password
 	            run_t.input_digital_key_number_counter =0;
             }
             else
@@ -684,5 +700,14 @@ void ReadInput_KeyNumber_Handler(void(*read_digital_key_handler)(void))
 	ReadDigital_Key_Numbers_Handler = read_digital_key_handler;
 
 }
+
+void Input_NewPwd_Digital_Handler(void(*input_new_digital_handler)(uint16_t data))
+{
+
+	Input_NewPwd_Digtial_Handler = input_new_digital_handler;
+
+
+}
+
 
 

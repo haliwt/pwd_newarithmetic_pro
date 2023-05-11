@@ -5,10 +5,11 @@
 typedef enum{
 
    confirm_button_donot_pressed,
-   confirm_button_pressed,
-   confirm_button_unlock,
+   confirm_button_pressed_unlock,
+   confirm_button_save_new_password,
    confirm_button_clearn_eeprom,
-   confirm_button_lock_panel
+   confirm_button_lock_panel,
+   confirm_button_over_numbers
 
 }confirm_button_stat;
 

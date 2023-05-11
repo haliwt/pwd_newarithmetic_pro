@@ -11,7 +11,7 @@
 
 static void Save_To_EeepromNewPwd(void);
 static void UnLock_And_SaveData_Handler(void);
-
+static void Over_Input_MaxDigital_Fun(void);
 
 /*******************************************************
  * 
@@ -77,15 +77,14 @@ void CheckPassword_Lock_Handler(void)
 
        break;
 
-	   case confirm_button_pressed:
-	      // run_t.confirm_button_flag=confirm_button_donot_pressed;
+	   case confirm_button_pressed_unlock:
 	       RunCommand_Unlock();
 	    
 	   break;
 
-	   case confirm_button_unlock:
+	   case confirm_button_save_new_password:
 	   	
-	     UnLock_And_SaveData_Handler();
+	      Save_To_EeepromNewPwd();//UnLock_And_SaveData_Handler();
 
 	   break;
        
@@ -97,55 +96,37 @@ void CheckPassword_Lock_Handler(void)
        case confirm_button_lock_panel:
           Panel_Lock_Handler();
        break;
+
+	   case confirm_button_over_numbers:
+			 Over_Input_MaxDigital_Fun();
+	   break;
 	}
 	
 }
 
 /**************************************************************************
 	*
-	*Funtcion Name:static void UnLock_And_SaveData_Handler(void)
+	*Funtcion Name:static void Over_Input_MaxDigital_Fun(void)
 	*Function : to special action process 
 	*Input Ref: NO
 	*Return Ref:NO
 	*
 **************************************************************************/
-static void UnLock_And_SaveData_Handler(void)
+static void Over_Input_MaxDigital_Fun(void)
 {
-   
-	switch(run_t.new_pwd_save_data_tag){
-
-
-	case NEW_PWD_SAVE_DATA_TO_EEPROM: //SaveData to EEPROM //new password for the first input 
-
-	   Save_To_EeepromNewPwd();
-    break;
-
-
-    case UNLOCK_OVER_MAX_PWD_NUMBERS: // over times ten group numbers posswords 
-		
 		run_t.gTimer_8s=0;
+		
 		run_t.Confirm_newPassword =0; //to save new password of flag 
 		run_t.inputNewPasswordTimes =0;
 	    run_t.inputNewPassword_Enable =0; 
-		
-		
-		run_t.confirm_button_flag =confirm_button_donot_pressed ;
 		run_t.buzzer_sound_tag = fail_sound;
 	
 		run_t.clear_inputNumbers_newpassword=0;
 
 	    run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
-
-		run_t.new_pwd_save_data_tag=UNLOCK_NULL;
 		run_t.confirm_button_flag=confirm_button_donot_pressed  ;
 
-    break;
 
-	default :
-
-	break;
-
-    }
 
 
 }

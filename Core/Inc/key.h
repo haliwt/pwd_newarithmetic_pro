@@ -66,6 +66,8 @@ extern key_types key;
 extern uint8_t virtualPwd[20];
 
 extern void (*ReadDigital_Key_Numbers_Handler)(void);
+extern void (*Input_NewPwd_Digtial_Handler)(uint16_t dat);
+
 
 uint8_t Scan_Key(void);
 
@@ -78,6 +80,7 @@ void RunCheck_Mode(uint16_t dat);
 void  SideKey_Fun(uint8_t keyvalue);
 void TouchKey_Run_Handler(void (*touchkey_huandler)(void));
 void ReadInput_KeyNumber_Handler(void(*read_digital_key_handler)(void));
+void Input_NewPwd_Digital_Handler(void(*input_new_digital_handler)(uint16_t dat));
 
 void TouchKey_Handler(void);
 

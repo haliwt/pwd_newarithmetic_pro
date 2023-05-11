@@ -94,7 +94,6 @@ typedef struct __RUN_T{
 	uint8_t buzzer_sound_tag;
 
 	//new password
-    uint8_t new_pwd_save_data_tag;
 	
 	uint8_t input_digital_key_number_counter;
 	
