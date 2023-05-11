@@ -73,5 +73,8 @@ typedef enum _led_battery_state_t {
 void Panel_LED_Off(void);
 void Fail_Buzzer_Sound(void);
 void BackLight_Control_Handler(void);
+void ClearEEPROM_Data_Fun(void);
+void Panel_Lock_Handler(void);
+
 
 #endif 

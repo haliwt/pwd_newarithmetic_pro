@@ -88,6 +88,15 @@ void CheckPassword_Lock_Handler(void)
 	     UnLock_And_SaveData_Handler();
 
 	   break;
+       
+       case confirm_button_clearn_eeprom:
+	   	  ClearEEPROM_Data_Fun();
+       
+       break;
+       
+       case confirm_button_lock_panel:
+          Panel_Lock_Handler();
+       break;
 	}
 	
 }

@@ -11,7 +11,7 @@
 
 //#define DEBUG_FLAG    
 
-static void ClearEEPROM_Data_Fun(void);
+
 
 
 uint8_t inputNewPwd_key_flag;
@@ -35,7 +35,7 @@ void Panel_LED_Off(void)
 *Return Ref:
 *
 ****************************************************************/
-static void ClearEEPROM_Data_Fun(void)
+void ClearEEPROM_Data_Fun(void)
 {
 		//erase EEPRO data 
 		  if(run_t.clearEeprom==1){
@@ -47,40 +47,33 @@ static void ClearEEPROM_Data_Fun(void)
 			
 			run_t.clearEeeprom_done = 1;
 			run_t.inputDeepSleep_times =0;//WT.EDIT 2022.10.26
-			//run_t.buzzer_longsound_flag =1 ;
+			
 			run_t.buzzer_sound_tag = confirm_sound;
 		
 			run_t. clearEeeprom_count=0;
 			//back light led control
 			
 			run_t.backlight_label = BACKLIGHT_OK_BLINK; //WT.EDIT 2023.03.27
+			run_t.confirm_button_flag=confirm_button_donot_pressed;
+			run_t.Confirm_newPassword = 0;
 			 
 		  }
-        if(run_t.panel_lock ==1){
-			
-		run_t.backlight_label =BACKLIGHT_OFF;
-		OK_LED_OFF();
-		ERR_LED_ON(); //WT.EDIT 202209.28
-
-        if(run_t.gTimer_input_error_times_60s > 59){
-			   run_t.panel_lock =0;
-			   run_t.error_times = 0;
-		       ERR_LED_OFF(); //WT.EDIT 2022.09.20
- 
-		   }
-         
- 
-	   }
-
-	   
-	  
-
-
-	  
+      
 
 }
 
-
+void Panel_Lock_Handler(void)
+{
+	ERR_LED_ON(); 
+	 if(run_t.gTimer_input_error_times_60s > 59){
+			   run_t.panel_lock =0;
+			   run_t.error_times = 0;
+		       ERR_LED_OFF(); 
+		       run_t.confirm_button_flag=confirm_button_donot_pressed;
+ 
+	}
+         
+}
 /****************************************************************************
 *
 *Function Name:void BackLight_Fun(void)
@@ -347,7 +340,7 @@ void BackLight_Control_Handler(void)
 		  }
 		  break;
 		}
-		ClearEEPROM_Data_Fun();
+		//ClearEEPROM_Data_Fun();
 	    ADC_Detected_LowVoltage();
 	    if(run_t.gTimer_total_backling_off > 180){
 			run_t.gTimer_total_backling_off=0;

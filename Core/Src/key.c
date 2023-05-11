@@ -226,6 +226,7 @@ void  SideKey_Fun(uint8_t keyvalue)
         run_t.clearEeprom = 1;
 		run_t.inputDeepSleep_times =0;
         run_t.gTimer_8s=0;
+		run_t.confirm_button_flag=confirm_button_clearn_eeprom;
 		
        }
 }
@@ -432,7 +433,8 @@ void RunCheck_Mode(uint16_t dat)
                 if(run_t.error_times > 4 ){ //OVER 5 error  times auto lock touchkey 60 s
 	            
 	                run_t.gTimer_input_error_times_60s =0;
-	                run_t.panel_lock=1;
+					run_t.panel_lock=1;
+	                run_t.confirm_button_flag= confirm_button_lock_panel; //run_t.panel_lock=1;
 					run_t.gTimer_8s=0;
 				    run_t.backlight_label = BACKLIGHT_ERROR_OVER_INPUT_TIMES;
 
