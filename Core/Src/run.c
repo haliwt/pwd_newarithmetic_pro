@@ -653,8 +653,8 @@ void ReadPassword_EEPROM_SaveData(void)
 	               	}
 				    else if(default_read == 2){
 
-					   run_t.eepromAddress=1;
-					  ReadAddress = USER_1;
+					   run_t.eepromAddress=0;
+					    ReadAddress = ADMINI;
 
 				    }
 			       
@@ -1091,7 +1091,7 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 	default_address = ADMINI;
 	EEPROM_Read_Byte(default_address,&read_length,1);
 	HAL_Delay(5);
-	if(read_length <3){
+	if(read_length ==0){
 
 		value =CompareValue(origin_pwd, pwd1,0x04);
 
@@ -1131,7 +1131,7 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 	}
 	else{
 		
-
+        
 		return 2 ;
 
 
