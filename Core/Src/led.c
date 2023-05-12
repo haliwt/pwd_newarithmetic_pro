@@ -167,16 +167,16 @@ void BackLight_Control_Handler(void)
          ok_cnt ++ ;
 		 BACKLIGHT_ON();
 		 ERR_LED_OFF();
-		 if(ok_cnt  < 81 ){
+		 if(ok_cnt  < 61 ){
 	
 			 OK_LED_OFF();
 			  
 		  }
-		  else if(ok_cnt >79 && ok_cnt  < 162){//500.WT.EDIT 2022.10.31
+		  else if(ok_cnt >59 && ok_cnt  < 122){//500.WT.EDIT 2022.10.31
 			  OK_LED_ON();
 		  }
 	
-		  if(ok_cnt >160){ //1000.WT.EDIT 2022.10.31
+		  if(ok_cnt >120){ //1000.WT.EDIT 2022.10.31
 		  	ok_cnt  = 0;
 			confirm_ok_counter++;
            
@@ -209,15 +209,15 @@ void BackLight_Control_Handler(void)
 		    OK_LED_OFF();
 	
 	  
-		  if(err_cnt < 81 ){
+		  if(err_cnt < 61 ){
 	
 			  ERR_LED_OFF();
 			  
 		  }
-		  else if(err_cnt > 79 && err_cnt < 162){
+		  else if(err_cnt > 59 && err_cnt < 122){
 			  ERR_LED_ON();
 		  }
-		  if(err_cnt>160){
+		  if(err_cnt>120){
 		  	err_cnt = 0;
 			err_counter++;
 			
@@ -236,16 +236,16 @@ void BackLight_Control_Handler(void)
 		   new_counter ++ ;
 		   BACKLIGHT_ON();
 		   ERR_LED_OFF();
-		   if(new_counter < 105 ){
+		   if(new_counter < 101 ){
 	
 			  OK_LED_OFF();
 			  
 		  }
-		  else if(new_counter>103 && new_counter < 211){//500.WT.EDIT 2022.10.31
+		  else if(new_counter>99 && new_counter < 202){//500.WT.EDIT 2022.10.31
 			  OK_LED_ON();
 		  }
 	
-		  if(new_counter>209){ //1000.WT.EDIT 2022.10.31
+		  if(new_counter>200){ //1000.WT.EDIT 2022.10.31
 		  	new_counter = 0;
             new_pwd_counter++;
 		  }

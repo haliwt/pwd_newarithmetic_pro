@@ -9,7 +9,7 @@
 
 
 
-static void Save_To_EeepromNewPwd(void);
+static void Save_NewPwd_To_Eeeprom_Handler(void);
 static void UnLock_And_SaveData_Handler(void);
 static void Over_Input_MaxDigital_Fun(void);
 
@@ -87,7 +87,7 @@ void CheckPassword_UnLock_Handler(void)
 
 	   case confirm_button_save_new_password://3
 	   	
-	      Save_To_EeepromNewPwd();//UnLock_And_SaveData_Handler();
+	      Save_NewPwd_To_Eeeprom_Handler();//UnLock_And_SaveData_Handler();
 
 	   break;
        
@@ -146,13 +146,13 @@ static void Over_Input_MaxDigital_Fun(void)
 }
 /*******************************************************
  * 
- * Function Name:void Save_To_EeepromNewPwd(void)
+ * Function Name:void Save_NewPwd_To_Eeeprom_Handler(void)
  * Function: start power on handler
  * INPUT Ref:NO
  * Return Ref:NO
  * 
 ********************************************************/
-static void Save_To_EeepromNewPwd(void)
+static void Save_NewPwd_To_Eeeprom_Handler(void)
 {
 
 	if(run_t.inputNewPassword_Enable ==1 && run_t.inputNewPasswordTimes ==2 ){//WT.EDIT .2022.09.28.if(run_t.adminiId==1){
