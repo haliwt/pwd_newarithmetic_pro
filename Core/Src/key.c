@@ -45,8 +45,6 @@ void KeyFiles_Init(void)
 
 
 }
-
-
 /*******************************************************************************
     *
     * Function Name: unsigned char  Scan_Key(void)
@@ -86,6 +84,20 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == key.buffer) // adjust key be down 
 			{
+
+                if(run_t.thefirst_side_key==0){
+					run_t.thefirst_side_key++;
+					if(++key.on_time> 20 ) //1000  0.5us -> short time key
+					{
+						key.value = key.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01, com = 0x0E ^ 0x1f = 0x11
+						key.on_time = 0;
+	                    key.state   = second;
+	                    run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
+	                 }
+					
+
+                }
+				else{
 				if(++key.on_time> 20 && ++key.on_time < 50) //1000  0.5us -> short time key
 				{
 					key.value = key.buffer^_KEY_ALL_OFF; // key.value = 0x1E ^ 0x1f = 0x01, com = 0x0E ^ 0x1f = 0x11
@@ -93,6 +105,7 @@ uint8_t Scan_Key(void)
                     key.state   = second;
                     run_t.gTimer_8s=0;//WT.EDIT 2022.10.26
                  }
+				 }
 			}
 			else
 			{
@@ -104,9 +117,21 @@ uint8_t Scan_Key(void)
 		{
 			if(key.read == key.buffer) //again adjust key if be pressed down 
 			{
-				if(++key.on_time>50)// 2000 = 7s long key be down
-				{
+                 
+                if(run_t.thefirst_side_key==1){
 					
+
+				     if(++key.on_time>80 ){// 2000 = 7s long key be down
+				     
+					     run_t.thefirst_side_key++;
+
+				     }
+				}
+					
+				
+				if((++key.on_time>60  || run_t.thefirst_side_key==2) && run_t.thefirst_side_key!=1)// 2000 = 7s long key be down
+				{
+					run_t.thefirst_side_key++;
 					//key.value = key.value|0x80; //key.value = 0x01 | 0x80  =0x81  
 					key.on_time = 0;
 					key.state   = finish;
@@ -214,6 +239,7 @@ void  SideKey_Fun(uint8_t keyvalue)
         run_t.confirm_button_flag=confirm_button_donot_pressed;
 
 		run_t.panel_lock =0;
+		run_t.thefirst_side_key=0;
 	
         /********************************************/     
 		

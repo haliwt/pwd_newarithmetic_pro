@@ -2,7 +2,7 @@
 #include "gpio.h"
 #include "run.h"
 #include "delay.h"
-#define CPU_FREQUENCY_MHZ 24 // STM32时钟主频
+#define CPU_FREQUENCY_MHZ 				24 // STM32时钟主频
 
 
 static void Fail_Buzzer_Sound(void);
@@ -103,7 +103,7 @@ void Buzzer_ErrorSound(void)
   
 	while(m--){
 
-  HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
+  	HAL_GPIO_TogglePin(BEEP_GPIO_Port,BEEP_Pin);//BEEP=!BEEP;
   //delay_us(600);
      delay_us(500);  
  

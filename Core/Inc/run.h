@@ -58,6 +58,8 @@ typedef struct __RUN_T{
 	
 	uint8_t   keyPressed_flag;
 	uint8_t   confirm_button_flag ;
+	//side key
+	uint8_t thefirst_side_key;
 
 	
 	uint8_t  clearEeeprom_count;
