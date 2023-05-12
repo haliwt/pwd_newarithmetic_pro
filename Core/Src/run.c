@@ -625,22 +625,20 @@ void ReadPassword_EEPROM_SaveData(void)
         
 		   if(ReadAddress == ADMINI){
 
-		       
+		       default_read = Default_Read_Administrator_Pwd();
 
-                   default_read = Default_Read_Administrator_Pwd();
-
-			       if(default_read == 1){
-				   		run_t.password_unlock=UNLOCK_SUCCESS;
-						run_t.confirm_button_flag = confirm_button_unlock;
-						run_t.input_digital_key_number_counter=0;
-					    run_t.eepromAddress=0;
-				        run_t.readpwd_array_length=0;
-						run_t.keyPressed_flag=0; //WT.EDIT 2023.
-				     	run_t.eepromAddress=0;
+			   if(default_read == 1){
+			   		run_t.password_unlock=UNLOCK_SUCCESS;
+					run_t.confirm_button_flag = confirm_button_unlock;
+					run_t.input_digital_key_number_counter=0;
+				    run_t.eepromAddress=0;
+			        run_t.readpwd_array_length=0;
+					run_t.keyPressed_flag=0; //WT.EDIT 2023.
+			     	run_t.eepromAddress=0;
 					 
-				   	  return ;
-			       }
-	               else if(default_read == 0){
+				   return ;
+			   }
+	           else if(default_read == 0){
 				   	run_t.eepromAddress=0;
 					  run_t.password_unlock = UNLOCK_FAIL;
 						   run_t.confirm_button_flag = confirm_button_unlock;
