@@ -625,7 +625,7 @@ void ReadPassword_EEPROM_SaveData(void)
         
 		   if(ReadAddress == ADMINI){
 
-		        if(data_length <3){
+		       
 
                    default_read = Default_Read_Administrator_Pwd();
 
@@ -649,22 +649,25 @@ void ReadPassword_EEPROM_SaveData(void)
 						    run_t.eepromAddress=0;
 					      run_t.keyPressed_flag=0; //WT.EDIT 2023.
 					
-				   	return ;
+				   		return ;
 	               	}
+				    else if(default_read == 2){
 
-				   run_t.eepromAddress=1;
-				  ReadAddress = USER_1;
+					   run_t.eepromAddress=1;
+					  ReadAddress = USER_1;
+
+				    }
 			       
-				 }
+				
 
 				
 		   }
 		   EEPROM_Read_Byte(ReadAddress,&data_length,1);
-           HAL_Delay(50);
+           HAL_Delay(5);
 		   if(data_length >0){ // has a been saved pwassword 
 
 					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,data_length);
-				     HAL_Delay(50);
+				     HAL_Delay(5);
 					
                    // run_t.readpwd_array_length = sizeof(Readpwd)/(sizeof(Readpwd[0]));
                     if(run_t.input_digital_key_number_counter > data_length){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
@@ -673,8 +676,8 @@ void ReadPassword_EEPROM_SaveData(void)
 						run_t.clear_virtual_numbers =1;
 					}
 					else{
-					    value = CompareValue(Readpwd,pwd1,run_t.input_digital_key_number_counter);
-						 HAL_Delay(50);
+					    value = CompareValue(Readpwd,pwd1,data_length);
+						 HAL_Delay(5);
 
 					}
 					
