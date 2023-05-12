@@ -690,7 +690,7 @@ void ReadPassword_EEPROM_SaveData(void)
 						run_t.input_digital_key_number_counter=0;
 					    run_t.eepromAddress=0;
 				        run_t.readpwd_array_length=0;
-						run_t.keyPressed_flag=0; //WT.EDIT 2023.
+						run_t.keyPressed_flag=0; //closed back light led
 						return ;
 
 					}
@@ -1138,7 +1138,7 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 	else{
 		
         
-		return 2 ;
+		return 2 ; //has been other data
 
 
 	}
