@@ -33,7 +33,7 @@ void (*RunChed_KeyMode)(uint16_t keydat);
 void (*ClearVirtual_Numbers)(void);
 uint8_t (*Default_Read_Administrator_Pwd)(void);
 static uint8_t Default_Read_Administrator_PwdFun(void);
-static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress);
+static uint8_t Read_Administrator_EepromData_Handler(uint32_t ReadAddress);
 
 
 
@@ -458,26 +458,26 @@ static void Read_Administrator_Password(void)
 	
 				 case 0:
 					  ReadAddress = ADMINI;
-		             read_administrator_value=  Read_Administrator_HasBeen_Pwd(ReadAddress);
+		             read_administrator_value=  Read_Administrator_EepromData_Handler(ReadAddress);
 				      if(read_administrator_value == 1) run_t.eepromAddress= 4;
-					  else if(read_administrator_value ==0) run_t.eepromAddress= 1;
+					  else if(read_administrator_value ==2) run_t.eepromAddress= 1;
 					  else run_t.eepromAddress= 3;
 				 break;
 				 
 				 case 1:
 					 ReadAddress = USER_1;
-					 read_administrator_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+					 read_administrator_value =  Read_Administrator_EepromData_Handler(ReadAddress);
 				     if(read_administrator_value == 1) run_t.eepromAddress= 4; 
-					 else if(read_administrator_value ==0) run_t.eepromAddress= 2;
+					 else if(read_administrator_value ==2) run_t.eepromAddress= 2;
 					 else run_t.eepromAddress= 3;
 				  
 			   break;
 	
 			   case 2:
 					 ReadAddress = USER_2;
-					 read_administrator_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+					 read_administrator_value =  Read_Administrator_EepromData_Handler(ReadAddress);
 				     if(read_administrator_value == 1) run_t.eepromAddress= 4;
-					 else if(read_administrator_value ==0)  run_t.eepromAddress= 3;
+					 else if(read_administrator_value ==2)  run_t.eepromAddress= 3;
 					 else run_t.eepromAddress= 3;
 			   break;
 
@@ -517,15 +517,15 @@ static void Read_Administrator_Password(void)
    }
 /*********************************************************************************
 	*
-	*Function Name:Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
+	*Function Name:Read_Administrator_EepromData_Handler(uint32_t ReadAddress)
 	*
 	*
 	*
 	*
 *********************************************************************************/
-static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
+static uint8_t Read_Administrator_EepromData_Handler(uint32_t ReadAddress)
 {
-            uint8_t value ;
+            uint8_t value ,read_administrator_eeprom_data;
 	        
 		    if(ReadAddress == ADMINI){
 
@@ -553,28 +553,29 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 					
 				   	return 0;
 	               	}
+				  
 			 }
 
-			 EEPROM_Read_Byte(ReadAddress,readFlag,1);
+			 EEPROM_Read_Byte(ReadAddress,&read_administrator_eeprom_data,1);
 			 HAL_Delay(1); 
-			if(readFlag[0] >0){// has a been saved pwassword 
+			if(read_administrator_eeprom_data >0){// has a been saved pwassword 
 	
 					 default_read_has_been = 1;
-					 EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,6);
+					 EEPROM_Read_Byte(ReadAddress+0x01,Readpwd,read_administrator_eeprom_data);
 					 HAL_Delay(5);
 					 
 	
-					 if(run_t.input_digital_key_number_counter > 6){
+					 if(run_t.input_digital_key_number_counter > read_administrator_eeprom_data){
 	
-						 value = BF_Search(virtualPwd,Readpwd,readFlag[0]);
+						 value = BF_Search(virtualPwd,Readpwd,run_t.input_digital_key_number_counter);
 					 }
 					 else
-						 value = CompareValue(Readpwd,pwd1,run_t.input_digital_key_number_counter);
+						 value = CompareValue(Readpwd,pwd1,read_administrator_eeprom_data);
 					 
 					 
 					 if(value==1)//if(strcmp(pwd1,pwd2)==0)
 					 {
-						 readFlag[0]=0;
+
 						 
 						 run_t.password_unlock=UNLOCK_SUCCESS;
 						 run_t.confirm_button_flag = confirm_button_unlock;
@@ -587,7 +588,7 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 					 else{ // pass word compare is error 
 						  run_t.gTimer_8s =0;
 						  run_t.keyPressed_flag=1;
-					      return 0;
+					      return 2;
 						 
 						 
 					 }
@@ -595,10 +596,9 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 			 }
              else{ //hasn't data be save in EEPROM 
 			 	   run_t.gTimer_8s =0;
-                 //  run_t.password_unlock=UNLOCK_FAIL;
-			    //   run_t.confirm_button_flag = confirm_button_unlock;
+
 				   run_t.keyPressed_flag=0; //WT.EDIT 2023.
-                   return 2;
+                   return 3;
 				
 			}
 
@@ -797,7 +797,7 @@ void ReadPassword_EEPROM_SaveData(void)
 	
 				 case 0:
 					  ReadAddress = ADMINI;
-		             read_administrator_value=  Read_Administrator_HasBeen_Pwd(ReadAddress);
+		             read_administrator_value=  Read_Administrator_EepromData_Handler(ReadAddress);
 				      if(read_administrator_value == 1) run_t.eepromAddress= 11;
 					  else if(read_administrator_value ==0) run_t.eepromAddress= 1;
 					  else run_t.eepromAddress= 10;
@@ -805,7 +805,7 @@ void ReadPassword_EEPROM_SaveData(void)
 				 
 				 case 1:
 					 ReadAddress = USER_1;
-					 read_administrator_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+					 read_administrator_value =  Read_Administrator_EepromData_Handler(ReadAddress);
 				     if(read_administrator_value == 1) run_t.eepromAddress= 11; 
 					 else if(read_administrator_value ==0) run_t.eepromAddress= 2;
 					 else run_t.eepromAddress= 10;
@@ -814,7 +814,7 @@ void ReadPassword_EEPROM_SaveData(void)
 	
 			   case 2:
 					 ReadAddress = USER_2;
-					 read_administrator_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+					 read_administrator_value =  Read_Administrator_EepromData_Handler(ReadAddress);
 				     if(read_administrator_value == 1) run_t.eepromAddress= 11;
 					 else if(read_administrator_value ==0)  run_t.eepromAddress= 3;
 					 else run_t.eepromAddress= 10;
@@ -823,7 +823,7 @@ void ReadPassword_EEPROM_SaveData(void)
 
 			    case 3:
 					  ReadAddress = ADMINI;
-		             read_administrator_value=  Read_Administrator_HasBeen_Pwd(ReadAddress);
+		             read_administrator_value=  Read_Administrator_EepromData_Handler(ReadAddress);
 				      if(read_administrator_value == 1) run_t.eepromAddress= 11;
 					  else if(read_administrator_value ==0) run_t.eepromAddress= 4;
 					  else run_t.eepromAddress= 10;
@@ -831,7 +831,7 @@ void ReadPassword_EEPROM_SaveData(void)
 				 
 				 case 4:
 					 ReadAddress = USER_1;
-					 read_administrator_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+					 read_administrator_value =  Read_Administrator_EepromData_Handler(ReadAddress);
 				     if(read_administrator_value == 1) run_t.eepromAddress= 4; 
 					 else if(read_administrator_value ==0) run_t.eepromAddress= 5;
 					 else run_t.eepromAddress= 10;
@@ -840,7 +840,7 @@ void ReadPassword_EEPROM_SaveData(void)
 	
 			   case 5:
 					 ReadAddress = USER_2;
-					 read_administrator_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+					 read_administrator_value =  Read_Administrator_EepromData_Handler(ReadAddress);
 				     if(read_administrator_value == 1) run_t.eepromAddress= 4;
 					 else if(read_administrator_value ==0)  run_t.eepromAddress= 6;
 					 else run_t.eepromAddress= 10;
@@ -850,7 +850,7 @@ void ReadPassword_EEPROM_SaveData(void)
 
 				case 6:
 					ReadAddress = ADMINI;
-					read_administrator_value=  Read_Administrator_HasBeen_Pwd(ReadAddress);
+					read_administrator_value=  Read_Administrator_EepromData_Handler(ReadAddress);
 					if(read_administrator_value == 1) run_t.eepromAddress= 4;
 					else if(read_administrator_value ==0) run_t.eepromAddress= 7;
 					else run_t.eepromAddress= 10;
@@ -858,7 +858,7 @@ void ReadPassword_EEPROM_SaveData(void)
 
 				case 7:
 					ReadAddress = USER_1;
-					read_administrator_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+					read_administrator_value =  Read_Administrator_EepromData_Handler(ReadAddress);
 					if(read_administrator_value == 1) run_t.eepromAddress= 4; 
 					else if(read_administrator_value ==0) run_t.eepromAddress= 8;
 					else run_t.eepromAddress= 10;
@@ -867,7 +867,7 @@ void ReadPassword_EEPROM_SaveData(void)
 
 				case 8:
 					ReadAddress = USER_2;
-					read_administrator_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+					read_administrator_value =  Read_Administrator_EepromData_Handler(ReadAddress);
 					if(read_administrator_value == 1) run_t.eepromAddress= 4;
 					else if(read_administrator_value ==0)  run_t.eepromAddress= 9;
 					else run_t.eepromAddress= 10;
@@ -876,7 +876,7 @@ void ReadPassword_EEPROM_SaveData(void)
 
 			   case 9:
 				   ReadAddress = USER_2;
-				   read_administrator_value =  Read_Administrator_HasBeen_Pwd(ReadAddress);
+				   read_administrator_value =  Read_Administrator_EepromData_Handler(ReadAddress);
 				   if(read_administrator_value == 1) run_t.eepromAddress= 4;
 				   else if(read_administrator_value ==0)  run_t.eepromAddress= 10;
 				   else run_t.eepromAddress= 10;
@@ -1080,16 +1080,24 @@ void ReadPassword_EEPROM_SaveData(void)
 
 #endif 
 
+/****************************************************************************
+	*
+	*Function Name:static uint8_t Default_Read_Administrator_PwdFun(void)
+	*Function : run is main 
+	*Input Ref: NO
+	*Retrun Ref:NO
+*
+****************************************************************************/
 static uint8_t Default_Read_Administrator_PwdFun(void)
 {
     uint8_t value,i;
-    uint8_t read_length;  
+    static uint8_t read_length[1];  
     uint32_t default_address;
 	
 	default_address = ADMINI;
-	EEPROM_Read_Byte(default_address,&read_length,1);
+	EEPROM_Read_Byte(default_address,read_length,1);
 	HAL_Delay(5);
-	if(read_length ==0){
+	if(read_length[0] ==0){
 
 		value =CompareValue(origin_pwd, pwd1,0x04);
 
@@ -1139,14 +1147,14 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 
 
 }
-/****************************************************************************
+/**************************************************************************************
 *
 *Function Name:unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
 *Function : run is main 
 *Input Ref: NO
 *Retrun Ref:NO
 *
-****************************************************************************/
+***************************************************************************************/
 unsigned char  InputNumber_ToSpecialNumbers(TouchKey_Numbers number)
 {
      unsigned char temp ;
