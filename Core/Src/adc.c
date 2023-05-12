@@ -173,7 +173,7 @@ if(run_t.gTimer_ADC >6){
 	
 	   adcVale=(uint16_t)((adcx*3300)/4096) +100; //3111 ampliiction * 1000
 
-	   if(adcVale < 1900 ){ // low 3.8V is alarm
+	   if(adcVale < 1800 ){ // low 3.8V is alarm
 		   run_t.ADC_times++; //WT.EDIT 2022.09.09
 		   if(run_t.ADC_times > 2 ){
 			   run_t.ADC_times = 0;
