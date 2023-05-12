@@ -14,11 +14,13 @@ uint8_t compare_value;
 uint8_t readFlag[1]={0};
 uint8_t pwd1[6];
 uint8_t pwd2[6];
-uint8_t origin_pwd[4]={1,2,3,4};
+uint8_t origin_pwd[6]={1,2,3,4,0,0};
 
 uint8_t default_read_has_been;
 uint8_t  read_administrator_value;
 uint8_t default_read;
+
+
 
 
 
@@ -57,10 +59,10 @@ void Run_Init(void)
 *Retrun Ref:NO
 *
 ****************************************************************************/
-uint8_t CompareValue(uint8_t *pt1,uint8_t *pt2)
+uint8_t CompareValue(uint8_t *pt1,uint8_t *pt2,uint8_t length)
 {
 	unsigned char i ;
-   for(i=0;i<6;i++){
+   for(i=0;i<length;i++){
 		if(*(pt1+i) != *(pt2+i)){
 			return 0;
 		}
@@ -159,9 +161,9 @@ void SavePassword_To_EEPROM(void)
 
         EEPROM_Read_Byte(run_t.userId,&run_t.readEepromData,1);
 		HAL_Delay(1);
-		if(run_t.readEepromData == 0){//if(run_t.readEepromData !=1){
+		if(run_t.readEepromData ==0){//if(run_t.readEepromData !=1){
 	 
-             compare_value =CompareValue(pwd1, pwd2);
+             compare_value =CompareValue(pwd1, pwd2,run_t.input_digital_key_number_counter);
 			 initvalue=run_t.input_digital_key_number_counter;
 			 if(compare_value ==1){ //be save data to eeprom flag 
 		 	     
@@ -552,7 +554,7 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 						 value = BF_Search(virtualPwd,Readpwd,readFlag[0]);
 					 }
 					 else
-						 value = CompareValue(Readpwd,pwd1);
+						 value = CompareValue(Readpwd,pwd1,run_t.input_digital_key_number_counter);
 					 
 					 
 					 if(value==1)//if(strcmp(pwd1,pwd2)==0)
@@ -598,22 +600,19 @@ static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 void ReadPassword_EEPROM_SaveData(void)
 {
      
-	  uint8_t i,value,default_read;//readpwd_array_length;
+	  uint8_t i,value,data_length;
 	  static uint32_t    ReadAddress; 
 	  
 	  ReadAddress = ADMINI;
 	  while(run_t.eepromAddress<11){
 	
 		   run_t.gTimer_8s =0;
-           EEPROM_Read_Byte(ReadAddress,readFlag,1);
-
+        
 		   if(ReadAddress == ADMINI){
 
-		        if(readFlag[0] ==0){
+		        if(data_length <3){
 
-             
-
-					default_read = Default_Read_Administrator_Pwd();
+                   default_read = Default_Read_Administrator_Pwd();
 
 			       if(default_read == 1){
 				   		run_t.password_unlock=UNLOCK_SUCCESS;
@@ -637,25 +636,33 @@ void ReadPassword_EEPROM_SaveData(void)
 					
 				   	return ;
 	               	}
+
+				   run_t.eepromAddress=1;
+				  ReadAddress = USER_1;
 			       
 				 }
 
-
-		   }
-		  
-		   if(readFlag[0] >0){ // has a been saved pwassword 
-
-					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,readFlag[0]);
 				
+		   }
+		   EEPROM_Read_Byte(ReadAddress,&data_length,1);
+           HAL_Delay(50);
+		   if(data_length >0){ // has a been saved pwassword 
+
+					EEPROM_Read_Byte(ReadAddress + 0X01,Readpwd,data_length);
+				     HAL_Delay(50);
 					
                    // run_t.readpwd_array_length = sizeof(Readpwd)/(sizeof(Readpwd[0]));
-                    if(run_t.input_digital_key_number_counter > readFlag[0]){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
+                    if(run_t.input_digital_key_number_counter > data_length){ //WT.EDIT 2023.02.14 over four numbers is virtical  //
  
-                        value = BF_Search(virtualPwd,Readpwd,readFlag[0]);
+                        value = BF_Search(virtualPwd,Readpwd,data_length);
 						run_t.clear_virtual_numbers =1;
 					}
-					else
-					    value = CompareValue(Readpwd,pwd1);
+					else{
+					    value = CompareValue(Readpwd,pwd1,run_t.input_digital_key_number_counter);
+						 HAL_Delay(50);
+
+					}
+					
 					
 					
 					if(value==1)//if(strcmp(pwd1,pwd2)==0)
@@ -744,6 +751,17 @@ void ReadPassword_EEPROM_SaveData(void)
 	   				}
 	  
 	 		}
+		    else{
+
+			   run_t.password_unlock = UNLOCK_FAIL;
+			   run_t.confirm_button_flag = confirm_button_unlock;//2
+			  run_t.input_digital_key_number_counter=0;
+			  run_t.readpwd_array_length=0;
+			   run_t.eepromAddress=0;
+			 	run_t.keyPressed_flag=0; //WT.EDIT 2023.
+
+               return ;
+			}
 		
 
 			  
@@ -1048,15 +1066,16 @@ void ReadPassword_EEPROM_SaveData(void)
 
 static uint8_t Default_Read_Administrator_PwdFun(void)
 {
-    uint8_t value,i;  
+    uint8_t value,i;
+    uint8_t read_length;  
     uint32_t default_address;
 	
 	default_address = ADMINI;
-	EEPROM_Read_Byte(default_address,readFlag,1);
-	HAL_Delay(1);
-	if(readFlag[0] ==0){
+	EEPROM_Read_Byte(default_address,&read_length,1);
+	HAL_Delay(5);
+	if(read_length <3){
 
-		value =CompareValue(origin_pwd, pwd1);
+		value =CompareValue(origin_pwd, pwd1,0x04);
 
 		switch(value){
 
@@ -1095,7 +1114,7 @@ static uint8_t Default_Read_Administrator_PwdFun(void)
 	else{
 		
 
-	return 2 ;
+		return 2 ;
 
 
 	}

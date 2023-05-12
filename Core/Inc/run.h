@@ -152,7 +152,7 @@ void RunCheck_KeyMode_Handler(void(*keymode_handler)(uint16_t keydat));
 
 void ReadPassword_EEPROM_SaveData(void);
 
-uint8_t  CompareValue(uint8_t *pt1,uint8_t *pt2);
+uint8_t  CompareValue(uint8_t *pt1,uint8_t *pt2,uint8_t length);
 
 uint8_t InputNumber_ToSpecialNumbers(TouchKey_Numbers number);
 void Clear_VirtualArray_Numbers(void(*clear_virtual)(void));
