@@ -84,7 +84,7 @@ void SavePassword_To_EEPROM(void)
    static uint8_t eeNumbers,i;
    static uint8_t initvalue =0x01;
    run_t.gTimer_8s=0;
-  for(eeNumbers =0; eeNumbers< 11;eeNumbers++){// password is ten numbers
+  for(eeNumbers =0; eeNumbers< 10;eeNumbers++){// password is ten numbers
       
 	  switch(eeNumbers){	  
 		   case 0:
@@ -136,26 +136,27 @@ void SavePassword_To_EEPROM(void)
 			break;
 
 
-		   case 10:
-		   	  	run_t.gTimer_8s=0;
-				run_t.Confirm_newPassword =0; 
-				
-				//run_t.new_pwd_save_data_tag = UNLOCK_NULL;
-				
-				run_t.inputNewPasswordTimes =0;
-				run_t.buzzer_sound_tag = fail_sound;
-				//eeprom ref	
-		 
-		        run_t.inputNewPassword_Enable =0; 
-				run_t.keyPressed_flag =0; 
-
-				//led error control 
-	            run_t.confirm_button_flag=confirm_button_donot_pressed;
-				run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
-				
-			   return ;			
-				
-		   break;
+//		   case 10:
+//		   	  	run_t.gTimer_8s=0;
+//				run_t.Confirm_newPassword =0; 
+//				
+//				//run_t.new_pwd_save_data_tag = UNLOCK_NULL;
+//				
+//				run_t.inputNewPasswordTimes =0;
+//				run_t.buzzer_sound_tag = fail_sound;
+//				//eeprom ref	
+//		 
+//		        run_t.inputNewPassword_Enable =0; 
+//				run_t.keyPressed_flag =0; 
+//
+//				//led error control 
+//	           // run_t.confirm_button_flag=confirm_button_donot_pressed;
+//	            
+//				run_t.backlight_label = BACKLIGHT_ERROR_BLINK;
+//				
+//			   return ;			
+//				
+//		   break;
 
 		  }
 
@@ -275,7 +276,14 @@ void SavePassword_To_EEPROM(void)
      
 	 }
 }
-
+/*********************************************************************************
+	*
+	*Function Name:void RunCommand_Unlock(void)
+	*
+	*
+	*
+	*
+*********************************************************************************/
 void RunCommand_Unlock(void)
 {
 	 
@@ -507,7 +515,14 @@ static void Read_Administrator_Password(void)
 		   }
 
    }
-
+/*********************************************************************************
+	*
+	*Function Name:Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
+	*
+	*
+	*
+	*
+*********************************************************************************/
 static uint8_t Read_Administrator_HasBeen_Pwd(uint32_t ReadAddress)
 {
             uint8_t value ;
