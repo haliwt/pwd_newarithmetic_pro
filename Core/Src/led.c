@@ -9,12 +9,13 @@
 #include "key.h"
 #include "single_mode.h"
 
-//#define DEBUG_FLAG    
+#define DEBUG_FLAG    
 
 
 
 
 uint8_t inputNewPwd_key_flag;
+static void Sys_Enter_Standby(void);
 
 
 void Panel_LED_Off(void)
@@ -340,7 +341,8 @@ void BackLight_Control_Handler(void)
                 SysTick->VAL = 0x00;//清空val,清空定时器
 				
 				/* input low power mode "STOP"*/
-				//__HAL_RCC_PWR_CLK_ENABLE();
+				//HAL_PWR_EnableWakeUpPin(SC12B_KEY_Pin);
+				//Sys_Enter_Standby();
 		        HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON,PWR_STOPENTRY_WFI);//WFI ->wait for interrupt
 
                 SystemClock_Config();//Low power of low frequency 8MHz
@@ -357,4 +359,18 @@ void BackLight_Control_Handler(void)
 	     }
       
 }
+
+
+//ÏµÍ³½øÈë´ý»úÄ£Ê½
+static void Sys_Enter_Standby(void)
+{
+    __HAL_RCC_APB2_FORCE_RESET();       //reaet all IO
+   	__HAL_RCC_PWR_CLK_ENABLE();         //enable PWR of clock
+			  	
+   
+     __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);//clear Wake_Up tag bit
+    HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);           //set up WakeUp be used to call wake
+    HAL_PWR_EnterSTANDBYMode();                         //input standby state     
+}
+
 

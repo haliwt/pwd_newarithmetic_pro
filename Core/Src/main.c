@@ -109,6 +109,7 @@ int main(void)
   /* USER CODE END 2 */
   KeyFiles_Init();
   Run_Init();
+  
  /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
